@@ -218,7 +218,7 @@ export function buildCatalogueNavigationMap(
   const orderedGarments = demoMode ? sortGarmentsForDemo(garments) : garments;
 
   const productOffset = 2 + orderedFabrics.length;
-  const totalSpreads = productOffset + orderedGarments.length + 1;
+  const totalSpreads = productOffset + orderedGarments.length + 2;
 
   const fabricPageByCode = new Map<string, number>();
   orderedFabrics.forEach((program, idx) => {
@@ -234,6 +234,7 @@ export function buildCatalogueNavigationMap(
   const firstWomenIdx = orderedGarments.findIndex((g) => g.gender === 'Women');
   const menStart = firstMenIdx >= 0 ? productOffset + firstMenIdx : productOffset;
   const womenStart = firstWomenIdx >= 0 ? productOffset + firstWomenIdx : productOffset;
+  const lastProductSpread = productOffset + orderedGarments.length - 1;
 
   const sections: SectionDescriptor[] = [
     {
@@ -252,18 +253,18 @@ export function buildCatalogueNavigationMap(
       ...SECTION_THEME.men,
       id: 'men',
       startSpreadPage: menStart,
-      endSpreadPage: totalSpreads - 2,
+      endSpreadPage: lastProductSpread,
     },
     {
       ...SECTION_THEME.women,
       id: 'women',
       startSpreadPage: womenStart,
-      endSpreadPage: totalSpreads - 2,
+      endSpreadPage: lastProductSpread,
     },
     {
       ...SECTION_THEME.technical,
       id: 'technical',
-      startSpreadPage: totalSpreads - 1,
+      startSpreadPage: totalSpreads - 2,
       endSpreadPage: totalSpreads - 1,
     },
   ];

@@ -212,7 +212,7 @@ export const PRODUCT_STUDIO_ASSETS: Record<string, ProductStudioAssetMapping> = 
       custom: 'WTSHIRT-CM402 Closeup3.jpg',
     },
   },
-  WTSHIRT1: {
+  'WTSHIRT1-CM30': {
     heroFile: 'WTSHIRT1-CM30 Hero.jpg',
     detailFiles: {
       pocket: 'WTSHIRT1-CM30 Closeup1.jpg',

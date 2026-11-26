@@ -17,6 +17,7 @@ import type {
 } from '../types/catalogue';
 import { CATEGORIES } from '../data/garments';
 import { formatSpreadPageCode, type CatalogueNavigationMap } from '../utils/catalogueOrder';
+import { displayBuyerProductTitle } from '../utils/productDisplay';
 
 interface CatalogueIndexProps {
   garments: GarmentItem[];
@@ -28,6 +29,7 @@ interface CatalogueIndexProps {
   onSelectGarment: (index: number) => void;
   onSelectFabricCode: (fabricCode: string) => void;
   onEditGarment: (index: number) => void;
+  allowEdit?: boolean;
 }
 
 const SLOT_KEYS: MediaSlotKey[] = ['hero', 'pocket', 'seam', 'swatch'];
@@ -91,6 +93,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
   onSelectGarment,
   onSelectFabricCode,
   onEditGarment,
+  allowEdit = true,
 }) => {
   const orderedGarments = navMap?.orderedGarments ?? garments;
   const [search, setSearch] = useState('');
@@ -176,7 +179,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
             <button
               type="button"
               onClick={() => onCategoryChange('All')}
-              className={`rounded-full border px-4 py-2 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`border px-4 py-2 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 activeCategory === 'All'
                   ? 'border-[#171715] bg-[#171715] text-white'
                   : 'border-[#E5E2DC] text-[#66645F] hover:border-[#AAA69D] hover:text-[#171715]'
@@ -189,7 +192,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                 key={cat.name}
                 type="button"
                 onClick={() => onCategoryChange(cat.name)}
-                className={`rounded-full border px-4 py-2 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                className={`border px-4 py-2 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                   activeCategory === cat.name
                     ? 'border-[#171715] bg-[#171715] text-white'
                     : 'border-[#E5E2DC] text-[#66645F] hover:border-[#AAA69D] hover:text-[#171715]'
@@ -200,7 +203,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
             ))}
           </div>
 
-          <div className="flex items-center rounded-full border border-[#E5E2DC] bg-white p-1">
+          <div className="flex items-center border border-[#E5E2DC] bg-white p-1">
             {(
               [
                 { id: 'All', label: 'All lines' },
@@ -212,7 +215,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                 key={gOpt.id}
                 type="button"
                 onClick={() => setGenderFilter(gOpt.id)}
-                className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
+                className={`px-3 py-1.5 text-xs font-medium transition-colors whitespace-nowrap cursor-pointer ${
                   genderFilter === gOpt.id
                     ? 'bg-[#F1F0EC] text-[#171715]'
                     : 'text-[#77736D] hover:text-[#171715]'
@@ -234,13 +237,13 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Find a style or colour"
-                className="w-64 rounded-full border border-[#E5E2DC] bg-white py-2.5 pr-4 pl-10 text-sm text-[#171715] placeholder:text-[#A09D95] focus:border-[#77736D] focus:outline-none"
+                className="w-64 border border-[#E5E2DC] bg-white py-2.5 pr-4 pl-10 text-sm text-[#171715] placeholder:text-[#A09D95] focus:border-[#77736D] focus:outline-none"
               />
             </label>
             <button
               type="button"
               onClick={() => setShortlistOnly((v) => !v)}
-              className={`inline-flex items-center gap-2 rounded-full border px-4 py-2.5 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+              className={`inline-flex items-center gap-2 border px-4 py-2.5 text-xs font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
                 shortlistOnly
                   ? 'border-[#171715] bg-[#171715] text-white'
                   : 'border-[#E5E2DC] bg-white text-[#66645F] hover:border-[#AAA69D] hover:text-[#171715]'
@@ -251,10 +254,10 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
             </button>
 
             <details className="relative">
-              <summary className="cursor-pointer list-none rounded-full border border-[#E5E2DC] px-4 py-2.5 text-xs font-medium text-[#66645F] transition-colors hover:border-[#AAA69D] hover:text-[#171715]">
+              <summary className="cursor-pointer list-none border border-[#E5E2DC] px-4 py-2.5 text-xs font-medium text-[#66645F] transition-colors hover:border-[#AAA69D] hover:text-[#171715]">
                 More filters
               </summary>
-              <div className="absolute left-0 top-full z-20 mt-2 grid min-w-64 gap-3 rounded-2xl border border-[#E5E2DC] bg-white p-4 shadow-lg">
+              <div className="absolute left-0 top-full z-20 mt-2 grid min-w-64 gap-3 border border-[#E5E2DC] bg-white p-4 shadow-lg">
                 <label className="grid gap-1.5 text-xs text-[#66645F]">
                   Fabric
                   <select
@@ -269,20 +272,22 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                     ))}
                   </select>
                 </label>
-                <label className="grid gap-1.5 text-xs text-[#66645F]">
-                  Image status
-                  <select
-                    aria-label="Filter by asset stage"
-                    value={stageFilter}
-                    onChange={(e) => setStageFilter(e.target.value as 'all' | AssetStage)}
-                    className="rounded-lg border border-[#E5E2DC] bg-white px-3 py-2 text-xs text-[#404040] focus:border-[#77736D] focus:outline-none cursor-pointer"
-                  >
-                    <option value="all">All image statuses</option>
-                    <option value="blank">No images yet</option>
-                    <option value="ai-concept">Concept images</option>
-                    <option value="studio-final">Studio images</option>
-                  </select>
-                </label>
+                {allowEdit && (
+                  <label className="grid gap-1.5 text-xs text-[#66645F]">
+                    Image status
+                    <select
+                      aria-label="Filter by asset stage"
+                      value={stageFilter}
+                      onChange={(e) => setStageFilter(e.target.value as 'all' | AssetStage)}
+                      className="rounded-lg border border-[#E5E2DC] bg-white px-3 py-2 text-xs text-[#404040] focus:border-[#77736D] focus:outline-none cursor-pointer"
+                    >
+                      <option value="all">All image statuses</option>
+                      <option value="blank">No images yet</option>
+                      <option value="ai-concept">Concept images</option>
+                      <option value="studio-final">Studio images</option>
+                    </select>
+                  </label>
+                )}
               </div>
             </details>
           </div>
@@ -291,13 +296,13 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
             <span className="text-xs text-[#8A877F]">
               Showing {filtered.length} of {garments.length}
             </span>
-            <div className="flex items-center rounded-full border border-[#E5E2DC] bg-white p-1">
+            <div className="flex items-center border border-[#E5E2DC] bg-white p-1">
               <button
                 type="button"
                 onClick={() => setDisplayMode('grid')}
                 aria-label="Gallery view"
                 aria-pressed={displayMode === 'grid'}
-                className={`rounded-full p-2 transition-colors cursor-pointer ${
+                className={`p-2 transition-colors cursor-pointer ${
                   displayMode === 'grid'
                     ? 'bg-[#F1F0EC] text-[#171715]'
                     : 'text-[#77736D] hover:text-[#171715]'
@@ -310,7 +315,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                 onClick={() => setDisplayMode('table')}
                 aria-label="Detailed list view"
                 aria-pressed={displayMode === 'table'}
-                className={`rounded-full p-2 transition-colors cursor-pointer ${
+                className={`p-2 transition-colors cursor-pointer ${
                   displayMode === 'table'
                     ? 'bg-[#F1F0EC] text-[#171715]'
                     : 'text-[#77736D] hover:text-[#171715]'
@@ -325,7 +330,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
 
       {/* Empty Filter State */}
       {filtered.length === 0 ? (
-        <div className="my-16 rounded-2xl bg-[#F7F6F3] py-16 text-center">
+        <div className="my-16 border border-[#E5E2DC] bg-[#F7F6F3] py-16 text-center">
           <p className="font-serif text-3xl text-[#171715]">Nothing here just yet.</p>
           <p className="mt-2 text-sm text-[#77736D]">
             Try a different search or clear a filter to see more styles.
@@ -340,7 +345,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
               setShortlistOnly(false);
               onCategoryChange('All');
             }}
-            className="mt-5 rounded-full border border-[#D8D5CE] px-5 py-2.5 text-xs font-medium text-[#171715] transition-colors hover:border-[#171715] cursor-pointer"
+            className="mt-5 border border-[#D8D5CE] px-5 py-2.5 text-xs font-medium text-[#171715] transition-colors hover:border-[#171715] cursor-pointer"
           >
             Clear filters
           </button>
@@ -360,7 +365,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
 
             return (
               <article key={item.id} className="group flex flex-col">
-                <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[2px] bg-[#F5F4F0] transition-shadow duration-300 group-hover:shadow-[0_12px_30px_rgba(35,32,25,0.10)]">
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#F5F4F0] transition-shadow duration-300 group-hover:shadow-[0_12px_30px_rgba(35,32,25,0.10)]">
                   <button
                     type="button"
                     onClick={() => onSelectGarment(item.index)}
@@ -369,7 +374,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                   >
                     <IndexHeroImage item={item} />
                   </button>
-                  <span className="pointer-events-none absolute left-4 top-4 z-10 rounded-full bg-white/90 px-3 py-1.5 font-mono text-[10px] tracking-wider text-[#55524C]">
+                  <span className="pointer-events-none absolute left-4 top-4 z-10 border border-black/10 bg-white/95 px-2.5 py-1 font-mono text-[10px] tracking-wider text-[#262522]">
                     {item.sku}
                   </span>
                   <button
@@ -379,7 +384,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                     }}
                     aria-label={isShortlisted ? 'Remove from saved styles' : 'Save this style'}
                     aria-pressed={isShortlisted}
-                    className={`absolute right-4 top-4 z-10 grid h-9 w-9 place-items-center rounded-full bg-white/90 transition-colors cursor-pointer ${
+                    className={`absolute right-4 top-4 z-10 grid h-8 w-8 place-items-center border border-black/10 bg-white/95 transition-colors cursor-pointer ${
                       isShortlisted ? 'text-[#171715]' : 'text-[#77736D] hover:text-[#171715]'
                     }`}
                   >
@@ -389,7 +394,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
 
                 <div className="mt-4 flex items-center gap-2 text-[10px] font-medium uppercase tracking-[0.15em] text-[#8A877F]">
                   <span>{item.gender}</span>
-                  <span aria-hidden="true" className="h-1 w-1 rounded-full bg-[var(--metallic)]" />
+                  <span aria-hidden="true" className="h-px w-2 bg-[var(--metallic)]" />
                   <span>{item.category}</span>
                 </div>
                 <button
@@ -397,7 +402,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                   onClick={() => onSelectGarment(item.index)}
                   className="mt-1 text-left font-serif text-2xl leading-tight tracking-tight text-[#171715] transition-colors hover:text-[var(--metallic-strong)] cursor-pointer"
                 >
-                  {item.title}
+                  {allowEdit ? item.title : displayBuyerProductTitle(item.title)}
                 </button>
 
                 <p className="mt-2 text-xs text-[#77736D] line-clamp-1">
@@ -415,19 +420,29 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                 <div className="mt-4 flex items-center justify-between border-t border-[#EAE8E3] pt-3 text-[11px] text-[#8A877F]">
                   <span className="inline-flex items-center gap-2 tabular-nums">
                     <span className="font-mono font-medium text-[#55534E]">{spreadLabel}</span>
-                    {item.dataFlags && item.dataFlags.length > 0 && (
+                    {allowEdit && item.dataFlags && item.dataFlags.length > 0 && (
                       <span title={item.dataFlags[0]} className="text-[var(--metallic-strong)]">
                         <AlertTriangle className="h-3 w-3" />
                       </span>
                     )}
                   </span>
-                  <button
-                    type="button"
-                    onClick={() => onEditGarment(item.index)}
-                    className="font-medium text-[#66645F] underline-offset-4 hover:text-[#171715] hover:underline cursor-pointer"
-                  >
-                    Edit details
-                  </button>
+                  {allowEdit ? (
+                    <button
+                      type="button"
+                      onClick={() => onEditGarment(item.index)}
+                      className="font-medium text-[#66645F] underline-offset-4 hover:text-[#171715] hover:underline cursor-pointer"
+                    >
+                      Edit details
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => onSelectGarment(item.index)}
+                      className="font-medium text-[#55534E] underline-offset-4 hover:text-[#171715] hover:underline cursor-pointer"
+                    >
+                      Open spread →
+                    </button>
+                  )}
                 </div>
               </article>
             );
@@ -473,7 +488,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
                         onClick={() => onSelectGarment(item.index)}
                         className="font-sans text-xs font-semibold text-[#0A0A0A] hover:underline underline-offset-4 text-left cursor-pointer"
                       >
-                        {item.title}
+                        {allowEdit ? item.title : displayBuyerProductTitle(item.title)}
                       </button>
                     </td>
                     <td className="py-3.5 pr-4 font-mono text-[11px] whitespace-nowrap">

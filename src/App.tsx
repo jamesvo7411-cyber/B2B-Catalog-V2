@@ -8,7 +8,9 @@ import {
   ChevronDown,
   Crop,
   Download,
+  Printer,
   RotateCcw,
+  Sparkles,
   Upload,
 } from 'lucide-react';
 import type {
@@ -29,7 +31,6 @@ import {
   buildDefaultDescriptionBullets,
   buildDefaultKeyFeatures,
   createInitialGarments,
-  getProductSpreadOffset,
 } from './data/garments';
 import {
   getFactoryFabricHeroImageKey,
@@ -43,7 +44,6 @@ import { FlipbookStage } from './components/FlipbookStage';
 import { FabricSwatchBoard } from './components/FabricSwatchBoard';
 import { CatalogueIndex } from './components/CatalogueIndex';
 import { PrintSheetPreview } from './components/PrintSheetPreview';
-import { ProductShowcasePage } from './components/ProductShowcasePage';
 import { useIsMobile } from './hooks/useIsMobile';
 import { SlotEditorDrawer } from './components/SlotEditorDrawer';
 import { FabricColorPickerModal } from './components/FabricColorPickerModal';
@@ -55,8 +55,8 @@ import {
 } from './components/MediaModals';
 
 const STORAGE_KEY = 'dream-tomorrow-catalogue-v3';
-const FACTORY_DATA_VERSION = 3;
-type CatalogueViewMode = 'interactive' | 'classic' | 'closeup';
+const FACTORY_DATA_VERSION = 4;
+type CatalogueViewMode = 'workbench' | 'buyer' | 'paperback';
 
 interface SavedState {
   garments: GarmentItem[];
@@ -90,13 +90,18 @@ function hydrateGarments(
       ...defaults,
       ...saved,
       sku: defaults.sku,
-      summary: factoryDataIsCurrent ? saved.summary : defaults.summary,
       title: defaults.title,
+      gender: defaults.gender,
+      genderCode: defaults.genderCode,
+      productGroupVi: defaults.productGroupVi,
+      category: defaults.category,
+      chapterNumeral: defaults.chapterNumeral,
       productUrl: defaults.productUrl,
       detailHints: defaults.detailHints,
+      summary: factoryDataIsCurrent ? saved.summary : defaults.summary,
       colorCount: factoryDataIsCurrent ? saved.colorCount : defaults.colorCount,
       colorways:
-        factoryDataIsCurrent && Array.isArray(saved.colorways) && saved.colorways.length > 0
+        factoryDataIsCurrent && Array.isArray(saved.colorways)
           ? saved.colorways
           : [...defaults.colorways],
       dataFlags: factoryDataIsCurrent ? saved.dataFlags ?? defaults.dataFlags : defaults.dataFlags,
@@ -277,17 +282,12 @@ export default function App() {
   );
 
   const [section, setSection] = useState<CatalogueSection>('flipbook');
-  const [viewMode, setViewMode] = useState<CatalogueViewMode>('classic');
-  const [bookPage, setBookPage] = useState<number>(() =>
-    isMobile
-      ? getProductSpreadOffset(initialSaved?.garments ?? createInitialGarments())
-      : 0
-  );
+  const [viewMode, setViewMode] = useState<CatalogueViewMode>('buyer');
+  const [buyerViewStyle, setBuyerViewStyle] = useState<'book' | 'card'>('book');
+  const [bookPage, setBookPage] = useState<number>(0);
   const [turnRequest, setTurnRequest] = useState<{ dir: 'next' | 'prev'; nonce: number } | null>(null);
   const [activeCategory, setActiveCategory] = useState<GarmentCategory | 'All'>('All');
   const [editMode, setEditMode] = useState<boolean>(false);
-  const isClassicMode = viewMode === 'classic' && section === 'flipbook';
-  const isCloseupMode = viewMode === 'closeup' && section === 'flipbook';
 
   const [editorState, setEditorState] = useState<{
     garmentIndex: number;
@@ -376,7 +376,7 @@ export default function App() {
     const handleKey = (e: KeyboardEvent) => {
       const tag = (e.target as HTMLElement | null)?.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-      if (viewMode === 'closeup' && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
+      if (viewMode === 'buyer' && buyerViewStyle === 'card' && !isMobile && (e.key === 'ArrowRight' || e.key === 'ArrowLeft')) {
         e.preventDefault();
         const firstProductPage = productSpreadOffset;
         const lastProductPage = firstProductPage + orderedGarments.length - 1;
@@ -403,7 +403,7 @@ export default function App() {
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [section, viewMode, isMobile, orderedGarments.length, productSpreadOffset, totalBookPages, editorState, lightboxItem, videoGarmentId, fabricPickerGarmentId, cropPresetModalOpen, exportModalOpen]);
+  }, [section, viewMode, buyerViewStyle, isMobile, orderedGarments.length, productSpreadOffset, totalBookPages, editorState, lightboxItem, videoGarmentId, fabricPickerGarmentId, cropPresetModalOpen, exportModalOpen]);
 
   const currentGarment =
     bookPage >= productSpreadOffset && bookPage < productSpreadOffset + orderedGarments.length
@@ -633,6 +633,7 @@ export default function App() {
         catalogueDataVersion: FACTORY_DATA_VERSION,
         metallicTheme,
         shortlist,
+        coverCustomImage,
         garments,
         fabricColorImages,
       },
@@ -643,10 +644,10 @@ export default function App() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'dot-b2b-catalogue-manifest.json';
+    link.download = 'dot-b2b-catalogue-settings.json';
     link.click();
     URL.revokeObjectURL(url);
-    showToast('Catalogue manifest exported as JSON, including saved fabric color images.');
+    showToast('Saved catalogue settings JSON (images, crops, cover & finish) for sharing or GitHub.');
   };
 
   const handleImportJson = (file: File | undefined) => {
@@ -729,6 +730,22 @@ export default function App() {
     }, 120);
   };
 
+  const handleDownloadPaperbackPdf = () => {
+    setPrintConfig({
+      scope: 'all',
+      orientation: 'landscape',
+      showCropMarks: false,
+      showBlankGuides: false,
+      showSafeZones: false,
+      includeCover: true,
+      includeIndex: true,
+      includeFabrics: true,
+    });
+    window.setTimeout(() => {
+      window.print();
+    }, 180);
+  };
+
   const handleExportCurrentProductPdf = (garmentIndex: number) => {
     const match = orderedGarments.find((g) => g.index === garmentIndex);
     setBookPage(
@@ -746,7 +763,7 @@ export default function App() {
   };
 
   const handleSelectFabricCode = (fabricCode: string) => {
-    if (viewMode === 'closeup') setViewMode('classic');
+    if (viewMode === 'buyer') setBuyerViewStyle('book');
     setSection('flipbook');
     setBookPage(navMap.fabricPageByCode.get(fabricCode) ?? 2);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -773,7 +790,7 @@ export default function App() {
     setDemoMode(nextDemoMode);
     showToast(
       nextDemoMode
-        ? 'Demo Mode On — image-complete pages first; pages missing images last.'
+        ? 'Demo Order On — image-complete pages first; pages missing images last.'
         : 'Standard catalogue order restored.'
     );
   };
@@ -781,7 +798,7 @@ export default function App() {
   const handleViewModeChange = (mode: CatalogueViewMode) => {
     setViewMode(mode);
     setSection('flipbook');
-    if (mode !== 'interactive') {
+    if (mode !== 'workbench') {
       setEditMode(false);
       setEditorState(null);
       setVideoGarmentId(null);
@@ -790,25 +807,21 @@ export default function App() {
       setExportModalOpen(false);
       setLightboxItem(null);
     }
-    if (mode === 'closeup') {
-      if (bookPage < productSpreadOffset || bookPage >= productSpreadOffset + garments.length) {
-        setBookPage(productSpreadOffset);
-      }
-    }
   };
 
   const catalogueNavItems: { id: CatalogueSection; label: string }[] =
-    viewMode === 'interactive'
+    viewMode === 'workbench'
       ? [
           { id: 'flipbook', label: 'Flipbook' },
           { id: 'fabrics', label: 'Fabrics' },
           { id: 'index', label: 'Collection' },
           { id: 'print', label: 'Print Sheet' },
         ]
-      : viewMode === 'classic'
+      : viewMode === 'buyer'
         ? [
             { id: 'flipbook', label: 'Flipbook' },
             { id: 'fabrics', label: 'Fabrics' },
+            { id: 'index', label: 'Collection' },
           ]
         : [];
 
@@ -820,43 +833,45 @@ export default function App() {
     >
       <button
         type="button"
-        aria-label="Workbench"
-        aria-pressed={viewMode === 'interactive'}
-        onClick={() => handleViewModeChange('interactive')}
+        aria-label="Studio"
+        aria-pressed={viewMode === 'workbench'}
+        onClick={() => handleViewModeChange('workbench')}
         className={`px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer sm:px-3 sm:py-1.5 sm:text-[11px] ${
-          viewMode === 'interactive'
+          viewMode === 'workbench'
             ? 'bg-[#0A0A0A] text-white'
             : 'text-[#555555] hover:text-[#0A0A0A]'
         }`}
       >
-        <span className="sm:hidden">Work</span>
-        <span className="hidden sm:inline">Workbench</span>
+        <span className="sm:hidden">Studio</span>
+        <span className="hidden sm:inline">Studio</span>
       </button>
       <button
         type="button"
-        aria-label="Buyer"
-        aria-pressed={viewMode === 'classic'}
-        onClick={() => handleViewModeChange('classic')}
+        aria-label="Web Edition"
+        aria-pressed={viewMode === 'buyer'}
+        onClick={() => handleViewModeChange('buyer')}
         className={`px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer sm:px-3 sm:py-1.5 sm:text-[11px] ${
-          viewMode === 'classic'
+          viewMode === 'buyer'
             ? 'bg-[#0A0A0A] text-white'
             : 'text-[#555555] hover:text-[#0A0A0A]'
         }`}
       >
-        Buyer
+        <span className="sm:hidden">Web</span>
+        <span className="hidden sm:inline">Web Edition</span>
       </button>
       <button
         type="button"
-        aria-label="Editorial"
-        aria-pressed={viewMode === 'closeup'}
-        onClick={() => handleViewModeChange('closeup')}
+        aria-label="Print Edition"
+        aria-pressed={viewMode === 'paperback'}
+        onClick={() => handleViewModeChange('paperback')}
         className={`px-2 py-1 text-[10px] font-medium transition-colors whitespace-nowrap shrink-0 cursor-pointer sm:px-3 sm:py-1.5 sm:text-[11px] ${
-          viewMode === 'closeup'
+          viewMode === 'paperback'
             ? 'bg-[#0A0A0A] text-white'
             : 'text-[#555555] hover:text-[#0A0A0A]'
         }`}
       >
-        Editorial
+        <span className="sm:hidden">Print</span>
+        <span className="hidden sm:inline">Print Edition</span>
       </button>
     </div>
   );
@@ -881,7 +896,8 @@ export default function App() {
             <button
               type="button"
               onClick={() => {
-                setBookPage(viewMode === 'closeup' ? productSpreadOffset : 0);
+                setBookPage(0);
+                if (viewMode === 'buyer') setBuyerViewStyle('book');
                 navigateSection('flipbook');
               }}
               className="flex items-center gap-2 text-left whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#0A0A0A] sm:gap-3"
@@ -896,42 +912,51 @@ export default function App() {
               </span>
             </button>
 
-            {/* Zone 2: 4 Clean Single-Line Navigation Links */}
-            {catalogueNavItems.length > 0 &&
-              (section === 'flipbook' || viewMode === 'classic') && (
+            {/* Zone 2: Single-Line Navigation Links */}
+            {catalogueNavItems.length > 0 && (
               <nav
                 aria-label="Catalogue navigation"
                 className="hidden md:flex items-center gap-7 text-xs font-medium text-[#525252]"
               >
-              {catalogueNavItems.map((navItem) => {
-                const isActive = section === navItem.id;
-                return (
-                  <button
-                    key={navItem.id}
-                    type="button"
-                    onClick={() => navigateSection(navItem.id)}
-                    className={`border-b py-1 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
-                      isActive
-                        ? 'border-[#0A0A0A] text-[#0A0A0A]'
-                        : 'border-transparent text-[#525252] hover:border-[#A3A3A3] hover:text-[#0A0A0A]'
-                    }`}
-                  >
-                    {navItem.label}
-                  </button>
-                );
-              })}
+                {catalogueNavItems.map((navItem) => {
+                  const isActive = section === navItem.id;
+                  return (
+                    <button
+                      key={navItem.id}
+                      type="button"
+                      onClick={() => navigateSection(navItem.id)}
+                      className={`border-b py-1 transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                        isActive
+                          ? 'border-[#0A0A0A] text-[#0A0A0A]'
+                          : 'border-transparent text-[#525252] hover:border-[#A3A3A3] hover:text-[#0A0A0A]'
+                      }`}
+                    >
+                      {navItem.label}
+                    </button>
+                  );
+                })}
               </nav>
             )}
 
             <div className="flex items-center gap-2 shrink-0 sm:gap-3">
               {viewModeToggle}
-              {viewMode === 'interactive' && section === 'flipbook' && (
+              {viewMode === 'workbench' && section === 'flipbook' && (
                 <button
                   type="button"
                   onClick={() => setExportModalOpen(true)}
                   className="hidden bg-[#0A0A0A] px-4 py-2 text-xs font-medium text-white transition-colors duration-200 hover:bg-[#262626] whitespace-nowrap shrink-0 cursor-pointer xl:block"
                 >
                   Print / Export PDF
+                </button>
+              )}
+              {viewMode === 'paperback' && (
+                <button
+                  type="button"
+                  onClick={handleDownloadPaperbackPdf}
+                  className="inline-flex items-center gap-1.5 bg-[#0A0A0A] px-2.5 py-1.5 text-[11px] font-medium text-white transition-colors duration-200 hover:bg-[#262626] whitespace-nowrap shrink-0 cursor-pointer sm:px-3.5 sm:py-2 sm:text-xs"
+                >
+                  <Printer className="h-3.5 w-3.5" />
+                  <span>Download PDF</span>
                 </button>
               )}
             </div>
@@ -961,11 +986,11 @@ export default function App() {
           </nav>
         </header>
 
-        <details className={`${viewMode !== 'interactive' ? 'hidden ' : ''}group border-b border-[#F0F0F0] bg-[#FCFCFC]`}>
+        <details className={`${viewMode !== 'workbench' ? 'hidden ' : ''}group border-b border-[#F0F0F0] bg-[#FCFCFC]`}>
           <summary className="mx-auto flex max-w-[1380px] cursor-pointer list-none items-center justify-between gap-4 px-6 py-2.5 text-xs text-[#66645F] lg:px-10">
-            <span className="font-semibold uppercase tracking-wide text-[#111111]">Workbench tools</span>
+            <span className="font-semibold uppercase tracking-wide text-[#111111]">Studio tools</span>
             <span className="inline-flex items-center gap-2">
-              <span>Admin tools · assets, crops &amp; data</span>
+              <span>Team editor · drag-drop images, crops &amp; JSON settings export</span>
               <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
             </span>
           </summary>
@@ -995,11 +1020,25 @@ export default function App() {
               </div>
               <span aria-hidden="true" className="hidden lg:inline text-[#DCDCDC]">|</span>
               <span className="hidden lg:inline text-[#737373]">
-                Image drops &amp; crops save in this browser; export JSON for a portable backup
+                Drag images onto any plate or adjust crop/zoom · Save JSON to share or commit to GitHub
               </span>
             </div>
 
             <div className="flex flex-wrap items-center gap-3.5">
+              <button
+                type="button"
+                onClick={handleToggleDemoMode}
+                aria-pressed={demoMode}
+                className={`inline-flex items-center gap-1 transition-colors whitespace-nowrap cursor-pointer ${
+                  demoMode
+                    ? 'font-semibold text-[#0A0A0A] underline underline-offset-4'
+                    : 'text-[#525252] hover:text-[#0A0A0A]'
+                }`}
+              >
+                <Sparkles className="h-3 w-3" />
+                <span>{demoMode ? 'Demo Order: On' : 'Demo Order: Off'}</span>
+              </button>
+              <span aria-hidden="true" className="text-[#DCDCDC]">|</span>
               <button
                 type="button"
                 onClick={() => setEditMode((v) => !v)}
@@ -1031,10 +1070,10 @@ export default function App() {
               <button
                 type="button"
                 onClick={handleExportJson}
-                className="inline-flex items-center gap-1 text-[#525252] hover:text-[#0A0A0A] whitespace-nowrap cursor-pointer"
+                className="inline-flex items-center gap-1 font-medium text-[#0A0A0A] hover:underline underline-offset-4 whitespace-nowrap cursor-pointer"
               >
                 <Download className="h-3 w-3" />
-                <span>JSON</span>
+                <span>Save JSON</span>
               </button>
               <button
                 type="button"
@@ -1051,6 +1090,15 @@ export default function App() {
               >
                 <Upload className="h-3 w-3" />
                 <span>Load JSON</span>
+              </button>
+              <span aria-hidden="true" className="text-[#DCDCDC]">|</span>
+              <button
+                type="button"
+                onClick={handleResetBlank}
+                className="inline-flex items-center gap-1 text-[#737373] transition-colors hover:text-[#0A0A0A] whitespace-nowrap cursor-pointer"
+              >
+                <RotateCcw className="h-3 w-3" />
+                <span>Reset</span>
               </button>
 
               <input
@@ -1080,44 +1128,17 @@ export default function App() {
         {/* MAIN VIEWPORT CONTENT */}
         <main className="flex-1">
           {section === 'flipbook' && (
-            isCloseupMode && !isMobile ? (
-              <ProductShowcasePage
-                garment={currentGarment}
-                garments={orderedGarments}
-                navMap={navMap}
-                demoMode={demoMode}
-                onToggleDemoMode={handleToggleDemoMode}
-                onSelectSpread={(page) => {
-                  if (
-                    page < productSpreadOffset ||
-                    page >= productSpreadOffset + orderedGarments.length
-                  ) {
-                    setViewMode('classic');
-                  }
-                  setBookPage(page);
-                }}
-                onSelectGarment={(index) => {
-                  const match = orderedGarments.find((g) => g.index === index);
-                  setBookPage(
-                    match ? navMap.garmentPageById.get(match.id) ?? productSpreadOffset : productSpreadOffset
-                  );
-                }}
-                onSelectFabricCode={handleSelectFabricCode}
-                onInspectMedia={(slot, titleLabel, garmentTitle) =>
-                  setLightboxItem({ slot, titleLabel, garmentTitle })
-                }
-              />
-            ) : (
             <FlipbookStage
               isMobile={isMobile}
-              isWorkbench={viewMode === 'interactive'}
+              mode={viewMode}
+              buyerViewStyle={buyerViewStyle}
+              onChangeBuyerViewStyle={setBuyerViewStyle}
               garments={orderedGarments}
               navMap={navMap}
               demoMode={demoMode}
               onToggleDemoMode={handleToggleDemoMode}
               meta={DEFAULT_CATALOGUE_META}
               metallicTheme={metallicTheme}
-              classicMode={isClassicMode}
               bookPage={bookPage}
               editMode={editMode}
               shortlist={shortlist}
@@ -1135,7 +1156,7 @@ export default function App() {
               }
               onDropCoverImage={(dataUrl) => {
                 setCoverCustomImage(dataUrl);
-                showToast('Session cover image updated for this browser & PDF export.');
+                showToast('Session cover image updated for this browser & JSON/PDF export.');
               }}
               onReplaceFile={handleReplaceFile}
               onUpdateCrop={handleUpdateCrop}
@@ -1152,6 +1173,12 @@ export default function App() {
               onOpenVideo={(garment) => setVideoGarmentId(garment.id)}
               onExportCurrentPdf={handleExportCurrentProductPdf}
               onSelectFabricCode={handleSelectFabricCode}
+              onSelectGarmentIndex={(index) => {
+                const match = orderedGarments.find((g) => g.index === index);
+                setBookPage(
+                  match ? navMap.garmentPageById.get(match.id) ?? productSpreadOffset : productSpreadOffset
+                );
+              }}
               onOpenFullPrintModal={() => {
                 setPrintConfig((prev) => ({ ...prev, scope: 'all', orientation: 'landscape' }));
                 setExportModalOpen(true);
@@ -1164,7 +1191,6 @@ export default function App() {
               onOpenFabricColorPicker={(garment) => setFabricPickerGarmentId(garment.id)}
               onOpenCropPresetModal={() => setCropPresetModalOpen(true)}
             />
-            )
           )}
 
           {section === 'fabrics' && (
@@ -1172,7 +1198,7 @@ export default function App() {
               garments={orderedGarments}
               navMap={navMap}
               demoMode={demoMode}
-              onToggleDemoMode={handleToggleDemoMode}
+              onToggleDemoMode={viewMode === 'workbench' ? handleToggleDemoMode : undefined}
               fabricColorImages={fabricColorImages}
               onReplaceFabricSwatch={handleReplaceFabricSwatch}
               onReplaceFabricColorImage={handleReplaceFabricColorImage}
@@ -1182,9 +1208,10 @@ export default function App() {
                 setBookPage(
                   match ? navMap.garmentPageById.get(match.id) ?? productSpreadOffset : productSpreadOffset
                 );
+                if (viewMode === 'buyer') setBuyerViewStyle('book');
                 navigateSection('flipbook');
               }}
-              interactive={viewMode === 'interactive'}
+              interactive={viewMode === 'workbench'}
             />
           )}
 
@@ -1196,6 +1223,7 @@ export default function App() {
               onCategoryChange={setActiveCategory}
               shortlist={shortlist}
               onToggleShortlist={handleToggleShortlist}
+              allowEdit={viewMode === 'workbench'}
               onSelectGarment={(index) => {
                 const match = orderedGarments.find((g) => g.index === index);
                 setBookPage(
@@ -1230,9 +1258,16 @@ export default function App() {
           )}
         </main>
 
-        {/* QUIET MONOCHROME EDITORIAL FOOTER */}
-        <footer className={`${viewMode === 'interactive' ? 'mt-12 border-t border-[#E5E5E5] bg-white' : 'hidden'}`}>
-          <div className="mx-auto flex max-w-[1380px] flex-col justify-between gap-4 px-6 py-8 text-xs text-[#737373] sm:flex-row sm:items-center lg:px-10">
+        {/* QUIET MONOCHROME EDITORIAL FOOTER (Hidden in Print Edition & Desktop 2-Page Fit Flipbook) */}
+        <footer
+          className={
+            viewMode !== 'paperback' &&
+            !(section === 'flipbook' && !isMobile && !(viewMode === 'buyer' && buyerViewStyle === 'card'))
+              ? 'border-t border-[#E5E5E5] bg-white'
+              : 'hidden'
+          }
+        >
+          <div className="mx-auto flex max-w-[1380px] flex-col justify-between gap-4 px-6 py-7 text-xs text-[#737373] sm:flex-row sm:items-center lg:px-10">
             <div className="flex items-center gap-3">
               <img
                 src={BRAND_LOGO_PATH}
@@ -1248,14 +1283,16 @@ export default function App() {
 
             <div className="flex flex-wrap items-center gap-5">
               <span>{DEFAULT_CATALOGUE_META.contactEmail}</span>
-              <button
-                type="button"
-                onClick={handleResetBlank}
-                className="inline-flex items-center gap-1 text-[#737373] transition-colors hover:text-[#0A0A0A] cursor-pointer"
-              >
-                <RotateCcw className="h-3 w-3" />
-                <span>Reset Template</span>
-              </button>
+              {viewMode === 'workbench' && (
+                <button
+                  type="button"
+                  onClick={handleResetBlank}
+                  className="inline-flex items-center gap-1 text-[#737373] transition-colors hover:text-[#0A0A0A] cursor-pointer"
+                >
+                  <RotateCcw className="h-3 w-3" />
+                  <span>Reset Template</span>
+                </button>
+              )}
             </div>
           </div>
         </footer>
@@ -1337,7 +1374,7 @@ export default function App() {
       />
 
       {/* Subtle Monochrome Feedback Toast */}
-      {toastMessage && viewMode === 'interactive' && (
+      {toastMessage && viewMode !== 'paperback' && (
         <div
           role="status"
           aria-live="polite"

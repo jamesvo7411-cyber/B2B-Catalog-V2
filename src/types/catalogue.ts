@@ -119,6 +119,7 @@ export interface CatalogueMetadata {
   edition: string;
   subtitle: string;
   presentationNote: string;
+  contactPhone?: string;
   contactEmail: string;
   showroomUrl: string;
 }

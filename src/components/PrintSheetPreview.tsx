@@ -9,12 +9,14 @@ import type {
 import { imageCropStyle } from '../utils/media';
 import { RunningHeader } from './CatalogueNavigation';
 import { ProductSpecStrip } from './ProductSpecStrip';
+import { SizeRunChips } from './SizeRunChips';
+import { SizeChartLeafBody, ThankYouLeafBody } from './SizeChartSpread';
 import { getFactoryFabricColors } from '../data/factoryFabricColors';
 import {
   getFabricFamilyName,
   type CatalogueNavigationMap,
 } from '../utils/catalogueOrder';
-import { conciseSourceNote } from '../utils/productDisplay';
+import { conciseSourceNote, displayBuyerProductTitle } from '../utils/productDisplay';
 import {
   BRAND_LOGO_PATH,
   CATEGORIES,
@@ -212,16 +214,18 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
     chunk.forEach((prog) => fabricPrintPageByCode.set(prog.fabricCode, sheetNum));
   });
 
+  const showClosingPages = config.scope === 'all';
   const totalPages =
     coverSheetOffset +
     indexSheetOffset +
     fabricChunks.length +
-    garments.length;
+    garments.length +
+    (showClosingPages ? 2 : 0);
 
   const sheetBaseClass = isPrintOnlyPortal
     ? 'print-sheet relative flex flex-col justify-between bg-white px-6 py-5 text-[#0A0A0A]'
     : `print-sheet relative mx-auto mb-10 flex flex-col justify-between border border-[#E0E0E0] bg-white px-6 py-6 text-[#0A0A0A] shadow-[0_1px_4px_rgba(0,0,0,0.04)] ${
-        isLandscape ? 'max-w-[1160px] min-h-[780px]' : 'max-w-[820px] min-h-[1120px]'
+        isLandscape ? 'max-w-[1190px] min-h-[842px]' : 'max-w-[794px] min-h-[1123px]'
       }`;
 
   // Asymmetric left-page / right-page spread gutter helpers for physical binding safety
@@ -501,7 +505,9 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                           <span className="font-mono text-[8.5px] text-[#9A968E] tabular-nums">
                             {String(item.index).padStart(2, '0')}
                           </span>
-                          <span className="truncate font-medium text-[#171715]">{item.title}</span>
+                          <span className="truncate font-medium text-[#171715]">
+                            {config.showBlankGuides ? item.title : displayBuyerProductTitle(item.title)}
+                          </span>
                           <span className="shrink-0 font-mono text-[8px] font-normal text-[#9A968E] tabular-nums">
                             {item.sku}
                           </span>
@@ -549,7 +555,9 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                           <span className="font-mono text-[8.5px] text-[#9A968E] tabular-nums">
                             {String(item.index).padStart(2, '0')}
                           </span>
-                          <span className="truncate font-medium text-[#171715]">{item.title}</span>
+                          <span className="truncate font-medium text-[#171715]">
+                            {config.showBlankGuides ? item.title : displayBuyerProductTitle(item.title)}
+                          </span>
                           <span className="shrink-0 font-mono text-[8px] font-normal text-[#9A968E] tabular-nums">
                             {item.sku}
                           </span>
@@ -560,6 +568,34 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                       );
                     })}
                   </div>
+
+                  {fabricPrograms.length > 0 && (
+                    <div className="mt-3 border-t border-[#E5E5E5] pt-2.5">
+                      <p className="mb-1.5 font-mono text-[8px] font-semibold uppercase tracking-wider text-[#55534E]">
+                        Fabric Programs ({fabricPrograms.length})
+                      </p>
+                      <div className="grid grid-cols-3 gap-x-3 gap-y-1 text-[8px]">
+                        {fabricPrograms.map((prog) => {
+                          const pNum = fabricPrintPageByCode.get(prog.fabricCode);
+                          return (
+                            <div
+                              key={prog.fabricCode}
+                              className="flex items-baseline justify-between border-b border-[#F2F0EB] py-0.5"
+                            >
+                              <span className="truncate font-mono font-medium text-[#171715]">
+                                {prog.fabricCode}
+                              </span>
+                              {pNum !== undefined && (
+                                <span className="shrink-0 font-mono text-[#737373] tabular-nums">
+                                  p.{String(pNum).padStart(2, '0')}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-3 flex items-center justify-between border-t border-[#E5E5E5] pt-2.5 font-mono text-[10px] text-[#737373] tabular-nums">
@@ -785,7 +821,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
           <div>
             <div className="flex items-baseline justify-between gap-3">
               <h2 className="font-serif text-[22px] font-normal leading-[1.04] tracking-tight text-[#0A0A0A]">
-                {item.title}
+                {config.showBlankGuides ? item.title : displayBuyerProductTitle(item.title)}
               </h2>
               <span className="shrink-0 font-mono text-[9.5px] font-semibold tracking-[0.14em] text-[#3E3C37] tabular-nums">
                 {item.sku}
@@ -796,7 +832,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                 item={item}
                 overlay
                 fabricPageLabel={fabricPageLabel}
-                showWorkbenchNotes
+                showWorkbenchNotes={config.showBlankGuides}
               />
             </div>
             <div className="mt-1.5 flex items-center justify-between border-t border-[#111111]/15 pt-1 font-mono text-[8px] font-semibold text-[#4E4C47] tabular-nums">
@@ -876,29 +912,49 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                 />
 
                 <div className="my-2.5 flex flex-1 flex-col justify-between gap-3">
-                  <div className="border-b border-[#E8E6E0] pb-3">
-                    <div className="mb-2 flex items-baseline justify-between gap-2">
-                      <h3 className="font-serif text-lg tracking-tight text-[#24231F]">
-                        Construction &amp; Craftsmanship
-                      </h3>
-                      <span className="font-mono text-[8px] tracking-wider text-[#77756F]">
-                        4 PLATES
-                      </span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2.5">
-                      {detailSlots.map(({ key, label, hint }) => (
-                        <PrintPlateBox
-                          key={key}
-                          slot={item.media[key]}
-                          label={label}
-                          hint={hint}
-                          aspectClass="aspect-[16/10]"
-                          displayScale={key === 'swatch' ? 1.65 : 1}
-                          showBlankGuides={config.showBlankGuides}
-                        />
-                      ))}
-                    </div>
-                  </div>
+                  {(() => {
+                    const visibleDetails = config.showBlankGuides
+                      ? detailSlots
+                      : detailSlots.filter(({ key }) => Boolean(item.media[key].url || item.media[key].fallbackUrl));
+                    if (visibleDetails.length === 0) return null;
+                    const gridCols =
+                      visibleDetails.length === 1
+                        ? 'grid-cols-1'
+                        : visibleDetails.length === 3
+                          ? 'grid-cols-3'
+                          : 'grid-cols-2';
+                    const plateAspect =
+                      visibleDetails.length === 1
+                        ? 'aspect-[16/9]'
+                        : visibleDetails.length === 3
+                          ? 'aspect-[4/3]'
+                          : 'aspect-[16/10]';
+                    return (
+                      <div className="border-b border-[#E8E6E0] pb-3">
+                        <div className="mb-2 flex items-baseline justify-between gap-2">
+                          <h3 className="font-serif text-lg tracking-tight text-[#24231F]">
+                            Details &amp; Material
+                          </h3>
+                          <span className="font-mono text-[8px] tracking-wider text-[#77756F]">
+                            {visibleDetails.length} {visibleDetails.length === 1 ? 'PLATE' : 'PLATES'}
+                          </span>
+                        </div>
+                        <div className={`grid gap-2.5 ${gridCols}`}>
+                          {visibleDetails.map(({ key, label, hint }) => (
+                            <PrintPlateBox
+                              key={key}
+                              slot={item.media[key]}
+                              label={label}
+                              hint={hint}
+                              aspectClass={plateAspect}
+                              displayScale={key === 'swatch' ? 1.65 : 1}
+                              showBlankGuides={config.showBlankGuides}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })()}
 
                   <div className="border-b border-[#E8E6E0] pb-2.5">
                     <div className="mb-1.5 flex items-baseline justify-between gap-2">
@@ -909,66 +965,84 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                         {item.colorways.length} {item.colorways.length === 1 ? 'shade' : 'shades'}
                       </span>
                     </div>
-                    <div className="grid grid-cols-3 gap-x-2 gap-y-1.5">
-                      {item.colorways.map((color, index) => {
-                        const hex = getColorSwatchHex(color);
-                        const refCode = colorRefMap.get(color.trim().toLowerCase());
-                        return (
-                          <div
-                            key={`${color}-${index}`}
-                            className="flex min-w-0 items-center gap-1.5 text-[8.5px] text-[#33322F]"
-                          >
-                            <span
-                              aria-hidden="true"
-                              className="h-2.5 w-3 shrink-0 border border-black/15"
-                              style={
-                                hex
-                                  ? { backgroundColor: hex }
-                                  : {
-                                      backgroundImage:
-                                        'repeating-linear-gradient(45deg, #F0F0F0, #F0F0F0 3px, #FFFFFF 3px, #FFFFFF 6px)',
-                                    }
-                              }
-                            />
-                            <span className="min-w-0 truncate">
-                              {color}
-                              {refCode && (
-                                <span className="ml-1 font-mono text-[7px] text-[#77756F]">
-                                  ({refCode})
-                                </span>
-                              )}
-                            </span>
-                          </div>
-                        );
-                      })}
-                    </div>
+                    {item.colorways.length === 0 ? (
+                      <p className="font-mono text-[8.5px] text-[#77756F]">
+                        Colorways pending sample sign-off
+                      </p>
+                    ) : (
+                      <div
+                        className={`grid gap-x-2 gap-y-1.5 ${
+                          item.colorways.length <= 2
+                            ? 'grid-cols-2'
+                            : item.colorways.length === 3 ||
+                                item.colorways.length === 5 ||
+                                item.colorways.length === 6 ||
+                                item.colorways.length === 9
+                              ? 'grid-cols-3'
+                              : 'grid-cols-4'
+                        }`}
+                      >
+                        {item.colorways.map((color, index) => {
+                          const hex = getColorSwatchHex(color);
+                          const refCode = colorRefMap.get(color.trim().toLowerCase());
+                          return (
+                            <div
+                              key={`${color}-${index}`}
+                              className="flex min-w-0 items-center gap-1.5 text-[8.5px] text-[#33322F]"
+                            >
+                              <span
+                                aria-hidden="true"
+                                className="h-2.5 w-3 shrink-0 border border-black/15"
+                                style={
+                                  hex
+                                    ? { backgroundColor: hex }
+                                    : {
+                                        backgroundImage:
+                                          'repeating-linear-gradient(45deg, #F0F0F0, #F0F0F0 3px, #FFFFFF 3px, #FFFFFF 6px)',
+                                      }
+                                }
+                              />
+                              <span className="min-w-0 truncate">
+                                {color}
+                                {refCode && (
+                                  <span className="ml-1 font-mono text-[7px] text-[#77756F]">
+                                    ({refCode})
+                                  </span>
+                                )}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-1 flex-col justify-between gap-2.5">
-                    {(item.summary || item.descriptionBullets.length > 0) && (
                     <div>
-                      <p className="font-mono text-[8px] font-semibold uppercase tracking-wider text-[#55534E]">
-                        Design highlights
-                      </p>
-                      {item.summary && (
-                      <p className="mt-1 font-serif text-[13.5px] italic leading-snug text-[#1F1E1B]">
+                      <div className="flex items-center justify-between gap-2">
+                        <p className="font-mono text-[8px] font-semibold uppercase tracking-wider text-[#55534E]">
+                          Material &amp; Design Highlights
+                        </p>
+                        <SizeRunChips sizeRun={item.specs.sizeRun} size="xs" />
+                      </div>
+                      <p className="mt-1.5 font-serif text-[13px] italic leading-snug text-[#1F1E1B]">
                         {item.summary}
                       </p>
+                      {item.keyFeatures.length > 0 && (
+                        <ul className="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 border-t border-[#EFECE6] pt-2 text-[9px] leading-snug text-[#292824]">
+                          {item.keyFeatures.map((feat, idx) => (
+                            <li key={idx} className="flex items-baseline gap-1.5">
+                              <span className="font-mono text-[7.5px] text-[var(--metallic-strong)] tabular-nums">
+                                {String(idx + 1).padStart(2, '0')}
+                              </span>
+                              <span>{feat}</span>
+                            </li>
+                          ))}
+                        </ul>
                       )}
-                      <ul className="mt-2 grid grid-cols-2 gap-1.5 text-[9.5px] leading-relaxed text-[#404040]">
-                        {item.descriptionBullets.slice(0, 2).map((bullet, idx) => (
-                          <li key={idx} className="flex items-baseline gap-2">
-                            <span className="font-mono text-[8px] text-[var(--metallic-strong)] tabular-nums">
-                              {String(idx + 1).padStart(2, '0')}
-                            </span>
-                            <span>{bullet}</span>
-                          </li>
-                        ))}
-                      </ul>
                     </div>
-                    )}
 
-                    {sourceNote && (
+                    {config.showBlankGuides && sourceNote && (
                       <p className="border-t border-[#E8E6E0] pt-1.5 text-[8.5px] leading-relaxed text-[#77756F]">
                         {sourceNote}
                       </p>
@@ -987,6 +1061,107 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
           </section>
         );
       })}
+
+      {showClosingPages && (() => {
+        pageCursor += 1;
+        const sizeChartPagePadded = String(pageCursor).padStart(2, '0');
+        return (
+          <section key="print-size-charts" className={sheetBaseClass}>
+            {config.showCropMarks && <CropAndSpineMarks isLandscape={isLandscape} />}
+
+            <div className={`grid flex-1 ${isLandscape ? 'grid-cols-2' : 'grid-cols-1 gap-6'}`}>
+              <div className={versoSafeCls}>
+                <RunningHeader
+                  sectionId="technical"
+                  categoryLabel="WOMEN'S SIZE CHART"
+                  pageLabel={`P.${sizeChartPagePadded}A`}
+                  rightContext="SCRUBS TOP & PANTS"
+                />
+                <div className="my-3 flex flex-1 flex-col">
+                  <SizeChartLeafBody gender="Women" />
+                </div>
+                <div className="flex items-center justify-between border-t border-[#E8E6E0] pt-2 font-mono text-[8.5px] text-[#77756F] tabular-nums">
+                  <span>STANDARD BODY FIT GUIDE</span>
+                  <span>P.{sizeChartPagePadded}A</span>
+                </div>
+              </div>
+
+              <div className={rectoSafeCls}>
+                <RunningHeader
+                  sectionId="technical"
+                  categoryLabel="MEN'S SIZE CHART"
+                  pageLabel={`P.${sizeChartPagePadded}B`}
+                  rightContext="SCRUBS TOP & PANTS"
+                />
+                <div className="my-3 flex flex-1 flex-col">
+                  <SizeChartLeafBody gender="Men" />
+                </div>
+                <div className="flex items-center justify-between border-t border-[#E8E6E0] pt-2 font-mono text-[8.5px] text-[#77756F] tabular-nums">
+                  <span>{meta.season}</span>
+                  <span className="text-[#24231F]">
+                    {sizeChartPagePadded} / {String(totalPages).padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
+
+      {showClosingPages && (() => {
+        pageCursor += 1;
+        const closingPagePadded = String(pageCursor).padStart(2, '0');
+        return (
+          <section key="print-thank-you" className={sheetBaseClass}>
+            {config.showCropMarks && <CropAndSpineMarks isLandscape={isLandscape} />}
+
+            <div className={`grid flex-1 ${isLandscape ? 'grid-cols-2' : 'grid-cols-1 gap-6'}`}>
+              <div className={versoSafeCls}>
+                <RunningHeader
+                  sectionId="technical"
+                  categoryLabel="CAPABILITY & COLOPHON"
+                  pageLabel={`P.${closingPagePadded}A`}
+                  rightContext={meta.edition}
+                />
+                <div className="my-4 flex flex-1 flex-col items-center justify-center text-center">
+                  <img src={BRAND_LOGO_PATH} alt="DT" className="h-14 w-auto object-contain" />
+                  <p className="mt-5 font-serif text-3xl tracking-tight text-[#24231F]">
+                    Dream Tomorrow
+                  </p>
+                  <p className="mt-2 font-mono text-[10px] tracking-wide text-[#77756F]">
+                    CM · OEM · ODM
+                  </p>
+                  <p className="mt-4 max-w-[38ch] text-xs leading-relaxed text-[#55534E]">
+                    Full-package uniform manufacturing across 15 verified knit &amp; suiting fabric families, tailored for healthcare, hospitality, and corporate workwear programs.
+                  </p>
+                </div>
+                <div className="flex items-center justify-between border-t border-[#E8E6E0] pt-2 font-mono text-[8.5px] text-[#77756F] tabular-nums">
+                  <span>DREAM TOMORROW · DT</span>
+                  <span>P.{closingPagePadded}A</span>
+                </div>
+              </div>
+
+              <div className={rectoSafeCls}>
+                <RunningHeader
+                  sectionId="technical"
+                  categoryLabel="THANK YOU & CONTACT"
+                  pageLabel={`P.${closingPagePadded}B`}
+                  rightContext="D.T APPAREL"
+                />
+                <div className="my-2 flex flex-1 flex-col">
+                  <ThankYouLeafBody meta={meta} canInteract={false} />
+                </div>
+                <div className="flex items-center justify-between border-t border-[#E8E6E0] pt-2 font-mono text-[8.5px] text-[#77756F] tabular-nums">
+                  <span>{meta.season}</span>
+                  <span className="text-[#24231F]">
+                    {closingPagePadded} / {String(totalPages).padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+        );
+      })()}
     </div>
   );
 };

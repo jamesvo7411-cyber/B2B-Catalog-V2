@@ -28,7 +28,7 @@ export const PRODUCT_ASSETS: Record<string, ProductAssetMapping> = {
     heroFile: 'DT289470.JPG',
   },
   MSPK03: {
-    title: "Men's Straight-Leg Khaki Shorts",
+    title: "Men's Straight-Leg Khaki Shorts Pant",
     productUrl: 'https://dtuniforms.com/product/the-mens-straight-leg-khaki-shorts-mspk03/?attribute_pa_color=green-olive',
     sourceImage: 'DT288213-1.jpg',
     heroFile: 'DT288213.JPG',

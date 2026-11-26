@@ -1,0 +1,5667 @@
+{
+ "meta": {
+  "title": "Dream Tomorrow (DOT) product data",
+  "built": "2026-11-26",
+  "sources": [
+   "DOT_Scrubs_Product_Details.xlsx, sheet DOT (seniors, official names/descriptions/colorways)",
+   "Fabric_Swatch_Book.pdf (fabric content, GSM, colors)",
+   "DOT_Product_List_updated.xlsx (fabric assignment, width)"
+  ],
+  "conventions": {
+   "product_id": "Style code, no spaces, e.g. MPOLO-MD1. Unique key.",
+   "fabric_id": "Short slug, e.g. A82, MODAL-M, MODAL-F, PQ4W, CM26-M, F76.",
+   "color_id": "Swatch-book code, upper case, unique only within a fabric_id.",
+   "swatch_key": "SW__{fabric_id}__{color_id}; the planned swatch image filename stem (add .jpg).",
+   "joins": "products.fabric_id -> fabrics.fabric_id; products.colors[].color_id + fabric_id -> fabric_colors; one swatch image per (fabric_id, color_id), shared by every product on that fabric.",
+   "languages": "Every text field is {en, vi}. English is the official text from the seniors, not machine translated.",
+   "data_status": "complete | no_source_data",
+   "prototype color": "is_prototype_color = true where the seniors marked the finished sample (Mẫu HT)."
+  },
+  "counts": {
+   "products": 43,
+   "fabrics": 15,
+   "fabric_colors": 81,
+   "product_color_rows": 252
+  },
+  "open_issues": [
+   {
+    "id": "I01",
+    "severity": "high",
+    "applies_to": "WVNECK-MD, WTSHIRT-MD1, WTSHIRT-MD2, WPOLO-MD1",
+    "issue": "Seniors list the 8 Modal Nam colors for these 4 women's products (and note the prototype is in \"Modal nam\"). The earlier list gave them Modal Nữ colors (Pink / Yellow / Purple). Only WPOLO-MD2 uses Modal Nữ.",
+    "action": "Followed the seniors' file: fabric_id = MODAL-M for the 4, MODAL-F for WPOLO-MD2. Confirm."
+   },
+   {
+    "id": "I02",
+    "severity": "high",
+    "applies_to": "MTSHIRT-MD1/2/3, MPOLO-MD1/2/3/4, WVNECK-MD, WTSHIRT-MD1/2, WPOLO-MD1",
+    "issue": "Product text says \"94% Cotton, 6% Spandex\" but the swatch book fabric (MODAL-M) is \"94% Cotton Modal, 6% Spandex\". WPOLO-MD2 already says Cotton Modal.",
+    "action": "Kept product text as written. Decide the official wording (matters for a B2B fiber claim)."
+   },
+   {
+    "id": "I03",
+    "severity": "high",
+    "applies_to": "WTSHIRT-L, WTSHIRT1-CM30, WTSHIRT2",
+    "issue": "Product text says \"100% Cotton\" but the swatch book fabric (CM30) is \"94% Cotton, 6% Spandex\".",
+    "action": "Kept product text as written. Confirm which is correct."
+   },
+   {
+    "id": "I04",
+    "severity": "medium",
+    "applies_to": "WTSHIRT-CM261",
+    "issue": "No sample and no data in the seniors' file (\"Chưa có mẫu\"). Fabric CM26-F is carried over from the earlier list; colors are empty.",
+    "action": "Row kept with data_status = no_source_data."
+   },
+   {
+    "id": "I05",
+    "severity": "medium",
+    "applies_to": "Colors (fabric_colors sheet)",
+    "issue": "Official English names replace my earlier suggestions, e.g. CGR = Dark Blue (not Grey), BEAN = Turquoise (not Bean Grey), ORCE = Light Pink, CCL = Brown, QGRA = Stone Grey, B7901 = Mint, BC14 = Charcoal Grey, B8385 = Slate Blue-Grey. This closes the earlier swatch-vs-label questions.",
+    "action": "Old names kept in previous_suggested_name_en."
+   },
+   {
+    "id": "I06",
+    "severity": "medium",
+    "applies_to": "Reference photos",
+    "issue": "WVNECK-CM26 is marked \"ảnh chưa chụp\" (photo not taken yet). MTSHIRT-MD1 has only a local filename. MPOLO-PQ3 links to a folder. MTSHIRT-CM26, MPOLO-MD3, MPOLO-PQ1 and MPOLO-PQ3 carry the note \"k thấy chụp mẫu\" (roughly: sample photo not seen) although they have links.",
+    "action": "Stored as written (reference_photo, source_note). Check the links before using them as generation references."
+   },
+   {
+    "id": "I07",
+    "severity": "low",
+    "applies_to": "Color codes",
+    "issue": "Spelling differences between rows were unified: OLY → OLV, BEI → BE, \"Xám khói (STG)\" → GRY-2, WHTC → CREAM-WHITE, \"Xám Melange\" → MELANGE.",
+    "action": "Originals kept in product_colors.color_code_as_written."
+   },
+   {
+    "id": "I08",
+    "severity": "low",
+    "applies_to": "B7901",
+    "issue": "English name is \"Mint\" in most rows and \"Mint Green\" in WVNECK-MD, WTSHIRT-MD1, WTSHIRT-MD2.",
+    "action": "Canonical name = Mint; variant kept in en_name_variants."
+   },
+   {
+    "id": "I09",
+    "severity": "low",
+    "applies_to": "WTSHIRT1-CM30",
+    "issue": "Seniors write WTSHIRT1-CM30; the earlier list had WTSHIRT1.",
+    "action": "product_id = WTSHIRT1-CM30; old code in previous_style_code."
+   },
+   {
+    "id": "I10",
+    "severity": "info",
+    "applies_to": "Not included",
+    "issue": "The SCRUBS sheet (scrubs line, with prices) and the matching rib colors from the earlier list.",
+    "action": "Can be added on request."
+   }
+  ]
+ },
+ "products": [
+  {
+   "product_id": "MTSHIRT-MD1",
+   "style_code_as_written": "MTSHIRT- MD1",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Men's Straight-Fit Crew Neck T-Shirt MTSHIRT-MD1",
+    "vi": "Áo thun nam cổ tròn dáng suông MTSHIRT-MD1"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Ribbed crew neck",
+     "Straight fit",
+     "Short sleeves"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ bo tròn",
+     "Thân suông",
+     "Tay ngắn"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Straight-Fit Crew Neck T-Shirt (MTSHIRT-MD1) features a clean, minimalist style for effortless everyday wear.",
+     "Crafted from a premium stretch cotton blend (94% Cotton, 6% Spandex) with a smooth, breathable finish that wicks moisture and moves comfortably with your body.",
+     "Designed with a durable ribbed crew neck that retains its shape wash after wash, paired with a well-proportioned straight fit and mid-bicep short sleeves for a flattering look.",
+     "Colors: Dark Grey, Mint Green, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo thun nam cổ tròn dáng suông MTSHIRT-MD1 mang phong cách tối giản, gọn gàng, dễ dàng mặc đẹp trong mọi hoạt động thường ngày.",
+     "Vải thun Cotton cao cấp pha sợi co giãn (94% Cotton, 6% Spandex) có bề mặt mềm mịn, thoáng mát, thấm hút mồ hôi tốt và co giãn thoải mái theo từng cử động.",
+     "Cổ tròn bo viền dày dặn giúp giữ dáng cổ áo không bị giãn nhão sau nhiều lần giặt. Dáng áo suông vừa vặn kết hợp tay ngắn ngang bắp tay giúp che khuyết điểm cơ thể hiệu quả.",
+     "Màu sắc: Xám đậm, Xanh bạc hà, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "local_filename",
+    "value": "MTSHIRMD - HGRY(MAT TRUOC).jpg"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MTSHIRT-MD2",
+   "style_code_as_written": "MTSHIRT- MD2",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Men's Button-Placket Crew Neck T-Shirt MTSHIRT-MD2",
+    "vi": "Áo thun nam cổ tròn phối nút MTSHIRT-MD2"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Ribbed crew neck",
+     "Straight fit",
+     "Short sleeves",
+     "13 cm deep 3-button placket"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ bo tròn",
+     "Thân suông",
+     "Tay ngắn",
+     "Cổ 3 nút sâu 13 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Button-Placket Crew Neck T-Shirt (MTSHIRT-MD2) delivers a rugged, masculine accent with a refined front button placket.",
+     "Blended from 94% Cotton and 6% Spandex for a silky-soft, cool-to-the-touch feel, fast moisture absorption, and high elasticity.",
+     "Features a crew neck with a 13 cm 3-button placket for versatile styling, alongside a roomy straight fit and balanced sleeves for all-day comfort.",
+     "Colors: Dark Grey, Mint, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo thun nam cổ tròn phối nút MTSHIRT-MD2 tạo điểm nhấn nam tính, khỏe khoắn nhờ thiết kế hàng nút cài trước ngực đầy tinh tế.",
+     "94% Cotton kết hợp 6% Spandex mềm mướt, mát da, thấm hút mồ hôi nhanh và có độ đàn hồi cao.",
+     "Cổ tròn phối nẹp 3 nút cài (dài 13 cm) giúp người mặc linh hoạt cài kín lịch sự hoặc mở nút để tạo sự phóng khoáng. Phom áo suông rộng rãi, tay áo dài vừa vặn mang lại cảm giác thoải mái suốt ngày dài.",
+     "Màu sắc: Xám đậm, Xanh mint, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1j1J5qlfCxDdSXh0I9tyrrply9yYOnbIL/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MTSHIRT-MD3",
+   "style_code_as_written": "MTSHIRT- MD3",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Men's Button-Neck Pocket T-Shirt MTSHIRT-MD3",
+    "vi": "Áo thun nam cổ cài nút phối túi ngực MTSHIRT-MD3"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Ribbed crew neck",
+     "13 cm deep 3-button placket",
+     "Short sleeves",
+     "Straight fit",
+     "1 chest pocket"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ bo tròn",
+     "Cổ 3 nút sâu 13 cm",
+     "Tay ngắn",
+     "Thân suông",
+     "1 túi trước ngực"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Button-Neck Pocket T-Shirt (MTSHIRT-MD3) harmoniously combines casual versatility with everyday masculine utility.",
+     "Made from 94% Cotton and 6% Spandex for soft, breathable comfort, 4-way stretch, and wrinkle resistance.",
+     "Styled with a 13 cm 3-button crew neck, a relaxed straight body, comfortable short sleeves, and a functional front chest patch pocket.",
+     "Colors: Dark Grey, Mint, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo thun nam cổ cài nút phối túi ngực MTSHIRT-MD3 kết hợp hài hòa giữa nét trẻ trung của áo thun và tính tiện dụng cho phái mạnh.",
+     "94% Cotton pha 6% Spandex mềm mại, thoáng khí, co giãn 4 chiều và hạn chế nhăn nhàu.",
+     "Cổ tròn đính 3 nút cài (dài 13 cm), dáng thân suông và Tay ngắn thoải mái. Điểm nhấn túi đắp trước ngực vừa tăng vẻ khỏe khoắn vừa tiện lợi khi sử dụng.",
+     "Màu sắc: Xám đậm, Xanh mint, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1p9XIq0ley3ZFhTrL29zgnjRGNSUI0wfq/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MTSHIRT-CM26",
+   "style_code_as_written": "MTSHIRT - CM26 ( MC: MTT0003 )",
+   "previous_style_code": null,
+   "mc_code": "MTT0003",
+   "gender": "Men",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM26-M",
+   "name": {
+    "en": "The Men's 100% Cotton Crew Neck T-Shirt MTSHIRT-CM26",
+    "vi": "Áo thun nam cổ tròn 100% Cotton MTSHIRT-CM26"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Straight fit"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Thân suông"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's 100% Cotton Crew Neck T-Shirt (MTSHIRT-CM26) is a durable wardrobe staple suited for lounging, casual outings, or outdoor activities.",
+     "Constructed from 100% natural cotton fibers for superior sweat absorption, skin-friendly comfort, and structured shape retention.",
+     "Combines a classic fitted crew neck with a straight-fit body and short sleeves for a neat, energetic appearance.",
+     "Colors: Sky Blue, White, Black, Khaki, Peach, Stone Grey, Navy, Dark Blue."
+    ],
+    "vi": [
+     "Áo thun nam cổ tròn 100% Cotton MTSHIRT-CM26 là mẫu áo cơ bản, bền bỉ, phù hợp cho cả mặc ở nhà, đi dạo phố hay vận động ngoài trời.",
+     "100% sợi bông Cotton tự nhiên, thấm hút mồ hôi vượt trội, an toàn cho da và giữ cho áo luôn đứng dáng.",
+     "Cổ tròn truyền thống ôm vừa vặn, thân áo dáng suông kết hợp Tay ngắn tạo vẻ ngoài năng động, chỉn chu.",
+     "Màu sắc: Xanh da trời, Trắng, Đen, Kaki, Cam đào, Xám đá, Xanh Navy, Xanh đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLG",
+     "color_name_vi": "Xanh trời",
+     "color_name_en": "Sky Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__BLG"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__WHT"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__BLK"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "màu kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__KAK"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "Cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__PEAC"
+    },
+    {
+     "color_id": "QGRA",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__QGRA"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__NAV"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__CGR"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1xN6J5AIqAqHNFHW8kXbeH8zaMoobGt26/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MVNECK-CM26",
+   "style_code_as_written": "MVNECK- CM26",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM26-M",
+   "name": {
+    "en": "The Men's V-Neck T-Shirt MVNECK-CM26",
+    "vi": "Áo thun nam cổ tim MVNECK-CM26"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "V-neck",
+     "Short sleeves",
+     "Straight fit"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ tim",
+     "Tay ngắn",
+     "Thân suông"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's V-Neck T-Shirt (MVNECK-CM26) offers a sleek, youthful profile that visually broadens and balances the neck and shoulders.",
+     "Woven from 100% natural cotton with a smooth, colorfast finish that breathes well and absorbs moisture quickly.",
+     "Tailored with a modestly cut V-neck, a straight-fit body, and short sleeves to ensure unrestricted comfort in any posture.",
+     "Colors: Sky Blue, White, Black, Khaki, Peach, Stone Grey, Navy, Dark Blue."
+    ],
+    "vi": [
+     "Áo thun nam cổ tim MVNECK-CM26 mang đến vẻ ngoài thanh thoát, trẻ trung, giúp phần cổ và vai trông rộng rãi, cân đối hơn.",
+     "100% Cotton tự nhiên thoáng mát, thấm hút ẩm nhanh, bề mặt vải mịn và bền màu.",
+     "Cổ tim có độ sâu vừa phải, kín đáo và lịch sự; phom áo suông cùng Tay ngắn giúp người mặc luôn thoải mái trong mọi tư thế.",
+     "Màu sắc: Xanh da trời, Trắng, Đen, Kaki, Cam đào, Xám đá, Xanh Navy, Xanh đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLG",
+     "color_name_vi": "Xanh trời",
+     "color_name_en": "Sky Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__BLG"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__WHT"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__BLK"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "màu kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__KAK"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "Cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__PEAC"
+    },
+    {
+     "color_id": "QGRA",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__QGRA"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__NAV"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-M__CGR"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1h4tYzEfru-PApWlVV_feFgMNLwP3FFuy/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MTSHIRT-CM36",
+   "style_code_as_written": "MTSHIRT-CM36",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM36",
+   "name": {
+    "en": "The Men's Crew Neck T-Shirt MTSHIRT-CM36",
+    "vi": "Áo thun nam cổ tròn MTSHIRT-CM36"
+   },
+   "features": {
+    "en": [
+     "95% Cotton, 5% Spandex",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Straight fit"
+    ],
+    "vi": [
+     "95% cotton, 5% spandex",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Thân suông"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Crew Neck T-Shirt (MTSHIRT-CM36) balances the crisp structure of natural cotton with flexible stretch, pairing effortlessly with jeans, trousers, or jackets.",
+     "Made of a mid-weight 95% Cotton and 5% Spandex blend that is breathable, soft, and holds its shape reliably.",
+     "Finished with a sturdy ribbed crew neck, Short sleeves, and a versatile straight silhouette that flatters various body types.",
+     "Colors: Black, White, Blue, Heather Grey (Melange), Navy, Cream."
+    ],
+    "vi": [
+     "Áo thun nam cổ tròn MTSHIRT-CM36 kết hợp hoàn hảo giữa độ đứng dáng của sợi bông tự nhiên và độ co giãn linh hoạt, dễ dàng phối cùng quần jeans, quần tây hoặc mặc lót bên trong áo khoác.",
+     "95% Cotton pha 5% Spandex dày dặn vừa phải, thoáng khí, mềm mại và giữ phom tốt.",
+     "Cổ tròn bo viền chắc chắn, Tay ngắn và thân áo suông vừa vặn với nhiều vóc dáng.",
+     "Màu sắc: Đen, Trắng, Xanh dương, Xám tiêu (Melange), Xanh Navy, Kem."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM36__BLK"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM36__WHT"
+    },
+    {
+     "color_id": "LBU",
+     "color_name_vi": "Xanh dương",
+     "color_name_en": "Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM36__LBU"
+    },
+    {
+     "color_id": "MELANGE",
+     "color_name_vi": "Xám Melange",
+     "color_name_en": "Heather Grey (Melange)",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM36__MELANGE"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM36__NAV"
+    },
+    {
+     "color_id": "EQRAT",
+     "color_name_vi": "kem",
+     "color_name_en": "Cream",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM36__EQRAT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1dmZ38HD9l8fuHxF2nX4V029WZmm2nOfx/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MTSHIRT-CM40",
+   "style_code_as_written": "MTSHIRT-CM40",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM40",
+   "name": {
+    "en": "The Men's Crew Neck T-Shirt MTSHIRT-CM40",
+    "vi": "Áo thun nam cổ tròn MTSHIRT-CM40"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Straight fit"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Thân suông"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Crew Neck T-Shirt (MTSHIRT-CM40) is designed for pure, understated breathability on warm days.",
+     "Crafted from 100% pure cotton that is ultra-soft, fast-absorbing, and gentle on sensitive skin.",
+     "Features a classic crew neck, Short sleeves, and a roomy straight fit for complete freedom of movement.",
+     "Colors: Navy, Yellow, White, Stone Grey, Peach, Black."
+    ],
+    "vi": [
+     "Áo thun nam cổ tròn MTSHIRT-CM40 hướng đến sự mộc mạc, thoáng mát tối đa cho những ngày thời tiết oi bức.",
+     "100% Cotton nguyên chất, mềm mịn, thấm hút mồ hôi nhanh và thân thiện với làn da nhạy cảm.",
+     "Kiểu dáng cổ tròn cơ bản, tay ngắn, thân suông rộng rãi mang lại sự tự do, năng động trong mọi hoạt động.",
+     "Màu sắc: Xanh navy, Vàng, Trắng, Xám đá, Cam đào, Đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__NAV"
+    },
+    {
+     "color_id": "BUYE",
+     "color_name_vi": "vàng",
+     "color_name_en": "Yellow",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__BUYE"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__WHT"
+    },
+    {
+     "color_id": "QGRA",
+     "color_name_vi": "xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__QGRA"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__PEAC"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__BLK"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1-U_QrTiS-inTvXHy1H9KLhokEJ0I9LTX/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-MD1",
+   "style_code_as_written": "MPOLO - MD1",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Men's 3-Button Polo Shirt MPOLO-MD1",
+    "vi": "Áo Polo nam cổ 3 nút MPOLO-MD1"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Polo collar",
+     "13 cm deep 3-button placket",
+     "Short sleeves with elasticized cuffs",
+     "Straight fit with 3 cm side vents"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ Polo",
+     "Cổ 3 nút sâu 13 cm",
+     "Tay ngắn có bo chun",
+     "Thân suông có xẻ tà 2 bên sườn 3 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's 3-Button Polo Shirt (MPOLO-MD1) projects a polished, smart-casual look ideal for the office, client meetings, or weekend outings.",
+     "Blended from 94% Cotton and 6% Spandex for a smooth, cool-to-the-touch surface with excellent stretch and wrinkle resistance.",
+     "Detailed with a classic 13 cm 3-button polo collar, elasticized sleeve cuffs, and a straight body with 3 cm side vents for ease when seated.",
+     "Colors: Dark Grey, Mint, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo Polo nam cổ 3 nút MPOLO-MD1 mang vẻ đẹp lịch sự, chỉn chu, phù hợp để diện đi làm công sở, gặp gỡ đối tác hay dạo phố cuối tuần.",
+     "94% Cotton pha 6% Spandex có bề mặt vải mướt mịn, mát lạnh khi chạm vào da, co giãn tốt và ít nhăn.",
+     "Cổ bẻ truyền thống đính 3 nút cài (dài 13 cm), tay áo có bo chun ôm gọn bắp tay, thân áo suông kèm đường xẻ nhẹ 3 cm ở hai bên hông giúp áo không bị co kéo khi ngồi.",
+     "Xám đậm, Xanh mint, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/10JvSpSECzbyeWrYj260Im2l2P03j5fRt/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-MD2",
+   "style_code_as_written": "MPOLO - MD2",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Men's Faux-Pocket Polo Shirt MPOLO-MD2",
+    "vi": "Áo Polo nam phối túi giả MPOLO-MD2"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Polo collar",
+     "13 cm deep 2-button placket",
+     "Short sleeves with elasticized cuffs",
+     "Straight fit",
+     "3 cm side vents",
+     "1 faux chest pocket"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ polo",
+     "Cổ 2 nút sâu 13 cm",
+     "Tay ngắn có bo chun",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 3 cm",
+     "1 túi giả trước ngực"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Faux-Pocket Polo Shirt (MPOLO-MD2) makes a sophisticated impression with a sleek faux welt pocket accent on the chest.",
+     "Made from 94% Cotton and 6% Spandex for soft, breathable moisture management and lasting shape stability.",
+     "Designed with a 13 cm 2-button polo collar, neat elasticized Short sleeves, a straight body with 3 cm side vents, and 1 faux chest pocket.",
+     "Colors: Dark Grey, Mint, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo Polo nam phối túi giả MPOLO-MD2 ghi điểm với diện mạo đĩnh đạc, sang trọng nhờ chi tiết viền túi giả tinh tế trên ngực áo.",
+     "94% Cotton, 6% Spandex mềm mịn, thoáng mát, thấm hút mồ hôi tốt và giữ phom ổn định.",
+     "Cổ bẻ 2 nút cài (dài 13 cm), Tay ngắn bo chun gọn gàng, thân suông xẻ tà hai bên hông (3 cm) kết hợp điểm nhấn 1 túi giả trước ngực.",
+     "Màu sắc: Xám đậm, Xanh mint, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1FhZFtyGliQtNkHldGbQIpQa-YCm3pIV6/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-MD3",
+   "style_code_as_written": "MPOLO - MD3 ( MC: MTPZ001 )",
+   "previous_style_code": null,
+   "mc_code": "MTPZ001",
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Men's Shiny Zip Polo Shirt MPOLO-MD3",
+    "vi": "Áo Polo nam phối khóa kéo MPOLO-MD3"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Polo collar",
+     "13 cm deep mirror-finish zipper placket",
+     "Short sleeves with elasticized cuffs",
+     "Straight fit",
+     "3 cm side vents"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ polo",
+     "Dây kéo tráng gương sâu 13 cm",
+     "Tay ngắn có bo chun",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 3 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Shiny Zip Polo Shirt (MPOLO-MD3) brings a modern edge by replacing traditional buttons with an eye-catching metallic zipper.",
+     "Crafted from 94% Cotton and 6% Spandex for an ultra-soft, cooling feel and responsive 4-way stretch.",
+     "Features a polo collar with a smooth-gliding 13 cm mirror-finish zipper, elasticized Short sleeves, and a straight fit with 3 cm side vents.",
+     "Colors: Dark Grey, Mint, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo Polo nam phối khóa kéo sáng bóng MPOLO-MD3 mang hơi thở hiện đại, thay thế hàng nút truyền thống bằng khóa kéo kim loại bắt mắt.",
+     "94% Cotton, 6% Spandex siêu mềm, mát da, co giãn linh hoạt 4 chiều.",
+     "Cổ bẻ kết hợp khóa kéo tráng gương sáng bóng (dài 13 cm) kéo trượt mượt mà; Tay ngắn bo chun, thân suông xẻ tà hai bên hông (3 cm) tạo sự thoải mái tối đa.",
+     "Màu sắc: Xám đậm, Xanh mint, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1fYCb8XZ29hGHqRMaazajLcMSHktzzsf3/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-MD4",
+   "style_code_as_written": "MPOLO - MD4",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Men's Concealed-Zip Polo Shirt MPOLO-MD4",
+    "vi": "Áo Polo nam khóa kéo ẩn MPOLO-MD4"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Polo collar",
+     "13 cm deep concealed zipper placket",
+     "Short sleeves with elasticized cuffs",
+     "Straight fit",
+     "3 cm side vents"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ polo",
+     "Dây kéo nẹp che sâu 13 cm",
+     "Tay ngắn có bo chun",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 3 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Concealed-Zip Polo Shirt (MPOLO-MD4) caters to gentlemen who appreciate minimalist tailoring with a neatly hidden zipper placket.",
+     "Blended from 94% Cotton and 6% Spandex for a smooth, airy feel that retains both color and structure over time.",
+     "Styled with a polo collar and a flat 13 cm fabric-covered zipper placket, elasticized sleeve cuffs, and a straight fit with 3 cm side vents.",
+     "Colors: Dark Grey, Mint, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo Polo nam khóa kéo ẩn MPOLO-MD4 dành cho những quý ông yêu thích sự tối giản, tinh gọn với phần khóa kéo được giấu khéo léo dưới lớp nẹp vải.",
+     "94% Cotton, 6% Spandex mềm mịn, thoáng khí, giữ màu và giữ dáng áo bền đẹp.",
+     "Cổ bẻ phối khóa kéo có nẹp vải che phẳng phiu (dài 13 cm), tay áo bo chun gọn gàng, dáng thân suông xẻ tà hai bên hông (3 cm).",
+     "Màu sắc: Xám đậm, Xanh mint, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1ZvOAADSNmi2mpxVNr71j7Lw4X7w-Yedd/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-PQ1",
+   "style_code_as_written": "MPOLO - PQ1 ( MC: MTP0001 )",
+   "previous_style_code": null,
+   "mc_code": "MTP0001",
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "PQ4W",
+   "name": {
+    "en": "The Men's 2-Button Polo Shirt MPOLO-PQ1",
+    "vi": "Áo Polo nam cổ 2 nút MPOLO-PQ1"
+   },
+   "features": {
+    "en": [
+     "95% Cotton, 5% Spandex",
+     "Polo collar",
+     "13 cm deep 2-button placket",
+     "Short sleeves with elasticized cuffs",
+     "Straight fit",
+     "3 cm side vents"
+    ],
+    "vi": [
+     "95% cotton, 5% spandex",
+     "Cổ Polo",
+     "Cổ 2 nút sâu 13 cm",
+     "Tay ngắn có bo chun",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 3 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's 2-Button Polo Shirt (MPOLO-PQ1) stands out with a structured, breathable knit that maintains a refined appearance all day.",
+     "Constructed from 95% Cotton and 5% Spandex for substantial, airy comfort, reliable sweat absorption, and gentle stretch.",
+     "Features a 13 cm 2-button polo collar, elasticized Short sleeves, and a straight hem with 3 cm side vents that wears well tucked or untucked.",
+     "Colors: Black, Navy, Dark Blue, Light Grey, Turquoise, Peach, Light Pink, White."
+    ],
+    "vi": [
+     "Áo Polo nam cổ 2 nút MPOLO-PQ1 nổi bật với chất vải đứng dáng, bề mặt dệt thoáng khí giúp phái mạnh luôn giữ được phong độ lịch lãm.",
+     "95% Cotton pha 5% Spandex dày dặn, thông thoáng, thấm hút mồ hôi tốt và co giãn nhẹ nhàng.",
+     "Cổ bẻ 2 nút cài (dài 13 cm), Tay ngắn có bo chun, thân suông kết hợp xẻ tà hai bên hông (3 cm) giúp dễ dàng sơ vin hoặc thả ngoài quần.",
+     "Màu sắc: Đen, Xanh Navy, Xanh đen, Xám nhạt, Xanh ngọc, Cam đào, Hồng nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BLK"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__NAV"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__CGR"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__HEATHER-GREY"
+    },
+    {
+     "color_id": "BEAN",
+     "color_name_vi": "xanh ngọc",
+     "color_name_en": "Turquoise",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BEAN"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "Cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__PEAC"
+    },
+    {
+     "color_id": "ORCE",
+     "color_name_vi": "hồng nhạt",
+     "color_name_en": "Light Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__ORCE"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1LJDjDMaTh2zhbCqDXEYPdDlBL53pGB8S/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-PQ2",
+   "style_code_as_written": "MPOLO - PQ2",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "PQ4W",
+   "name": {
+    "en": "The Men's 3-Button Polo Shirt MPOLO-PQ2",
+    "vi": "Áo Polo nam cổ 3 nút MPOLO-PQ2"
+   },
+   "features": {
+    "en": [
+     "95% Cotton, 5% Spandex",
+     "Polo collar",
+     "15 cm deep 3-button placket",
+     "Short sleeves with ribbed cuffs",
+     "Straight fit",
+     "2 cm side vents"
+    ],
+    "vi": [
+     "95% cotton, 5% spandex",
+     "Cổ polo",
+     "Cổ 3 nút sâu 15 cm",
+     "Tay ngắn có bo",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 2 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's 3-Button Polo Shirt (MPOLO-PQ2) features an elongated placket that opens up the neckline for a mature, masculine look.",
+     "Made of durable 95% Cotton and 5% Spandex with a breathable, pill-resistant surface that holds its tailored shape.",
+     "Equipped with a 15 cm 3-button polo collar, ribbed Short sleeves, a relaxed straight body, and subtle 2 cm side vents.",
+     "Colors: Black, Navy, Dark Blue, Light Grey, Turquoise, Peach, Light Pink, White."
+    ],
+    "vi": [
+     "Áo Polo nam cổ 3 nút MPOLO-PQ2 có phần nẹp cổ dài hơn giúp vùng cổ trông thoáng rộng, mang lại vẻ ngoài nam tính và chững chạc.",
+     "95% Cotton, 5% Spandex bền đẹp, mặt vải thoáng mát, hạn chế xù lông và giữ phom chuẩn.",
+     "Cổ bẻ 3 nút cài (dài 15 cm), tay áo có bo gọn gàng, thân suông thoải mái cùng đường xẻ tà nhẹ 2 cm ở hai bên hông.",
+     "Màu sắc: Đen, Xanh Navy, Xanh đen, Xám nhạt, Xanh ngọc, Cam đào, Hồng nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BLK"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__NAV"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__CGR"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__HEATHER-GREY"
+    },
+    {
+     "color_id": "BEAN",
+     "color_name_vi": "xanh ngọc",
+     "color_name_en": "Turquoise",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BEAN"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "Cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__PEAC"
+    },
+    {
+     "color_id": "ORCE",
+     "color_name_vi": "hồng nhạt",
+     "color_name_en": "Light Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__ORCE"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1Xse8fbm2jxaVMN6fvqd_5M2RUMaoxmA7/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-PQ3",
+   "style_code_as_written": "MPOLO - PQ3 ( MC: MTPZ001 )",
+   "previous_style_code": null,
+   "mc_code": "MTPZ001",
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "PQ4W",
+   "name": {
+    "en": "The Men's Mirror-Zip Polo Shirt MPOLO-PQ3",
+    "vi": "Áo Polo nam dây kéo tráng gương MPOLO-PQ3"
+   },
+   "features": {
+    "en": [
+     "95% cotton, 5% spandex",
+     "Polo collar",
+     "13 cm mirror-finish zipper",
+     "Short sleeves with ribbed cuffs",
+     "Straight fit",
+     "2 cm side vents"
+    ],
+    "vi": [
+     "95% cotton, 5% spandex",
+     "Cổ Polo",
+     "Dây kéo tráng gương sâu 13 cm",
+     "Tay ngắn có bo",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 2 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Mirror-Zip Polo Shirt (MPOLO-PQ3) refreshes the familiar structured collar design with a light-catching mirror-finish zipper, delivering a look that is at once polished, youthful, and dynamic.",
+     "The soft, smooth blend of 95% cotton and 5% spandex wicks moisture quickly and offers natural stretch to minimize wrinkles and retain its shape all day long.",
+     "An easy-to-wear straight-cut body with 2 cm side vents allows flexible movement, paired with a polo collar featuring a 13 cm mirror-finish zipper and short sleeves with neat ribbed cuffs.",
+     "Colors: Black, Navy, Dark Blue, Light Grey, Turquoise, Peach, Light Pink, White."
+    ],
+    "vi": [
+     "Áo Polo nam dây kéo tráng gương MPOLO-PQ3 làm mới thiết kế cổ bẻ đứng dáng quen thuộc bằng chi tiết dây kéo tráng gương bắt sáng, đem lại diện mạo vừa chỉn chu vừa trẻ trung, năng động.",
+     "Chất vải 95% Cotton pha 5% Spandex êm mịn, thoát ẩm nhanh, có độ đàn hồi tự nhiên giúp bề mặt áo hạn chế nhăn và bền phom suốt ngày dài.",
+     "Kiểu dáng thân suông dễ mặc với đường xẻ tà 2 cm hai bên sườn giúp cử động linh hoạt, đi cùng cổ Polo gắn khóa kéo tráng gương độ sâu 13 cm và bo tay ngắn gọn gàng.",
+     "Màu sắc: Đen, Xanh Navy, Xanh đen, Xám nhạt, Xanh ngọc, Cam đào, Hồng nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BLK"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__NAV"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__CGR"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__HEATHER-GREY"
+    },
+    {
+     "color_id": "BEAN",
+     "color_name_vi": "xanh ngọc",
+     "color_name_en": "Turquoise",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BEAN"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "Cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__PEAC"
+    },
+    {
+     "color_id": "ORCE",
+     "color_name_vi": "hồng nhạt",
+     "color_name_en": "Light Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__ORCE"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_folder",
+    "value": "https://drive.google.com/drive/folders/1tyY-o0SZolbU91JWnc4YtDv2ZjesfW_T"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-PQ4",
+   "style_code_as_written": "MPOLO - PQ4",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "PQ4W",
+   "name": {
+    "en": "The Men's Concealed-Zip Polo Shirt MPOLO-PQ4",
+    "vi": "Áo Polo nam khóa kéo ẩn MPOLO-PQ4"
+   },
+   "features": {
+    "en": [
+     "95% Cotton, 5% Spandex",
+     "Polo collar",
+     "13 cm deep concealed zipper placket",
+     "Short sleeves with ribbed cuffs",
+     "Straight fit",
+     "2 cm side vents"
+    ],
+    "vi": [
+     "95% cotton, 5% spandex",
+     "Cổ Polo",
+     "Dây kéo nẹp che sâu 13 cm",
+     "Tay ngắn có bo",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 2 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Concealed-Zip Polo Shirt (MPOLO-PQ4) merges a structured, dressy fabric with a modern hidden-zipper placket.",
+     "Blended from 95% Cotton and 5% Spandex for breathable, moisture-wicking performance that stays neat and flat.",
+     "Tailored with a 13 cm concealed-zip polo collar, ribbed Short sleeves, and a straight silhouette finished with 2 cm side vents.",
+     "Colors: Black, Navy, Dark Blue, Light Grey, Turquoise, Peach, Light Pink, White."
+    ],
+    "vi": [
+     "Áo Polo nam khóa kéo ẩn MPOLO-PQ4 kết hợp giữa chất vải đứng phom lịch sự và thiết kế khóa kéo giấu nẹp hiện đại.",
+     "95% Cotton, 5% Spandex thoáng khí, thấm hút tốt, giữ dáng áo luôn phẳng phiu.",
+     "Cổ bẻ phối khóa kéo có nẹp vải che (dài 13 cm), Tay ngắn có bo chỉn chu, thân suông kèm đường xẻ tà nhẹ 2 cm hai bên hông.",
+     "Màu sắc: Đen, Xanh Navy, Xanh đen, Xám nhạt, Xanh ngọc, Cam đào, Hồng nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BLK"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__NAV"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__CGR"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__HEATHER-GREY"
+    },
+    {
+     "color_id": "BEAN",
+     "color_name_vi": "xanh ngọc",
+     "color_name_en": "Turquoise",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__BEAN"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "Cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__PEAC"
+    },
+    {
+     "color_id": "ORCE",
+     "color_name_vi": "hồng nhạt",
+     "color_name_en": "Light Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__ORCE"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__PQ4W__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/16C-7kgQRpIVLa83L_CwicwZSvnSViWWj/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-SL201",
+   "style_code_as_written": "MPOLO - SL201",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "SLUB20",
+   "name": {
+    "en": "The Men's 100% Cotton Polo Shirt MPOLO-SL201",
+    "vi": "Áo Polo nam 100% Cotton MPOLO-SL201"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Polo collar",
+     "13 cm deep 3-button placket",
+     "Short sleeves",
+     "Straight fit",
+     "2 cm side vents"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ Polo",
+     "Cô 3 nút sâu 13 cm",
+     "Tay ngắn",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 2 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's 100% Cotton Polo Shirt (MPOLO-SL201) delivers natural breathability and a warm, masculine color palette.",
+     "Woven from 100% pure cotton with a crisp, smooth texture for superior sweat absorption and structured drape.",
+     "Features a 13 cm 3-button polo collar, unbanded Short sleeves for relaxed shoulder and arm mobility, and a straight body with 2 cm side vents.",
+     "Colors: Stone Grey, Terracotta Orange, Black, Dark Blue, White, Khaki, Dusty Rose."
+    ],
+    "vi": [
+     "Áo Polo nam 100% Cotton MPOLO-SL201 đem lại cảm giác mộc mạc, thoáng mát tự nhiên cùng bảng màu trầm ấm, nam tính.",
+     "100% Cotton nguyên chất, thấm hút mồ hôi vượt trội, bề mặt vải đanh mịn và đứng dáng.",
+     "Cổ bẻ 3 nút cài (dài 13 cm), Tay ngắn suông không bo tạo sự thoải mái cho phần vai và bắp tay, thân suông xẻ tà hai bên hông (2 cm).",
+     "Màu sắc: Xám đá, Cam đất, Đen, Xanh đen, Trắng, Kaki, Hồng đất."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "QGRA",
+     "color_name_vi": "xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__QGRA"
+    },
+    {
+     "color_id": "BRI",
+     "color_name_vi": "cam đất",
+     "color_name_en": "Terracotta Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__BRI"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__BLK"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__CGR"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__WHT"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__KAK"
+    },
+    {
+     "color_id": "MVE",
+     "color_name_vi": "hồng đất",
+     "color_name_en": "Dusty Rose",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__MVE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1nEPb1TgrNQv87QrYn1HNPk20N6x2phdX/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MPOLO-SL203",
+   "style_code_as_written": "MPOLO - SL203",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "SLUB20",
+   "name": {
+    "en": "The Men's 100% Cotton Zip Polo Shirt MPOLO-SL203",
+    "vi": "Áo Polo nam 100% Cotton phối khóa kéo MPOLO-SL203"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Polo collar",
+     "13 cm deep mirror-finish zipper placket",
+     "Short sleeves",
+     "Straight fit",
+     "3 cm side vents"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ polo",
+     "Dây kéo tráng gương sâu 13 cm",
+     "Tay ngắn",
+     "Thân suông",
+     "Xẻ tà 2 bên sườn 3 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's 100% Cotton Zip Polo Shirt (MPOLO-SL203) offers a bold, youthful look with a polished zipper set against natural cotton fabric.",
+     "Made from 100% breathable, fast-absorbing cotton suited for hot and humid climates.",
+     "Styled with a polo collar, a 13 cm mirror-finish zipper, roomy unbanded Short sleeves, and a straight body with 3 cm side vents.",
+     "Colors: Stone Grey, Terracotta Orange, Black, Dark Blue, White, Khaki, Dusty Rose."
+    ],
+    "vi": [
+     "Áo Polo nam 100% Cotton phối khóa kéo MPOLO-SL203 trẻ trung và cá tính với điểm nhấn khóa kéo sáng bóng trên nền vải sợi bông tự nhiên.",
+     "100% Cotton thoáng mát, thấm hút nhanh, rất phù hợp với thời tiết nóng ẩm.",
+     "Cổ bẻ phối khóa kéo tráng gương sáng bóng (dài 13 cm); Tay ngắn suông rộng rãi, thân suông kèm xẻ tà hai bên hông (3 cm).",
+     "Màu sắc: Xám đá, Cam đất, Đen, Xanh đen, Trắng, Kaki, Hồng đất."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "QGRA",
+     "color_name_vi": "xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__QGRA"
+    },
+    {
+     "color_id": "BRI",
+     "color_name_vi": "cam đất",
+     "color_name_en": "Terracotta Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__BRI"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__BLK"
+    },
+    {
+     "color_id": "CGR",
+     "color_name_vi": "xanh đen",
+     "color_name_en": "Dark Blue",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__CGR"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__WHT"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__KAK"
+    },
+    {
+     "color_id": "MVE",
+     "color_name_vi": "hồng đất",
+     "color_name_en": "Dusty Rose",
+     "is_prototype_color": false,
+     "swatch_key": "SW__SLUB20__MVE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1QWEtUwdK2D7tkJLkN4bMc3SxOJFs0mB6/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MLPA82",
+   "style_code_as_written": "MLPA82",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Long Pants",
+   "category_vi": "Quần dài",
+   "fabric_id": "A82",
+   "name": {
+    "en": "The Men's Straight-Leg Trouser Pants MLPA82",
+    "vi": "Quần tây nam ống đứng MLPA82"
+   },
+   "features": {
+    "en": [
+     "95% Rayon Polyester, 5% Spandex",
+     "Full-length relaxed straight-leg trouser pants",
+     "Medium-width waistband with belt loops",
+     "Button and zip fly closure",
+     "4-pocket design (2 piped side slant pockets, 2 back pockets)",
+     "2 button-through back pockets"
+    ],
+    "vi": [
+     "95% rayon polyester, 5% spandex",
+     "Dáng quần tây dài ống đứng hơi suông",
+     "Cạp quần bản vừa, có đĩa",
+     "Nút cài và nẹp khóa kéo",
+     "Thiết kế 4 túi (2 túi xéo hông có viền, 2 túi mông)",
+     "2 túi mông có nút cài"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Straight-Leg Trouser Pants (MLPA82) boast a classic cut that elongates the legs for a sharp look at the office or formal events.",
+     "Crafted from 95% Rayon Polyester and 5% Spandex for a smooth texture, fluid drape, wrinkle resistance, and comfortable stretch.",
+     "Cut in a relaxed straight-leg silhouette with a medium-width belted waistband and a secure button-and-zip fly closure.",
+     "Equipped with 4 functional pockets, including 2 piped side slant pockets and 2 button-through back pockets.",
+     "Colors: Black, Smoke Grey, Stone Grey, Beige."
+    ],
+    "vi": [
+     "Quần tây nam ống đứng MLPA82 sở hữu phom dáng chuẩn mực, giúp đôi chân trông thẳng và dài hơn, mang lại vẻ lịch lãm nơi công sở hay các sự kiện quan trọng.",
+     "95% Rayon Polyester pha 5% Spandex có bề mặt vải mịn mượt, độ rủ đẹp, chống nhăn tốt và co giãn nhẹ khi ngồi hoặc di chuyển.",
+     "Dáng quần dài ống đứng hơi suông dễ mặc, lưng quần bản vừa có đỉa đeo thắt lưng, nút cài và khóa kéo chắc chắn.",
+     "Quần có 4 túi tiện dụng: 2 túi xéo bên hông may viền tinh tế và 2 túi sau có nút cài an toàn.",
+     "Màu sắc: Đen, Xám khói, Xám đá, Be."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BLK"
+    },
+    {
+     "color_id": "GRY-2",
+     "color_name_vi": "Xám khói",
+     "color_name_en": "Smoke Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-2"
+    },
+    {
+     "color_id": "GRY-1",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-1"
+    },
+    {
+     "color_id": "BE",
+     "color_name_vi": "BE",
+     "color_name_en": "Beige",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1h3v9rqn76HouwTJI9PqwMmdIECzEHNQf/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MLPA28",
+   "style_code_as_written": "MLPA28",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Long Pants",
+   "category_vi": "Quần dài",
+   "fabric_id": "A28",
+   "name": {
+    "en": "The Men's Straight-Leg Trouser Pants MLPA28",
+    "vi": "Quần tây nam ống đứng MLPA28"
+   },
+   "features": {
+    "en": [
+     "75% Polyester, 20% Rayon, 5% Spandex",
+     "Full-length relaxed straight-leg trouser pants",
+     "Medium-width waistband with belt loops",
+     "Button and zip fly closure",
+     "4-pocket design (2 side slant pockets, 2 back pockets)",
+     "2 button-through back pockets"
+    ],
+    "vi": [
+     "75% polyester, 20% rayon, 5% spandex",
+     "Dáng quần tây dài ống đứng hơi suông",
+     "Cạp quần bản vừa, có đỉa",
+     "Nút cài và nẹp khóa kéo",
+     "Thiết kế 4 túi (2 túi xéo hông, 2 túi mông)",
+     "2 túi mông có nút cài"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Straight-Leg Trouser Pants (MLPA28) are durable office trousers that stay crisp and wrinkle-free throughout busy workdays.",
+     "Blended from 75% Polyester, 20% Rayon, and 5% Spandex for structured shape retention, dust resistance, lasting color, and 5% stretch.",
+     "Features a neat relaxed straight-leg cut, a medium-width waistband with belt loops, a button-and-zip closure, 2 side slant pockets, and 2 buttoned back pockets.",
+     "Colors: Black, Khaki, Navy, Grey."
+    ],
+    "vi": [
+     "Quần tây nam ống đứng MLPA28 là mẫu quần công sở bền đẹp, giữ nếp phẳng phiu suốt ngày dài làm việc mà không lo nhăn nhàu.",
+     "75% Polyester, 20% Rayon, 5% Spandex giúp quần đứng dáng, ít bám bụi, giữ màu bền lâu và có độ co giãn 5% tạo sự thoải mái.",
+     "Phom ống đứng hơi suông gọn gàng, lưng quần bản vừa có đỉa đeo thắt lưng, nút cài và khóa kéo, gồm 2 túi xéo bên hông và 2 túi sau đính nút cài.",
+     "Màu sắc: Đen, Kaki, Xanh Navy, Xám."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__BLK"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "Kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__KAK"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__NAV"
+    },
+    {
+     "color_id": "SGR",
+     "color_name_vi": "xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__SGR"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1mBFua5QpUnwgf53f8RhKdrN2o3XxMl2t/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MLPA29",
+   "style_code_as_written": "MLPA29",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Long Pants",
+   "category_vi": "Quần dài",
+   "fabric_id": "A29",
+   "name": {
+    "en": "The Men's Straight-Leg Trouser Pants MLPA29",
+    "vi": "Quần tây nam ống đứng MLPA29"
+   },
+   "features": {
+    "en": [
+     "75% Polyester, 20% Rayon, 5% Spandex",
+     "Full-length relaxed straight-leg trouser pants",
+     "Medium-width waistband with belt loops",
+     "Button and zip fly closure",
+     "4-pocket design (2 S-shaped side pockets, 2 back pockets)"
+    ],
+    "vi": [
+     "75% polyester, 20% rayon, 5% spandex",
+     "Dáng quần tây dài ống đứng hơi suông",
+     "Cạp quần bản vừa, có đỉa",
+     "Nút cài và nẹp khóa kéo",
+     "Thiết kế 4 túi (2 túi S hông, 2 túi mông)"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Straight-Leg Trouser Pants (MLPA29) introduce a refined sartorial touch with softly curved front pocket openings.",
+     "Made of 75% Polyester, 20% Rayon, and 5% Spandex for durable crease retention, wrinkle resistance, and gentle stretch.",
+     "Tailored in a full-length relaxed straight-leg fit with a medium-width belted waistband and a button-and-zip fly closure.",
+     "Designed with 4 pockets, featuring 2 distinctive S-curved front pockets and 2 back pockets.",
+     "Colors: Black, Khaki, Navy, Grey."
+    ],
+    "vi": [
+     "Quần tây nam ống đứng MLPA29 tạo điểm nhấn khác biệt và tinh tế nhờ phần miệng túi trước được cắt lượn cong mềm mại.",
+     "75% Polyester, 20% Rayon, 5% Spandex bền bỉ, giữ phom ống quần thẳng đẹp, ít nhăn và co giãn nhẹ nhàng.",
+     "Dáng quần tây dài ống đứng hơi suông, lưng quần bản vừa có đỉa đeo thắt lưng, nút cài và khóa kéo.",
+     "Trang bị 4 túi gồm 2 túi trước lượn chữ S độc đáo và 2 túi sau.",
+     "Màu sắc: Đen, Kaki, Xanh Navy, Xám."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A29__BLK"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "Kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A29__KAK"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A29__NAV"
+    },
+    {
+     "color_id": "SGR",
+     "color_name_vi": "xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A29__SGR"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1NyfXDGJQSuwBEbdDBAU6dWYakua8_J1E/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MSPA28",
+   "style_code_as_written": "MSPA28",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Shorts",
+   "category_vi": "Quần short",
+   "fabric_id": "A28",
+   "name": {
+    "en": "The Men's Straight-Leg Shorts Pant MSPA28",
+    "vi": "Quần short nam ống đứng MSPA28"
+   },
+   "features": {
+    "en": [
+     "75% Polyester, 20% Rayon, 5% Spandex",
+     "Straight-leg shorts, standard waistband with belt loops",
+     "Button and zip fly closure",
+     "4 pockets (2 side slant pockets, 2 back pockets)"
+    ],
+    "vi": [
+     "75% polyester, 20% rayon, 5% spandex",
+     "Quần short ống đứng, cạp thường có đỉa",
+     "Nút cài và nẹp khóa kéo",
+     "4 túi (2 túi xéo hông, 2 túi mông)"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Straight-Leg Shorts Pant (MSPA28) provide a neat, polished yet youthful look for weekend strolls, travel, or casual coffee dates.",
+     "Constructed from 75% Polyester, 20% Rayon, and 5% Spandex for a smooth, structured finish that resists wrinkles and stretches comfortably.",
+     "Cut in a well-proportioned straight-leg short silhouette with belt loops and a button-and-zip fly closure.",
+     "Includes 4 practical pockets: 2 side slant pockets and 2 back pockets.",
+     "Colors: Black, Khaki, Navy, Grey."
+    ],
+    "vi": [
+     "Quần short tây nam ống đứng MSPA28 mang lại diện mạo gọn gàng, lịch sự nhưng vẫn trẻ trung cho những buổi dạo phố, du lịch hay cà phê cuối tuần.",
+     "75% Polyester, 20% Rayon, 5% Spandex đứng dáng, bề mặt vải phẳng mịn, hạn chế nhăn và co giãn dễ chịu.",
+     "Dáng quần short ống đứng vừa vặn, lưng quần có đỉa đeo thắt lưng, nút cài và khóa kéo",
+     "Tích hợp 4 túi tiện lợi gồm 2 túi xéo bên hông, 2 túi sau.",
+     "Màu sắc: Đen, Kaki, Xanh Navy, Xám."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__BLK"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "Kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__KAK"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__NAV"
+    },
+    {
+     "color_id": "SGR",
+     "color_name_vi": "xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A28__SGR"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1mEB6CqMXkM-GTWUFcv8SCu2sFN-fN3GR/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "MSPK03",
+   "style_code_as_written": "MSPK03",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Men",
+   "category_en": "Shorts",
+   "category_vi": "Quần short",
+   "fabric_id": "K03",
+   "name": {
+    "en": "The Men's Straight-Leg Khaki Shorts Pant MSPK03",
+    "vi": "Quần short kaki nam ống đứng MSPK03"
+   },
+   "features": {
+    "en": [
+     "95% Cotton, 5% Spandex",
+     "Straight-leg shorts, standard waistband with belt loops",
+     "Button and zip fly closure",
+     "4 pockets (2 side slant pockets, 2 back pockets)"
+    ],
+    "vi": [
+     "95% cotton, 5% spandex",
+     "Quần short ống đứng, cạp thường có đĩa",
+     "Nút cài và nẹp khóa kéo",
+     "4 túi (2 túi xéo hông, 2 túi mông)"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Men's Straight-Leg Khaki Shorts Pant (MSPK03) are rugged and breathable, making them an ideal choice for outdoor activities and daily wear.",
+     "Blended from 95% Cotton and 5% Spandex for a substantial, sweat-absorbent feel that stays soft on skin and stretches with movement.",
+     "Features an active straight-leg fit, a belted waistband with a sturdy button-and-zip fly, and 4 roomy pockets (2 side slant, 2 back).",
+     "Colors: Black, Olive Green, Navy, Khaki."
+    ],
+    "vi": [
+     "Quần short kaki nam ống đứng MSPK03 khỏe khoắn, thoáng mát, là lựa chọn lý tưởng cho các hoạt động ngoài trời và sinh hoạt hàng ngày.",
+     "95% Cotton pha 5% Spandex dày dặn, thấm hút mồ hôi tốt, mềm mại với làn da và có độ co giãn giúp vận động thoải mái.",
+     "Phom quần ống đứng năng động, lưng quần có đỉa đeo thắt lưng, nút cài và khóa kéo chắc chắn cùng 4 túi rộng rãi (2 túi xéo bên hông, 2 túi sau).",
+     "Màu sắc: Đen, Xanh Olive, Xanh Navy, Kaki."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__K03__BLK"
+    },
+    {
+     "color_id": "OLV",
+     "color_name_vi": "Xanh olive",
+     "color_name_en": "Olive Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__K03__OLV"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__K03__NAV"
+    },
+    {
+     "color_id": "KAK",
+     "color_name_vi": "kaki",
+     "color_name_en": "Khaki",
+     "is_prototype_color": false,
+     "swatch_key": "SW__K03__KAK"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/11s8mqhSRWf9tQR6SbYGveI_vulo14USZ/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WVNECK-MD",
+   "style_code_as_written": "WVNECK-MD ( MC: WTTV001 )",
+   "previous_style_code": null,
+   "mc_code": "WTTV001",
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Women's Cinched-Waist V-Neck T-Shirt WVNECK-MD",
+    "vi": "Áo thun nữ cổ tim chiết eo WVNECK-MD"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "V-neck",
+     "Short sleeves",
+     "Regular fit with a cinched waist"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ tim",
+     "Tay ngắn",
+     "Thân vừa có bo eo"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Cinched-Waist V-Neck T-Shirt (WVNECK-MD) highlights feminine grace with a flattering V-neckline and a gently contoured waist.",
+     "Crafted from 94% Cotton and 6% Spandex for a silky-cool touch, reliable moisture absorption, and smooth 4-way stretch.",
+     "Combines a neck-lengthening V-collar with fitted short sleeves and subtle waist shaping to accentuate natural curves.",
+     "Colors: Dark Grey, Mint Green, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo thun nữ cổ tim chiết eo WVNECK-MD tôn lên nét nữ tính, duyên dáng với thiết kế cổ chữ V thanh thoát và phom áo ôm nhẹ vùng eo.",
+     "94% Cotton pha 6% Spandex mềm mịn, mát da, thấm hút mồ hôi tốt và co giãn 4 chiều êm ái.",
+     "Cổ tim giúp phần cổ trông cao và thon gọn hơn; tay áo ngắn vừa vặn kết hợp thân áo chiết eo nhẹ nhàng giúp tôn đường cong cơ thể.",
+     "Màu sắc: Xám đậm, Xanh bạc hà, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": true,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1UIMk-vqhnHEmWq5oRORVpaNZUpQ9xtgb/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WTSHIRT-MD1",
+   "style_code_as_written": "WTSHIRT-MD1",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Women's Cropped Slim-Fit T-Shirt WTSHIRT-MD1",
+    "vi": "Áo thun nữ dáng ngắn ôm vừa WTSHIRT-MD1"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Cropped slim fit"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Thân ôm dáng ngắn"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Cropped Slim-Fit T-Shirt (WTSHIRT-MD1) offers a sporty, youthful look that accentuates the waist and elongates the frame when paired with high-rise bottoms.",
+     "Made from 94% Cotton and 6% Spandex with a smooth, highly elastic finish that hugs the body while remaining breathable.",
+     "Styled with a classic crew neck, youthful Short sleeves, and a flattering cropped length.",
+     "Colors: Dark Grey, Mint Green, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo thun nữ dáng ngắn ôm vừa WTSHIRT-MD1 mang phong cách trẻ trung, năng động, giúp tôn vòng eo thon gọn và tạo cảm giác vóc dáng cao ráo hơn khi phối cùng quần hoặc váy lưng cao.",
+     "94% Cotton, 6% Spandex bề mặt mướt mịn, đàn hồi vượt trội, ôm vừa vặn cơ thể mà vẫn thông thoáng, dễ chịu.",
+     "Cổ tròn cơ bản, Tay ngắn trẻ trung, độ dài áo ngắn vừa phải tôn dáng.",
+     "Màu sắc: Xám đậm, Xanh bạc hà, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": true,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1f_GmvJ5-jtAq7nw9O1iwYdKtXUQnuIQs/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WTSHIRT-MD2",
+   "style_code_as_written": "WTSHIRT-MD2",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Women's Trimmed Straight-Fit T-Shirt WTSHIRT-MD2",
+    "vi": "Áo thun nữ dáng suông phối viền WTSHIRT-MD2"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Ribbed crew neck",
+     "Trimmed Short sleeves",
+     "Straight fit",
+     "Trimmed bottom hem"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ bo tròn",
+     "Tay ngắn có viền",
+     "Thân suông",
+     "Tà dưới có viền"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Trimmed Straight-Fit T-Shirt (WTSHIRT-MD2) adds a crisp, refreshing accent with neat binding along the cuffs and bottom hem.",
+     "Blended from 94% Cotton and 6% Spandex for soft breathability, flexible stretch, and lasting shape retention.",
+     "Features a modest crew neck, a tummy-flattering straight silhouette, and coordinated trim along the Short sleeves and lower hem.",
+     "Colors: Dark Grey, Mint Green, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo thun nữ dáng suông phối viền WTSHIRT-MD2 tạo điểm nhấn tinh tế nhờ đường viền chỉn chu ở gấu tay và lai áo, mang lại vẻ ngoài gọn gàng, tươi mới.",
+     "94% Cotton, 6% Spandex mềm mại, thoáng khí, co giãn linh hoạt và giữ phom tốt.",
+     "Cổ tròn kín đáo, phom thân suông thoải mái giúp che khuyết điểm vòng hai, kết hợp Tay ngắn và tà áo dưới được may viền đồng bộ.",
+     "Màu sắc: Xám đậm, Xanh bạc hà, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": true,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1kow85kSTm1QHdC7ZPE5gIEAtq3VsAXlC/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WTSHIRT-CM261",
+   "style_code_as_written": "WTSHIRT-CM261",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM26-F",
+   "name": {
+    "en": "",
+    "vi": ""
+   },
+   "features": {
+    "en": [],
+    "vi": []
+   },
+   "description": {
+    "en": [],
+    "vi": []
+   },
+   "colors": [],
+   "reference_photo": {
+    "type": "none",
+    "value": ""
+   },
+   "source_note": "(Chưa có mẫu)",
+   "data_status": "no_source_data"
+  },
+  {
+   "product_id": "WTSHIRT-CM262",
+   "style_code_as_written": "WTSHIRT-CM262",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM26-F",
+   "name": {
+    "en": "The Women's Cinched-Waist Crew Neck T-Shirt WTSHIRT-CM262",
+    "vi": "Áo thun nữ cổ tròn chiết eo WTSHIRT-CM262"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Regular fit with a cinched waist"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Thân vừa có bo eo"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Cinched-Waist Crew Neck T-Shirt (WTSHIRT-CM262) pairs breathable cotton fabric with a tailored cut for a neat, elegant appearance.",
+     "Made from 100% natural cotton that absorbs moisture quickly and feels gentle against the skin.",
+     "Designed with a classic crew neck, Short sleeves, and a regular fit with subtle waist shaping for flattering, unrestricted comfort.",
+     "Colors: Deep Orange, White, Deep Pink, Black, Grey."
+    ],
+    "vi": [
+     "Áo thun nữ cổ tròn chiết eo WTSHIRT-CM262 kết hợp chất vải sợi bông thoáng mát cùng phom dáng vừa vặn, mang lại vẻ ngoài gọn gàng, thanh lịch.",
+     "100% Cotton tự nhiên, thấm hút mồ hôi nhanh, êm dịu với làn da.",
+     "Cổ tròn cơ bản, Tay ngắn trẻ trung, thân áo ôm vừa có nhấn eo nhẹ giúp tôn dáng mà vẫn thoải mái khi vận động.",
+     "Màu sắc: Cam đậm, Trắng, Hồng đậm, Đen, Xám."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "CRT",
+     "color_name_vi": "cam đậm",
+     "color_name_en": "Deep Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__CRT"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "Trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__WHT"
+    },
+    {
+     "color_id": "RAS",
+     "color_name_vi": "hồng đậm",
+     "color_name_en": "Deep Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__RAS"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__BLK"
+    },
+    {
+     "color_id": "GRY",
+     "color_name_vi": "xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__GRY"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/19_SQd06TEY0199t3nhNHPWBFscRmuoUR/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WVNECK-CM26",
+   "style_code_as_written": "WVNECK-CM26",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM26-F",
+   "name": {
+    "en": "The Women's Cinched-Waist V-Neck T-Shirt WVNECK-CM26",
+    "vi": "Áo thun nữ cổ tim bo eo WVNECK-CM26"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "V-neck",
+     "Short sleeves",
+     "Regular fit with a cinched waist"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ tim",
+     "Tay ngắn",
+     "Thân vừa có bo eo"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Cinched-Waist V-Neck T-Shirt (WVNECK-CM26) combines airy cotton comfort with a contoured fit for effortless everyday elegance.",
+     "Woven from 100% natural cotton for fast sweat absorption and skin-soothing softness.",
+     "Features an open V-neckline, Short sleeves, and a waist-cinched regular silhouette that flatters the figure while allowing easy movement.",
+     "Colors: Deep Orange, White, Deep Pink, Black, Grey."
+    ],
+    "vi": [
+     "Áo thun nữ cổ tim bo eo WVNECK-CM26 kết hợp chất vải sợi bông thoáng mát cùng phom dáng vừa vặn, mang lại vẻ ngoài gọn gàng, thanh lịch.",
+     "100% Cotton tự nhiên, thấm hút mồ hôi nhanh, êm dịu với làn da.",
+     "Cổ tim thanh thoát, Tay ngắn trẻ trung, thân áo ôm vừa có bo eo giúp tôn dáng mà vẫn thoải mái khi vận động.",
+     "Màu sắc: Cam đậm, Trắng, Hồng đậm, Đen, Xám."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "CRT",
+     "color_name_vi": "cam đậm",
+     "color_name_en": "Deep Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__CRT"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "Trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__WHT"
+    },
+    {
+     "color_id": "RAS",
+     "color_name_vi": "hồng đậm",
+     "color_name_en": "Deep Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__RAS"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__BLK"
+    },
+    {
+     "color_id": "GRY",
+     "color_name_vi": "xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM26-F__GRY"
+    }
+   ],
+   "reference_photo": {
+    "type": "not_taken",
+    "value": "ảnh chưa chụp"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WTSHIRT-CM402",
+   "style_code_as_written": "WTSHIRT-CM402",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM40",
+   "name": {
+    "en": "The Women's Oversized T-Shirt WTSHIRT-CM402",
+    "vi": "Áo thun nữ Oversize WTSHIRT-CM402"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Longline straight fit, oversized silhouette",
+     "Raised neckband"
+    ],
+    "vi": [
+     "100% cotton",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Thân suông dài, form oversize",
+     "Nẹp cổ nổi"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Oversized T-Shirt (WTSHIRT-CM402) delivers a bold, laid-back streetwear vibe suited for casual outings, travel, or group activities.",
+     "Constructed from substantial 100% cotton that absorbs sweat well and maintains a structured drape for the oversized silhouette.",
+     "Styled with a raised crew neckband, Short sleeves, and a longline, roomy straight cut for maximum coverage and comfort.",
+     "Colors: Navy, Yellow, White, Stone Grey, Peach, Black."
+    ],
+    "vi": [
+     "Áo thun nữ phom rộng (Oversize) WTSHIRT-CM402 mang phong cách phóng khoáng, cá tính, cực kỳ thoải mái cho những buổi dạo phố, du lịch hay hoạt động ngoại khóa.",
+     "100% Cotton dày dặn, thấm hút mồ hôi tốt và giữ được độ đứng phom đẹp mắt cho dáng áo rộng.",
+     "Cổ tròn phối viền nẹp cổ nổi khỏe khoắn; Tay ngắn kết hợp thân áo suông dài rộng rãi, che khuyết điểm cơ thể tối đa.",
+     "Màu sắc: Xanh Navy, Vàng, Trắng, Xám đá, Cam đào, Đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "NAV",
+     "color_name_vi": " Xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__NAV"
+    },
+    {
+     "color_id": "BUYE",
+     "color_name_vi": "vàng",
+     "color_name_en": "Yellow",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__BUYE"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__WHT"
+    },
+    {
+     "color_id": "QGRA",
+     "color_name_vi": "xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__QGRA"
+    },
+    {
+     "color_id": "PEAC",
+     "color_name_vi": "Cam đào",
+     "color_name_en": "Peach",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__PEAC"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM40__BLK"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1LXlm5UmC-zE-alqoklhccfsvI5GcwSax/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WTSHIRT-L",
+   "style_code_as_written": "WTSHIRT-L ( MC: WTTL001 )",
+   "previous_style_code": null,
+   "mc_code": "WTTL001",
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM30",
+   "name": {
+    "en": "The Women's Cinched-Waist Long-Sleeve T-Shirt WTSHIRT-L",
+    "vi": "Áo thun nữ tay dài chiết eo WTSHIRT-L"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Ribbed crew neck",
+     "Long sleeves",
+     "Regular fit with a cinched waist"
+    ],
+    "vi": [
+     "100% Cotton",
+     "Cổ bo tròn",
+     "Tay dài",
+     "Thân vừa có bo eo"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Cinched-Waist Long-Sleeve T-Shirt (WTSHIRT-L) is an ideal layer for breezy weather or air-conditioned offices.",
+     "Made of soft, stretchy knit fabric that provides light warmth while staying breathable.",
+     "Features a classic crew neck, sleek fitted long sleeves, and a gently contoured waist to highlight a balanced silhouette.",
+     "Colors: Olive Green, Cream White, Silver Sage"
+    ],
+    "vi": [
+     "Áo thun nữ tay dài chiết eo WTSHIRT-L là lựa chọn lý tưởng cho những ngày thời tiết se lạnh hoặc khi làm việc trong phòng máy lạnh.",
+     "Vải thun mềm mịn, co giãn êm ái, giữ ấm nhẹ nhàng mà vẫn thông thoáng.",
+     "Cổ tròn cơ bản, tay dài ôm gọn cánh tay, thân áo dáng vừa có chiết eo nhẹ giúp tôn lên vóc dáng cân đối.",
+     "Màu sắc: Xanh ô liu, trắng kem, nâu nhạt"
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "OLIVE-GREEN",
+     "color_name_vi": "Xanh ô liu",
+     "color_name_en": "Olive Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM30__OLIVE-GREEN"
+    },
+    {
+     "color_id": "CREAM-WHITE",
+     "color_name_vi": "Trắng kem",
+     "color_name_en": "Cream White",
+     "is_prototype_color": true,
+     "swatch_key": "SW__CM30__CREAM-WHITE"
+    },
+    {
+     "color_id": "SILVER-SAGE",
+     "color_name_vi": "Nâu nhạt",
+     "color_name_en": "Silver Sage",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM30__SILVER-SAGE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1YXTl5jazZ3Q903_lytiLHUQ1CJfxFBKr/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WTSHIRT1-CM30",
+   "style_code_as_written": "WTSHIRT1 - CM30",
+   "previous_style_code": "WTSHIRT1",
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM30",
+   "name": {
+    "en": "The Women's Regular Straight-Fit T-Shirt WTSHIRT1-CM30",
+    "vi": "Áo thun nữ dáng suông vừa WTSHIRT1-CM30"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Straight fit, regular length"
+    ],
+    "vi": [
+     "100% Cotton",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Thân suông, dáng vừa"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Regular Straight-Fit T-Shirt (WTSHIRT1-CM30) focuses on clean, effortless versatility that flatters every body type.",
+     "Blended from 100% cotton for soft moisture-wicking performance and all-day 4-way stretch comfort.",
+     "Cut with a crew neck, Short sleeves, and a balanced straight fit, neither too loose nor too tight to naturally smooth the waistline.",
+     "Colors: Olive Green, Cream White, Silver Sage"
+    ],
+    "vi": [
+     "Áo thun nữ dáng suông vừa WTSHIRT1-CM30 hướng đến sự đơn giản, thanh lịch và dễ mặc cho mọi vóc dáng.",
+     "100% Cotton mềm mại, thấm hút ẩm tốt, co giãn 4 chiều tạo cảm giác dễ chịu suốt ngày dài.",
+     "Cổ tròn, Tay ngắn, thân áo suông vừa vặn, không quá rộng cũng không bó sát, giúp che khuyết điểm vùng eo một cách tự nhiên.",
+     "Màu sắc: Xanh ô liu, trắng kem, nâu nhạt"
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "OLIVE-GREEN",
+     "color_name_vi": "Xanh ô liu",
+     "color_name_en": "Olive Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM30__OLIVE-GREEN"
+    },
+    {
+     "color_id": "CREAM-WHITE",
+     "color_name_vi": "Trắng kem",
+     "color_name_en": "Cream White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM30__CREAM-WHITE"
+    },
+    {
+     "color_id": "SILVER-SAGE",
+     "color_name_vi": "Nâu nhạt",
+     "color_name_en": "Silver Sage",
+     "is_prototype_color": true,
+     "swatch_key": "SW__CM30__SILVER-SAGE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/19hayqpZsaUOpzuCt2v56zTEI7Ahf2-XL/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WTSHIRT2",
+   "style_code_as_written": "WTSHIRT2",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "T-Shirt",
+   "category_vi": "Áo thun",
+   "fabric_id": "CM30",
+   "name": {
+    "en": "The Women's Relaxed Crop Top WTSHIRT2",
+    "vi": "Áo thun nữ dáng Croptop WTSHIRT2"
+   },
+   "features": {
+    "en": [
+     "100% Cotton",
+     "Ribbed crew neck",
+     "Short sleeves",
+     "Relaxed-fit crop top"
+    ],
+    "vi": [
+     "100% Cotton",
+     "Cổ bo tròn",
+     "Tay ngắn",
+     "Croptop, dáng suông"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Relaxed Crop Top (WTSHIRT2) brings a fresh, modern look that pairs effortlessly with high-waisted pants or skirts to visually lengthen the legs.",
+     "Crafted from 100% cotton for a cool, smooth touch, resilient stretch, and shape retention.",
+     "Combines a crew neck and Short sleeves with an airy, relaxed cropped body that never feels restrictive around the midsection.",
+     "Colors: Olive Green, Cream White, Silver Sage"
+    ],
+    "vi": [
+     "Áo thun nữ dáng Croptop WTSHIRT2 mang lại vẻ ngoài trẻ trung, hiện đại, rất dễ phối cùng quần dài hoặc chân váy lưng cao để tạo hiệu ứng đôi chân dài hơn.",
+     "100% cotton mịn mát, đàn hồi tốt và giữ dáng áo đẹp.",
+     "Cổ tròn, Tay ngắn kết hợp thân áo dáng ngắn suông rộng vừa phải, thoáng mát và không gây gò bó vùng bụng.",
+     "Màu sắc: Xanh ô liu, trắng kem, nâu nhạt"
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "OLIVE-GREEN",
+     "color_name_vi": "Xanh ô liu",
+     "color_name_en": "Olive Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM30__OLIVE-GREEN"
+    },
+    {
+     "color_id": "CREAM-WHITE",
+     "color_name_vi": "Trắng kem",
+     "color_name_en": "Cream White",
+     "is_prototype_color": true,
+     "swatch_key": "SW__CM30__CREAM-WHITE"
+    },
+    {
+     "color_id": "SILVER-SAGE",
+     "color_name_vi": "Nâu nhạt",
+     "color_name_en": "Silver Sage",
+     "is_prototype_color": false,
+     "swatch_key": "SW__CM30__SILVER-SAGE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1zshvuqJFvsJY9SkekMC71cj9250474QY/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WPOLO-MD1",
+   "style_code_as_written": "WPOLO-MD1",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "MODAL-M",
+   "name": {
+    "en": "The Women's Slim-Fit Zip Polo Shirt WPOLO-MD1",
+    "vi": "Áo Polo nữ dáng ôm phối khóa kéo WPOLO-MD1"
+   },
+   "features": {
+    "en": [
+     "94% Cotton, 6% Spandex",
+     "Polo collar",
+     "21 cm metal zipper",
+     "Three-quarter sleeves",
+     "Slim fit"
+    ],
+    "vi": [
+     "94% cotton, 6% spandex",
+     "Cổ POLO",
+     "Dây kéo kim loại sâu 21 cm",
+     "Tay ngắn",
+     "Thân ôm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Slim-Fit Zip Polo Shirt (WPOLO-MD1) accentuates a sporty, alluring, and contemporary feminine silhouette.",
+     "Blended from 94% Cotton and 6% Spandex for a silky-cool feel and high elasticity that contours the body without restricting movement.",
+     "Features a polo collar with a 21 cm polished metal zipper for adjustable neckline styling, elegant short sleeves combine with a figure-flattering slim fit.",
+     "Colors: Dark Grey, Mint, Charcoal Grey, Slate Blue-Grey, Navy, Black, Light Grey, White."
+    ],
+    "vi": [
+     "Áo Polo nữ dáng ôm phối khóa kéo WPOLO-MD1 tôn lên đường nét quyến rũ, khỏe khoắn và hiện đại của phái đẹp.",
+     "94% Cotton, 6% Spandex mềm mướt, mát da, độ co giãn cao giúp áo ôm vừa vặn theo cơ thể mà vẫn cử động linh hoạt.",
+     "Cổ bẻ phối khóa kéo kim loại sáng bóng (dài 21 cm) giúp người mặc dễ dàng điều chỉnh độ mở vùng cổ theo sở thích.",
+     "Tay ngắn thanh lịch kết hợp phom áo ôm tôn dáng.",
+     "Màu sắc: Xám đậm, Xanh mint, Xám chuột, Xám xanh, Xanh Navy, Đen, Xám nhạt, Trắng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "HGRY",
+     "color_name_vi": "xám đậm",
+     "color_name_en": "Dark Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HGRY"
+    },
+    {
+     "color_id": "B7901",
+     "color_name_vi": "xanh mint",
+     "color_name_en": "Mint",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B7901"
+    },
+    {
+     "color_id": "BC14",
+     "color_name_vi": "xám chuột",
+     "color_name_en": "Charcoal Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__BC14"
+    },
+    {
+     "color_id": "B8385",
+     "color_name_vi": "xám xanh",
+     "color_name_en": "Slate Blue-Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__B8385"
+    },
+    {
+     "color_id": "NAV",
+     "color_name_vi": "xanh navy",
+     "color_name_en": "Navy",
+     "is_prototype_color": true,
+     "swatch_key": "SW__MODAL-M__NAV"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": true,
+     "swatch_key": "SW__MODAL-M__BLK"
+    },
+    {
+     "color_id": "HEATHER-GREY",
+     "color_name_vi": "xám nhạt",
+     "color_name_en": "Light Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__HEATHER-GREY"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-M__WHT"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1gaUySkHrRHhOMuWPJzBdMr7Di-EsK-Jq/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WPOLO-MD2",
+   "style_code_as_written": "WPOLO-MD2",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "MODAL-F",
+   "name": {
+    "en": "The Women's 5-Button Polo Shirt WPOLO-MD2",
+    "vi": "Áo Polo nữ cổ 5 nút WPOLO-MD2"
+   },
+   "features": {
+    "en": [
+     "94% Cotton Modal, 6% Spandex",
+     "Polo collar",
+     "16 cm deep 5-button placket",
+     "Short sleeves",
+     "Regular fit with a cinched waist",
+     "5 cm side vents"
+    ],
+    "vi": [
+     "94% cotton modal, 6% spandex",
+     "Cổ polo",
+     "Cổ 5 nút, sâu 16 cm",
+     "Tay ngắn",
+     "Thân vừa có bo eo",
+     "Xẻ tà 2 bên sườn 5 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's 5-Button Polo Shirt (WPOLO-MD2) exudes soft, feminine charm with a vertical button placket and fresh color tones.",
+     "Made from an ultra-soft 94% Cotton Modal and 6% Spandex blend that feels featherlight, breathable, and fast-absorbing.",
+     "Detailed with a graceful 16 cm 5-button polo placket, Short sleeves, and a gently waist-cinched regular fit with 5 cm side vents for hip comfort.",
+     "Colors: Purple, Pink, Yellow."
+    ],
+    "vi": [
+     "Áo Polo nữ cổ 5 nút WPOLO-MD2 mang nét đẹp dịu dàng, nữ tính với hàng nút đính dọc tinh tế và tông màu tươi tắn.",
+     "94% Cotton Modal pha 6% Spandex siêu mềm mịn, bề mặt vải mướt nhẹ, thoáng khí và thấm hút mồ hôi nhanh.",
+     "Cổ bẻ phối nẹp 5 nút cài (dài 16 cm) duyên dáng.",
+     "Tay ngắn, thân áo vừa vặn có chiết eo nhẹ kèm đường xẻ tà 5 cm ở hai bên hông giúp áo ôm nhẹ phần hông mà không bị căng chật.",
+     "Màu sắc: Tím, Hồng, Vàng."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "B5650",
+     "color_name_vi": "Tím",
+     "color_name_en": "Purple",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-F__B5650"
+    },
+    {
+     "color_id": "B1045",
+     "color_name_vi": "Hồng",
+     "color_name_en": "Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-F__B1045"
+    },
+    {
+     "color_id": "B3404",
+     "color_name_vi": "Vàng",
+     "color_name_en": "Yellow",
+     "is_prototype_color": false,
+     "swatch_key": "SW__MODAL-F__B3404"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/16cEOOfrAb8Wi83IP66UGWs5zLYgjDTA4/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WPOLO-YD1",
+   "style_code_as_written": "WPOLO-YD1",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "YODY-F",
+   "name": {
+    "en": "The Women's Slim-Fit 5-Button Polo Shirt WPOLO-YD1",
+    "vi": "Áo Polo nữ dáng ôm cổ 5 nút WPOLO-YD1"
+   },
+   "features": {
+    "en": [
+     "50% Polyester, 45% Cotton, 5% Spandex",
+     "Polo collar",
+     "20 cm deep 5-button placket",
+     "Short sleeves",
+     "Slim fit",
+     "5 cm deep side vents"
+    ],
+    "vi": [
+     "50% Polyester, 45% cotton, 5% spandex",
+     "Cổ polo",
+     "5 nút, cổ sâu 20cm",
+     "Tay ngắn",
+     "Dáng ôm",
+     "Xẻ tà 2 bên sườn sâu 5 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Slim-Fit 5-Button Polo Shirt (WPOLO-YD1) pairs a sleek contoured silhouette with an elongated placket for work, leisure, or light sports.",
+     "Constructed from 50% Polyester, 45% Cotton, and 5% Spandex for colorfast durability, wrinkle resistance, and breathable stretch.",
+     "Features a 20 cm 5-button polo collar, Short sleeves, a curve-hugging slim cut, and 5 cm side vents for unrestricted movement.",
+     "Colors: Deep Pink, Brown, White, Green, Mauve Pink, Grey, Pastel Orange, Deep Orange, Black."
+    ],
+    "vi": [
+     "Áo Polo nữ dáng ôm cổ 5 nút WPOLO-YD1 kết hợp phom áo ôm gọn gàng cùng phần nẹp cổ dài thanh thoát, phù hợp để mặc đi làm, đi chơi hoặc vận động thể thao nhẹ.",
+     "50% Polyester, 45% Cotton, 5% Spandex giúp áo giữ màu bền đẹp, đứng dáng, ít nhăn mà vẫn đảm bảo độ thoáng mát và co giãn.",
+     "Cổ bẻ đính 5 nút cài (dài 20 cm), Tay ngắn, dáng áo ôm tôn đường cong cơ thể cùng đường xẻ tà hai bên hông (5 cm) thoải mái.",
+     "Màu sắc: Hồng đậm, Nâu, Trắng, Xanh lá, Hồng tím, Xám, Cam sữa, Cam đậm, Đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "RAS",
+     "color_name_vi": "hồng đậm",
+     "color_name_en": "Deep Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__RAS"
+    },
+    {
+     "color_id": "CCL",
+     "color_name_vi": "Nâu",
+     "color_name_en": "Brown",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__CCL"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__WHT"
+    },
+    {
+     "color_id": "JAD",
+     "color_name_vi": "xanh lá",
+     "color_name_en": "Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__JAD"
+    },
+    {
+     "color_id": "PNK",
+     "color_name_vi": "hồng tím",
+     "color_name_en": "Mauve Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__PNK"
+    },
+    {
+     "color_id": "GRY",
+     "color_name_vi": "Xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__GRY"
+    },
+    {
+     "color_id": "MRG",
+     "color_name_vi": "cam sữa",
+     "color_name_en": "Pastel Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__MRG"
+    },
+    {
+     "color_id": "CRT",
+     "color_name_vi": "cam đậm",
+     "color_name_en": "Deep Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__CRT"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__BLK"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1rDVcqddZghdOz2tsWHJy36BEmOGc4jW3/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WPOLO-YD2",
+   "style_code_as_written": "WPOLO-YD2",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Polo Shirt",
+   "category_vi": "Áo polo",
+   "fabric_id": "YODY-F",
+   "name": {
+    "en": "The Women's Contrast-Trim Polo Shirt WPOLO-YD2",
+    "vi": "Áo Polo nữ phối viền cổ WPOLO-YD2"
+   },
+   "features": {
+    "en": [
+     "50% Polyester, 45% Cotton, 5% Spandex",
+     "Polo collar",
+     "18 cm deep placket with contrast inner trim and 3 decorative buttons",
+     "Short sleeves",
+     "Regular fit with a cinched waist",
+     "5 cm deep side vents"
+    ],
+    "vi": [
+     "50% Polyester, 45% cotton, 5% spandex",
+     "Cổ polo",
+     "Cổ phối viền trong, đính 3 nút mẫu, sâu 18cm",
+     "Tay ngắn",
+     "Thân vừa dáng bo eo",
+     "Xẻ tà 2 bên sườn sâu 5 cm"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Contrast-Trim Polo Shirt (WPOLO-YD2) creates a refined, tailored impression with subtle inner placket trim.",
+     "Blended from 50% Polyester, 45% Cotton, and 5% Spandex for lasting color, structured shape retention, wrinkle resistance, and comfortable stretch.",
+     "Styled with an 18 cm contrast-trimmed polo placket with 3 decorative buttons, Short sleeves, a waist-cinched regular fit, and 5 cm side vents.",
+     "Colors: Deep Pink, Brown, White, Green, Mauve Pink, Grey, Pastel Orange, Deep Orange, Black."
+    ],
+    "vi": [
+     "Áo Polo nữ phối viền cổ WPOLO-YD2 tạo điểm nhấn thanh lịch, chỉn chu nhờ đường phối viền tinh tế bên trong nẹp cổ.",
+     "50% Polyester, 45% Cotton, 5% Spandex bền màu, giữ phom chuẩn, hạn chế nhăn nhàu và co giãn dễ chịu.",
+     "Cổ bẻ phối viền trong đính 3 nút kiểu (dài 18 cm), Tay ngắn, thân áo vừa vặn có chiết eo nhẹ kèm xẻ tà hai bên hông (5 cm).",
+     "Màu sắc: Hồng đậm, Nâu, Trắng, Xanh lá, Hồng tím, Xám, Cam sữa, Cam đậm, Đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "RAS",
+     "color_name_vi": "hồng đậm",
+     "color_name_en": "Deep Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__RAS"
+    },
+    {
+     "color_id": "CCL",
+     "color_name_vi": "Nâu",
+     "color_name_en": "Brown",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__CCL"
+    },
+    {
+     "color_id": "WHT",
+     "color_name_vi": "trắng",
+     "color_name_en": "White",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__WHT"
+    },
+    {
+     "color_id": "JAD",
+     "color_name_vi": "xanh lá",
+     "color_name_en": "Green",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__JAD"
+    },
+    {
+     "color_id": "PNK",
+     "color_name_vi": "hồng tím",
+     "color_name_en": "Mauve Pink",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__PNK"
+    },
+    {
+     "color_id": "GRY",
+     "color_name_vi": "Xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__GRY"
+    },
+    {
+     "color_id": "MRG",
+     "color_name_vi": "cam sữa",
+     "color_name_en": "Pastel Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__MRG"
+    },
+    {
+     "color_id": "CRT",
+     "color_name_vi": "cam đậm",
+     "color_name_en": "Deep Orange",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__CRT"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__YODY-F__BLK"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1hk0bc0MVBkP98QEntyGHN3Wc1DbNX8JH/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WBS0001-A82",
+   "style_code_as_written": "WBS0001-A82 (MC: WBS0001 )",
+   "previous_style_code": null,
+   "mc_code": "WBS0001",
+   "gender": "Women",
+   "category_en": "Shorts",
+   "category_vi": "Quần short",
+   "fabric_id": "A82",
+   "name": {
+    "en": "The Women's High-Waisted Cuffed Shorts WBS0001-A82",
+    "vi": "Quần short nữ lưng cao gập gấu WBS0001-A82"
+   },
+   "features": {
+    "en": [
+     "95% Rayon Polyester, 5% Spandex",
+     "Relaxed-fit shorts",
+     "Back zip closure",
+     "High-waisted, flat front",
+     "Center-front topstitching detail",
+     "Medium cuffed hem"
+    ],
+    "vi": [
+     "95% rayon polyester, 5% spandex",
+     "Quần short dáng suông",
+     "Có dây kéo phía sau",
+     "Lưng cao, trơn",
+     "Đi viền chỉ nổi giữa thân",
+     "Gập gấu bản vừa"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's High-Waisted Cuffed Shorts (WBS0001-A82) offer a sleek, elevated design that defines the waist and visually elongates the legs.",
+     "Crafted from 95% Rayon Polyester and 5% Spandex for a smooth, structured finish with wrinkle resistance and gentle stretch.",
+     "Tailored in a flat-front, high-waisted straight fit with a concealed back zipper, sharp center-front pintuck seams, and medium cuffed hems.",
+     "Colors: Black, Smoke Grey, Stone Grey, Beige."
+    ],
+    "vi": [
+     "Quần short nữ lưng cao gập gấu WBS0001-A82 mang thiết kế sang trọng, tinh gọn, giúp tôn vòng eo và tạo hiệu ứng đôi chân thon dài.",
+     "95% Rayon Polyester pha 5% Spandex mềm mịn, đứng dáng, ít nhăn và có độ co giãn nhẹ.",
+     "Quần dáng suông lưng cao phẳng phiu với khóa kéo giấu phía sau; dọc mặt trước quần có đường may ly nổi sắc nét kết hợp phần gấu quần gập bản vừa hiện đại.",
+     "Màu sắc: Đen, Xám khói, Xám đá, Be."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BLK"
+    },
+    {
+     "color_id": "GRY-2",
+     "color_name_vi": "Xám khói",
+     "color_name_en": "Smoke Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-2"
+    },
+    {
+     "color_id": "GRY-1",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-1"
+    },
+    {
+     "color_id": "BE",
+     "color_name_vi": "be",
+     "color_name_en": "Beige",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1gIatBmM_Wz6BVkXVS5owy_CQ3bRDK9rV/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WBS0002-A82",
+   "style_code_as_written": "WBS0002-A82",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Shorts",
+   "category_vi": "Quần short",
+   "fabric_id": "A82",
+   "name": {
+    "en": "The Women's A-Line Shorts WBS0002-A82",
+    "vi": "Quần short nữ dáng chữ A WBS0002-A82"
+   },
+   "features": {
+    "en": [
+     "95% Rayon Polyester, 5% Spandex",
+     "A-line silhouette",
+     "Wide waistband",
+     "Flat front",
+     "Short side slits at the hem",
+     "High-waisted",
+     "Back zip closure"
+    ],
+    "vi": [
+     "95% rayon polyester, 5% spandex",
+     "Dáng quần chữ A",
+     "Cạp bản rộng",
+     "Bề mặt phẳng",
+     "Xẻ ngắn 2 bên gấu",
+     "Lưng cao",
+     "Có dây kéo sau lừng"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's A-Line Shorts (WBS0002-A82) cinch the waist while creating a slimming, comfortable fit around the thighs with slightly flared leg openings.",
+     "Made from 95% Rayon Polyester and 5% Spandex with a smooth, structured surface that resists creasing.",
+     "Designed with a wide, high-rise waistband for lower-tummy control, a concealed back zipper, and an A-line cut accented with short side hem slits.",
+     "Colors: Black, Smoke Grey, Stone Grey, Beige."
+    ],
+    "vi": [
+     "Quần short nữ dáng chữ A WBS0002-A82 giúp ôm gọn vòng eo và tạo sự thoải mái, thon thả cho vùng đùi nhờ thiết kế ống quần hơi xòe nhẹ.",
+     "95% Rayon Polyester, 5% Spandex có bề mặt vải phẳng mịn, đứng phom và rất ít nhăn.",
+     "Lưng quần cao bản rộng giúp che bụng dưới hiệu quả, khóa kéo ẩn phía sau lưng.",
+     "Dáng quần chữ A có điểm nhấn xẻ nhẹ hai bên gấu quần đầy trẻ trung.",
+     "Màu sắc: Đen, Xám khói, Xám đá, Be."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BLK"
+    },
+    {
+     "color_id": "GRY-2",
+     "color_name_vi": "Xám khói",
+     "color_name_en": "Smoke Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-2"
+    },
+    {
+     "color_id": "GRY-1",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-1"
+    },
+    {
+     "color_id": "BE",
+     "color_name_vi": "BE",
+     "color_name_en": "Beige",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1KBBlGAa1wv2Ft3hA8foe0fspuc4JUtV1/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WBS0003-A82",
+   "style_code_as_written": "WBS0003-A82",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Shorts",
+   "category_vi": "Quần short",
+   "fabric_id": "A82",
+   "name": {
+    "en": "The Women's Elastic-Back A-Line Shorts WBS0003-A82",
+    "vi": "Quần short nữ chữ A lưng thun sau WBS0003-A82"
+   },
+   "features": {
+    "en": [
+     "95% Rayon Polyester, 5% Spandex",
+     "A-line silhouette",
+     "Wide waistband with elasticized back",
+     "Button and zip fly closure",
+     "High-waisted"
+    ],
+    "vi": [
+     "95% rayon polyester, 5% spandex",
+     "Dáng quần chữ A",
+     "Cạp bản to, lưng chun phía sau",
+     "Nút cài và nẹp khóa kéo",
+     "Lưng cao"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Elastic-Back A-Line Shorts (WBS0003-A82) combine a tailored trouser front with the flexible comfort of an elasticized back waistband.",
+     "Blended from 95% Rayon Polyester and 5% Spandex for a smooth feel, structured A-line drape, and easy care.",
+     "Features a high-waisted A-line silhouette with a neat front button-and-zip fly and a stretchy back waistband that adapts to your waist.",
+     "Colors: Black, Smoke Grey, Stone Grey, Beige."
+    ],
+    "vi": [
+     "Quần short nữ chữ A lưng thun sau WBS0003-A82 kết hợp vẻ lịch sự của quần tây phía trước với sự co giãn thoải mái của phần lưng thun phía sau.",
+     "95% Rayon Polyester, 5% Spandex mềm mịn, giữ phom chữ A đẹp mắt và dễ dàng bảo quản.",
+     "Dáng chữ A lưng cao, mặt trước có nút cài và khóa kéo chỉn chu, mặt sau phối lưng thun co giãn linh hoạt theo số đo vòng eo.",
+     "Màu sắc: Đen, Xám khói, Xám đá, Be."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BLK"
+    },
+    {
+     "color_id": "GRY-2",
+     "color_name_vi": "Xám khói",
+     "color_name_en": "Smoke Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-2"
+    },
+    {
+     "color_id": "GRY-1",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-1"
+    },
+    {
+     "color_id": "BE",
+     "color_name_vi": "BE",
+     "color_name_en": "Beige",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1kpbUBjFbZBWIZNlIEWcqCN21xi-YwXvm/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WBL0001",
+   "style_code_as_written": "WBL0001",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Long Pants",
+   "category_vi": "Quần dài",
+   "fabric_id": "F76",
+   "name": {
+    "en": "The Women's Slightly Flared Trouser Pants WBL0001",
+    "vi": "Quần tây nữ ống suông loe nhẹ WBL0001"
+   },
+   "features": {
+    "en": [
+     "76% Polyester, 18% Rayon, 6% Spandex",
+     "Slightly flared straight-leg pants",
+     "Medium-width waistband",
+     "Button and zip fly closure",
+     "3 pockets (2 side slant pockets, 1 right back pocket)",
+     "Wide cuffed hem"
+    ],
+    "vi": [
+     "76% Polyester, 18% rayon, 6% spandex",
+     "Quần ống suông loe nhẹ",
+     "Bản lưng vừa",
+     "Nút cài và nẹp khóa kéo",
+     "Có 3 túi (2 túi xéo hông, 1 túi phải mông)",
+     "Gập gấu bản to"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Slightly Flared Trouser Pants (WBL0001) flatter the figure by making the legs look longer and straighter for polished office styling.",
+     "Constructed from 76% Polyester, 18% Rayon, and 6% Spandex for a mid-weight, fluid drape that resists wrinkles and stretches comfortably.",
+     "Cut in a full-length straight silhouette with a subtle lower flare and statement wide cuffed hems.",
+     "Finished with a medium-width waistband, a button-and-zip closure, 2 side slant pockets, and 1 right back pocket.",
+     "Colors: Grey, Black."
+    ],
+    "vi": [
+     "Quần tây nữ ống suông loe nhẹ WBL0001 tôn dáng, giúp đôi chân trông dài và thẳng hơn, mang lại vẻ thanh lịch cho quý cô công sở.",
+     "76% Polyester, 18% Rayon, 6% Spandex dày dặn vừa phải, độ rủ mềm mại, chống nhăn tốt và co giãn thoải mái.",
+     "Phom quần dài ống suông hơi loe nhẹ ở dưới, điểm nhấn gập gấu bản to thời trang.",
+     "Lưng quần bản vừa có nút cài và khóa kéo, gồm 2 túi xéo bên hông và 1 túi sau bên phải.",
+     "Màu sắc: Xám, Đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "FOG",
+     "color_name_vi": "xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__F76__FOG"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__F76__BLK"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1XnAYVyu82Gqrw_5-bAMOaRgl4s9PV-JA/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WBSK001-A82",
+   "style_code_as_written": "WBSK001-A82",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Skort",
+   "category_vi": "Quần váy",
+   "fabric_id": "A82",
+   "name": {
+    "en": "The Women's A-Line Skort WBSK001-A82",
+    "vi": "Quần giả váy nữ dáng chữ A WBSK001-A82"
+   },
+   "features": {
+    "en": [
+     "95% Rayon Polyester, 5% Spandex",
+     "Skort (with asymmetrical wrap front)",
+     "Back zip closure",
+     "2 faux back pockets",
+     "Wide cuffed hem",
+     "Regular A-line silhouette"
+    ],
+    "vi": [
+     "95% rayon polyester, 5% spandex",
+     "Quần short giả váy (có tà xéo phía trước)",
+     "Có dây kéo phía sau",
+     "2 túi giả phía sau",
+     "Gập gấu bản to",
+     "Dáng chữ A vừa"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's A-Line Skort (WBSK001-A82) pairs the feminine charm of a front wrap skirt with built-in shorts for confident, carefree movement.",
+     "Made of 95% Rayon Polyester and 5% Spandex for a smooth, structured, and wrinkle-resistant finish.",
+     "Tailored in a regular A-line silhouette with an asymmetrical wrap front, wide cuffed hems, a concealed back zipper, and 2 flattering faux back pockets.",
+     "Colors: Black, Smoke Grey, Stone Grey, Beige."
+    ],
+    "vi": [
+     "Quần giả váy nữ dáng chữ A WBSK001-A82 mang lại vẻ duyên dáng như một chiếc chân váy ở mặt trước nhưng bên trong là quần short kín đáo, giúp phái đẹp tự tin trong mọi cử động.",
+     "95% Rayon Polyester, 5% Spandex bề mặt mướt mịn, đứng dáng và hạn chế nhăn.",
+     "Phom chữ A vừa vặn với phần tà đắp chéo phía trước tinh tế, gấu quần gập bản to.",
+     "Khóa kéo giấu phía sau lưng kèm 2 túi giả sau mông giúp tôn dáng vòng ba.",
+     "Màu sắc: Đen, Xám khói, Xám đá, Be."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BLK"
+    },
+    {
+     "color_id": "GRY-2",
+     "color_name_vi": "Xám khói",
+     "color_name_en": "Smoke Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-2"
+    },
+    {
+     "color_id": "GRY-1",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-1"
+    },
+    {
+     "color_id": "BE",
+     "color_name_vi": "be",
+     "color_name_en": "Beige",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1adOCm959of_9G1TvsFmKwcD0RwQZyzFb/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WBSK002-A82",
+   "style_code_as_written": "WBSK002-A82",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Skort",
+   "category_vi": "Quần váy",
+   "fabric_id": "A82",
+   "name": {
+    "en": "The Women's Low-Rise Skort WBSK002-A82",
+    "vi": "Quần giả váy nữ lưng thấp WBSK002-A82"
+   },
+   "features": {
+    "en": [
+     "95% Rayon Polyester, 5% Spandex",
+     "Low-rise",
+     "Skort",
+     "Left side zip closure",
+     "1 faux right back pocket",
+     "Wide cuffed hem"
+    ],
+    "vi": [
+     "95% rayon polyester, 5% spandex",
+     "Lưng thấp",
+     "Quần short giả váy",
+     "Có dây kéo phía bên hông trái",
+     "1 túi giả phía sau mông bên phải",
+     "Gập gấu bản to"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's Low-Rise Skort (WBSK002-A82) delivers a trendy, energetic look that pairs effortlessly with cropped tees or slim-fit polo shirts.",
+     "Blended from 95% Rayon Polyester and 5% Spandex for a cool, smooth touch, structured drape, and light stretch.",
+     "Styled as shorts with a skirt-front overlay, a modern low-rise waist, wide cuffed hems, a concealed left-side zipper, and 1 right faux back pocket.",
+     "Colors: Black, Smoke Grey, Stone Grey, Beige."
+    ],
+    "vi": [
+     "Quần giả váy nữ lưng thấp WBSK002-A82 có kiểu dáng trẻ trung, năng động, đặc biệt phù hợp khi phối cùng áo thun dáng ngắn hoặc áo Polo ôm.",
+     "95% Rayon Polyester, 5% Spandex đứng phom, mịn mát và co giãn nhẹ nhàng.",
+     "Kiểu quần short có tà che giả váy phía trước, thiết kế lưng thấp hiện đại, gập gấu bản to; khóa kéo ẩn bên hông trái gọn gàng cùng 1 túi giả phía sau bên phải.",
+     "Màu sắc: Đen, Xám khói, Xám đá, Be."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BLK"
+    },
+    {
+     "color_id": "GRY-2",
+     "color_name_vi": "Xám khói",
+     "color_name_en": "Smoke Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-2"
+    },
+    {
+     "color_id": "GRY-1",
+     "color_name_vi": "Xám đá",
+     "color_name_en": "Stone Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__GRY-1"
+    },
+    {
+     "color_id": "BE",
+     "color_name_vi": "be",
+     "color_name_en": "Beige",
+     "is_prototype_color": false,
+     "swatch_key": "SW__A82__BE"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1vplY57EheEUzZFKRzxeqFdezCCJ8jHL-/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  },
+  {
+   "product_id": "WSP0001",
+   "style_code_as_written": "WSP0001",
+   "previous_style_code": null,
+   "mc_code": null,
+   "gender": "Women",
+   "category_en": "Pleated Skirt",
+   "category_vi": "Váy xếp ly",
+   "fabric_id": "F76",
+   "name": {
+    "en": "The Women's A-Line Pleated Skirt WSP0001",
+    "vi": "Chân váy xếp ly dáng chữ A WSP0001"
+   },
+   "features": {
+    "en": [
+     "76% Polyester, 18% Rayon, 6% Spandex",
+     "Pleated skirt with built-in inner shorts",
+     "High-rise, wide waistband",
+     "Gently flared A-line silhouette"
+    ],
+    "vi": [
+     "76% Polyester, 18% rayon, 6% spandex",
+     "Chân váy xếp ly, bên trong có quần lót",
+     "Cạp cao, bản rộng",
+     "Váy chữ A, xòe nhẹ",
+     "Dây kéo bên hông"
+    ]
+   },
+   "description": {
+    "en": [
+     "The Women's A-Line Pleated Skirt (WSP0001) exudes youthful, sporty energy suited for casual outings, city strolls, or light athletic activities.",
+     "Crafted from 76% Polyester, 18% Rayon, and 6% Spandex to keep knife pleats crisp, wrinkle-resistant, and comfortably stretchy.",
+     "Features a gently flared A-line silhouette with uniform pleats, a wide high-rise waistband, a concealed side zipper, and built-in inner shorts for secure coverage.",
+     "Colors: Grey, Black."
+    ],
+    "vi": [
+     "Chân váy xếp ly dáng chữ A WSP0001 mang vẻ đẹp trẻ trung, năng động, phù hợp để diện đi chơi, dạo phố hay tham gia các hoạt động thể thao nhẹ nhàng.",
+     "76% Polyester, 18% Rayon, 6% Spandex giúp giữ các nếp gấp ly luôn thẳng đẹp, ít nhăn nhàu và có độ co giãn tốt.",
+     "Dáng váy chữ A xòe nhẹ với các đường xếp ly đều đặn; phần lưng cao bản rộng ôm gọn vòng eo, khóa kéo ẩn bên hông và có may sẵn lớp quần lót bảo hộ bên trong kín đáo, an toàn.",
+     "Màu sắc: Xám, Đen."
+    ]
+   },
+   "colors": [
+    {
+     "color_id": "FOG",
+     "color_name_vi": "xám",
+     "color_name_en": "Grey",
+     "is_prototype_color": false,
+     "swatch_key": "SW__F76__FOG"
+    },
+    {
+     "color_id": "BLK",
+     "color_name_vi": "đen",
+     "color_name_en": "Black",
+     "is_prototype_color": false,
+     "swatch_key": "SW__F76__BLK"
+    }
+   ],
+   "reference_photo": {
+    "type": "drive_file",
+    "value": "https://drive.google.com/file/d/1eNbnCSCe9LN809FR3z-CjCphBc1G036y/view"
+   },
+   "source_note": null,
+   "data_status": "complete"
+  }
+ ],
+ "fabrics": [
+  {
+   "fabric_id": "A82",
+   "swatchbook_name": "A82",
+   "hop_quy_name": "A82 (ZARA)",
+   "content": "95% Rayon-Poly, 5% Spandex",
+   "gsm": "330",
+   "width": "152CM",
+   "swatchbook_pdf_page": 2,
+   "n_colors": 4,
+   "colors": [
+    "BLK",
+    "GRY-2",
+    "GRY-1",
+    "BE"
+   ],
+   "used_by": [
+    "MLPA82",
+    "WBS0001-A82",
+    "WBS0002-A82",
+    "WBS0003-A82",
+    "WBSK001-A82",
+    "WBSK002-A82"
+   ]
+  },
+  {
+   "fabric_id": "A28",
+   "swatchbook_name": "A28",
+   "hop_quy_name": "A28",
+   "content": "75% Poly, 20% rayon, 5% spandex",
+   "gsm": "245-250",
+   "width": "1M50",
+   "swatchbook_pdf_page": 3,
+   "n_colors": 4,
+   "colors": [
+    "BLK",
+    "KAK",
+    "NAV",
+    "SGR"
+   ],
+   "used_by": [
+    "MLPA28",
+    "MSPA28"
+   ]
+  },
+  {
+   "fabric_id": "A29",
+   "swatchbook_name": "A29",
+   "hop_quy_name": "A29",
+   "content": "75% Poly, 20% rayon, 5% spandex",
+   "gsm": "330-350",
+   "width": "1M50",
+   "swatchbook_pdf_page": 4,
+   "n_colors": 4,
+   "colors": [
+    "BLK",
+    "KAK",
+    "NAV",
+    "SGR"
+   ],
+   "used_by": [
+    "MLPA29"
+   ]
+  },
+  {
+   "fabric_id": "K03",
+   "swatchbook_name": "K03",
+   "hop_quy_name": "K03",
+   "content": "95% Cotton, 5% Spandex",
+   "gsm": "240",
+   "width": "1M50",
+   "swatchbook_pdf_page": 5,
+   "n_colors": 4,
+   "colors": [
+    "BLK",
+    "OLV",
+    "NAV",
+    "KAK"
+   ],
+   "used_by": [
+    "MSPK03"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "swatchbook_name": "MODAL NAM",
+   "hop_quy_name": "Modal",
+   "content": "94% Cotton Modal, 6% Spandex",
+   "gsm": "190-200 (195)",
+   "width": "175-180 cm",
+   "swatchbook_pdf_page": 6,
+   "n_colors": 8,
+   "colors": [
+    "HGRY",
+    "B7901",
+    "BC14",
+    "B8385",
+    "NAV",
+    "BLK",
+    "HEATHER-GREY",
+    "WHT"
+   ],
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "swatchbook_name": "PQ 4 CHIỀU / PIQUE NAM – 4 WAYS",
+   "hop_quy_name": "PQ 4 chiều",
+   "content": "95% Cotton, 5% Spandex",
+   "gsm": "190-200",
+   "width": "185 cm => 195CM",
+   "swatchbook_pdf_page": 8,
+   "n_colors": 8,
+   "colors": [
+    "BLK",
+    "NAV",
+    "CGR",
+    "HEATHER-GREY",
+    "BEAN",
+    "PEAC",
+    "ORCE",
+    "WHT"
+   ],
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "swatchbook_name": "SLUB 20",
+   "hop_quy_name": "Slub 20",
+   "content": "100% Cotton",
+   "gsm": "185-190",
+   "width": "2.08",
+   "swatchbook_pdf_page": 9,
+   "n_colors": 7,
+   "colors": [
+    "QGRA",
+    "BRI",
+    "BLK",
+    "CGR",
+    "WHT",
+    "KAK",
+    "MVE"
+   ],
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "swatchbook_name": "CM26 NAM",
+   "hop_quy_name": "CM26",
+   "content": "100% Cotton",
+   "gsm": "195-200",
+   "width": "175-180 cm",
+   "swatchbook_pdf_page": 10,
+   "n_colors": 8,
+   "colors": [
+    "BLG",
+    "WHT",
+    "BLK",
+    "KAK",
+    "PEAC",
+    "QGRA",
+    "NAV",
+    "CGR"
+   ],
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM36",
+   "swatchbook_name": "CM36",
+   "hop_quy_name": "CM36",
+   "content": "95% Cotton, 5% Spandex",
+   "gsm": "220",
+   "width": "1m77",
+   "swatchbook_pdf_page": 12,
+   "n_colors": 6,
+   "colors": [
+    "BLK",
+    "WHT",
+    "LBU",
+    "MELANGE",
+    "NAV",
+    "EQRAT"
+   ],
+   "used_by": [
+    "MTSHIRT-CM36"
+   ]
+  },
+  {
+   "fabric_id": "CM40",
+   "swatchbook_name": "CM40",
+   "hop_quy_name": "CM40",
+   "content": "100% Cotton",
+   "gsm": "125-130",
+   "width": "155 cm",
+   "swatchbook_pdf_page": 13,
+   "n_colors": 6,
+   "colors": [
+    "NAV",
+    "BUYE",
+    "WHT",
+    "QGRA",
+    "PEAC",
+    "BLK"
+   ],
+   "used_by": [
+    "MTSHIRT-CM40",
+    "WTSHIRT-CM402"
+   ]
+  },
+  {
+   "fabric_id": "F76",
+   "swatchbook_name": "76",
+   "hop_quy_name": "76",
+   "content": "76% Polyester; 18% Rayon; 6% Spandex",
+   "gsm": "203",
+   "width": "57/58\"",
+   "swatchbook_pdf_page": 14,
+   "n_colors": 2,
+   "colors": [
+    "FOG",
+    "BLK"
+   ],
+   "used_by": [
+    "WBL0001",
+    "WSP0001"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-F",
+   "swatchbook_name": "MODAL NỮ",
+   "hop_quy_name": "Modal",
+   "content": "94% Cotton Modal, 6% Spandex",
+   "gsm": "190-200 (195)",
+   "width": "175-180 cm",
+   "swatchbook_pdf_page": 7,
+   "n_colors": 3,
+   "colors": [
+    "B5650",
+    "B1045",
+    "B3404"
+   ],
+   "used_by": [
+    "WPOLO-MD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "swatchbook_name": "YODY NỮ",
+   "hop_quy_name": "Yody",
+   "content": "45% Cotton, 50% Poly, 5% Spandex",
+   "gsm": "190-200",
+   "width": "1M80-1M85",
+   "swatchbook_pdf_page": 15,
+   "n_colors": 9,
+   "colors": [
+    "RAS",
+    "CCL",
+    "WHT",
+    "JAD",
+    "PNK",
+    "GRY",
+    "MRG",
+    "CRT",
+    "BLK"
+   ],
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "CM26-F",
+   "swatchbook_name": "CM26 NỮ",
+   "hop_quy_name": "CM26",
+   "content": "100% Cotton",
+   "gsm": "180-185",
+   "width": "175-180 cm",
+   "swatchbook_pdf_page": 11,
+   "n_colors": 5,
+   "colors": [
+    "CRT",
+    "WHT",
+    "RAS",
+    "BLK",
+    "GRY"
+   ],
+   "used_by": [
+    "WTSHIRT-CM261",
+    "WTSHIRT-CM262",
+    "WVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM30",
+   "swatchbook_name": "CM30",
+   "hop_quy_name": "CM30",
+   "content": "94% Cotton, 6% Spandex",
+   "gsm": "175-185",
+   "width": "1M75",
+   "swatchbook_pdf_page": 16,
+   "n_colors": 3,
+   "colors": [
+    "OLIVE-GREEN",
+    "CREAM-WHITE",
+    "SILVER-SAGE"
+   ],
+   "used_by": [
+    "WTSHIRT-L",
+    "WTSHIRT1-CM30",
+    "WTSHIRT2"
+   ]
+  }
+ ],
+ "fabric_colors": [
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "HGRY",
+   "swatch_key": "SW__MODAL-M__HGRY",
+   "name_en": "Dark Grey",
+   "name_vi": "xám đậm",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Salt-and-Pepper Grey",
+   "codes_as_written": "HGRY",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "B7901",
+   "swatch_key": "SW__MODAL-M__B7901",
+   "name_en": "Mint",
+   "name_vi": "xanh mint",
+   "en_name_variants": "Mint Green",
+   "previous_suggested_name_en": "B7901 (Deep Teal Melange)",
+   "codes_as_written": "B7901",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "BC14",
+   "swatch_key": "SW__MODAL-M__BC14",
+   "name_en": "Charcoal Grey",
+   "name_vi": "xám chuột",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "BC14 (Light Grey-Blue Melange)",
+   "codes_as_written": "BC14",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "B8385",
+   "swatch_key": "SW__MODAL-M__B8385",
+   "name_en": "Slate Blue-Grey",
+   "name_vi": "xám xanh",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "B8385 (Steel Blue Melange)",
+   "codes_as_written": "B8385",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "NAV",
+   "swatch_key": "SW__MODAL-M__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "BLK",
+   "swatch_key": "SW__MODAL-M__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "HEATHER-GREY",
+   "swatch_key": "SW__MODAL-M__HEATHER-GREY",
+   "name_en": "Light Grey",
+   "name_vi": "xám nhạt",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Heather Grey",
+   "codes_as_written": "Heather Grey",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-M",
+   "color_id": "WHT",
+   "swatch_key": "SW__MODAL-M__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "WHT",
+   "used_by": [
+    "MTSHIRT-MD1",
+    "MTSHIRT-MD2",
+    "MTSHIRT-MD3",
+    "MPOLO-MD1",
+    "MPOLO-MD2",
+    "MPOLO-MD3",
+    "MPOLO-MD4",
+    "WVNECK-MD",
+    "WTSHIRT-MD1",
+    "WTSHIRT-MD2",
+    "WPOLO-MD1"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "BLG",
+   "swatch_key": "SW__CM26-M__BLG",
+   "name_en": "Sky Blue",
+   "name_vi": "xanh trời",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Light Blue",
+   "codes_as_written": "BLG",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "WHT",
+   "swatch_key": "SW__CM26-M__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "WHT",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "BLK",
+   "swatch_key": "SW__CM26-M__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "KAK",
+   "swatch_key": "SW__CM26-M__KAK",
+   "name_en": "Khaki",
+   "name_vi": "màu kaki",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "KAK",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "PEAC",
+   "swatch_key": "SW__CM26-M__PEAC",
+   "name_en": "Peach",
+   "name_vi": "cam đào",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "PEAC",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "QGRA",
+   "swatch_key": "SW__CM26-M__QGRA",
+   "name_en": "Stone Grey",
+   "name_vi": "xám đá",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Cement Grey",
+   "codes_as_written": "QGRA",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "NAV",
+   "swatch_key": "SW__CM26-M__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-M",
+   "color_id": "CGR",
+   "swatch_key": "SW__CM26-M__CGR",
+   "name_en": "Dark Blue",
+   "name_vi": "xanh đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Grey",
+   "codes_as_written": "CGR",
+   "used_by": [
+    "MTSHIRT-CM26",
+    "MVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM36",
+   "color_id": "BLK",
+   "swatch_key": "SW__CM36__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Black Beauty",
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MTSHIRT-CM36"
+   ]
+  },
+  {
+   "fabric_id": "CM36",
+   "color_id": "WHT",
+   "swatch_key": "SW__CM36__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Bright White",
+   "codes_as_written": "WHT",
+   "used_by": [
+    "MTSHIRT-CM36"
+   ]
+  },
+  {
+   "fabric_id": "CM36",
+   "color_id": "LBU",
+   "swatch_key": "SW__CM36__LBU",
+   "name_en": "Blue",
+   "name_vi": "xanh dương",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "LBU",
+   "used_by": [
+    "MTSHIRT-CM36"
+   ]
+  },
+  {
+   "fabric_id": "CM36",
+   "color_id": "MELANGE",
+   "swatch_key": "SW__CM36__MELANGE",
+   "name_en": "Heather Grey (Melange)",
+   "name_vi": "xám melange",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Melange Grey",
+   "codes_as_written": "Xám Melange",
+   "used_by": [
+    "MTSHIRT-CM36"
+   ]
+  },
+  {
+   "fabric_id": "CM36",
+   "color_id": "NAV",
+   "swatch_key": "SW__CM36__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MTSHIRT-CM36"
+   ]
+  },
+  {
+   "fabric_id": "CM36",
+   "color_id": "EQRAT",
+   "swatch_key": "SW__CM36__EQRAT",
+   "name_en": "Cream",
+   "name_vi": "kem",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Egret",
+   "codes_as_written": "EQRAT",
+   "used_by": [
+    "MTSHIRT-CM36"
+   ]
+  },
+  {
+   "fabric_id": "CM40",
+   "color_id": "NAV",
+   "swatch_key": "SW__CM40__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MTSHIRT-CM40",
+    "WTSHIRT-CM402"
+   ]
+  },
+  {
+   "fabric_id": "CM40",
+   "color_id": "BUYE",
+   "swatch_key": "SW__CM40__BUYE",
+   "name_en": "Yellow",
+   "name_vi": "vàng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Butter Yellow",
+   "codes_as_written": "BUYE",
+   "used_by": [
+    "MTSHIRT-CM40",
+    "WTSHIRT-CM402"
+   ]
+  },
+  {
+   "fabric_id": "CM40",
+   "color_id": "WHT",
+   "swatch_key": "SW__CM40__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "WHT",
+   "used_by": [
+    "MTSHIRT-CM40",
+    "WTSHIRT-CM402"
+   ]
+  },
+  {
+   "fabric_id": "CM40",
+   "color_id": "QGRA",
+   "swatch_key": "SW__CM40__QGRA",
+   "name_en": "Stone Grey",
+   "name_vi": "xám đá",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Cement Grey",
+   "codes_as_written": "QGRA",
+   "used_by": [
+    "MTSHIRT-CM40",
+    "WTSHIRT-CM402"
+   ]
+  },
+  {
+   "fabric_id": "CM40",
+   "color_id": "PEAC",
+   "swatch_key": "SW__CM40__PEAC",
+   "name_en": "Peach",
+   "name_vi": "cam đào",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "PEAC",
+   "used_by": [
+    "MTSHIRT-CM40",
+    "WTSHIRT-CM402"
+   ]
+  },
+  {
+   "fabric_id": "CM40",
+   "color_id": "BLK",
+   "swatch_key": "SW__CM40__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MTSHIRT-CM40",
+    "WTSHIRT-CM402"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "BLK",
+   "swatch_key": "SW__PQ4W__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "NAV",
+   "swatch_key": "SW__PQ4W__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "CGR",
+   "swatch_key": "SW__PQ4W__CGR",
+   "name_en": "Dark Blue",
+   "name_vi": "xanh đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Grey (CGR)",
+   "codes_as_written": "CGR",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "HEATHER-GREY",
+   "swatch_key": "SW__PQ4W__HEATHER-GREY",
+   "name_en": "Light Grey",
+   "name_vi": "xám nhạt",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Heather Grey",
+   "codes_as_written": "Heather Grey",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "BEAN",
+   "swatch_key": "SW__PQ4W__BEAN",
+   "name_en": "Turquoise",
+   "name_vi": "xanh ngọc",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Bean Grey",
+   "codes_as_written": "BEAN",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "PEAC",
+   "swatch_key": "SW__PQ4W__PEAC",
+   "name_en": "Peach",
+   "name_vi": "cam đào",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "PEAC",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "ORCE",
+   "swatch_key": "SW__PQ4W__ORCE",
+   "name_en": "Light Pink",
+   "name_vi": "hồng nhạt",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Orchid Ice",
+   "codes_as_written": "ORCE",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "PQ4W",
+   "color_id": "WHT",
+   "swatch_key": "SW__PQ4W__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "WHT",
+   "used_by": [
+    "MPOLO-PQ1",
+    "MPOLO-PQ2",
+    "MPOLO-PQ3",
+    "MPOLO-PQ4"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "color_id": "QGRA",
+   "swatch_key": "SW__SLUB20__QGRA",
+   "name_en": "Stone Grey",
+   "name_vi": "xám đá",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Cement Grey",
+   "codes_as_written": "QGRA",
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "color_id": "BRI",
+   "swatch_key": "SW__SLUB20__BRI",
+   "name_en": "Terracotta Orange",
+   "name_vi": "cam đất",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Brick",
+   "codes_as_written": "BRI",
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "color_id": "BLK",
+   "swatch_key": "SW__SLUB20__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "color_id": "CGR",
+   "swatch_key": "SW__SLUB20__CGR",
+   "name_en": "Dark Blue",
+   "name_vi": "xanh đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Grey (CGR)",
+   "codes_as_written": "CGR",
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "color_id": "WHT",
+   "swatch_key": "SW__SLUB20__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "WHT",
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "color_id": "KAK",
+   "swatch_key": "SW__SLUB20__KAK",
+   "name_en": "Khaki",
+   "name_vi": "kaki",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "KAK",
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "SLUB20",
+   "color_id": "MVE",
+   "swatch_key": "SW__SLUB20__MVE",
+   "name_en": "Dusty Rose",
+   "name_vi": "hồng đất",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Mauve",
+   "codes_as_written": "MVE",
+   "used_by": [
+    "MPOLO-SL201",
+    "MPOLO-SL203"
+   ]
+  },
+  {
+   "fabric_id": "A82",
+   "color_id": "BLK",
+   "swatch_key": "SW__A82__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MLPA82",
+    "WBS0001-A82",
+    "WBS0002-A82",
+    "WBS0003-A82",
+    "WBSK001-A82",
+    "WBSK002-A82"
+   ]
+  },
+  {
+   "fabric_id": "A82",
+   "color_id": "GRY-2",
+   "swatch_key": "SW__A82__GRY-2",
+   "name_en": "Smoke Grey",
+   "name_vi": "xám khói",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "Xám khói",
+   "used_by": [
+    "MLPA82",
+    "WBS0001-A82",
+    "WBS0002-A82",
+    "WBS0003-A82",
+    "WBSK001-A82",
+    "WBSK002-A82"
+   ]
+  },
+  {
+   "fabric_id": "A82",
+   "color_id": "GRY-1",
+   "swatch_key": "SW__A82__GRY-1",
+   "name_en": "Stone Grey",
+   "name_vi": "xám đá",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "Xám đá",
+   "used_by": [
+    "MLPA82",
+    "WBS0001-A82",
+    "WBS0002-A82",
+    "WBS0003-A82",
+    "WBSK001-A82",
+    "WBSK002-A82"
+   ]
+  },
+  {
+   "fabric_id": "A82",
+   "color_id": "BE",
+   "swatch_key": "SW__A82__BE",
+   "name_en": "Beige",
+   "name_vi": "be",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BE / BEI",
+   "used_by": [
+    "MLPA82",
+    "WBS0001-A82",
+    "WBS0002-A82",
+    "WBS0003-A82",
+    "WBSK001-A82",
+    "WBSK002-A82"
+   ]
+  },
+  {
+   "fabric_id": "A28",
+   "color_id": "BLK",
+   "swatch_key": "SW__A28__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MLPA28",
+    "MSPA28"
+   ]
+  },
+  {
+   "fabric_id": "A28",
+   "color_id": "KAK",
+   "swatch_key": "SW__A28__KAK",
+   "name_en": "Khaki",
+   "name_vi": "kaki",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "KAK",
+   "used_by": [
+    "MLPA28",
+    "MSPA28"
+   ]
+  },
+  {
+   "fabric_id": "A28",
+   "color_id": "NAV",
+   "swatch_key": "SW__A28__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MLPA28",
+    "MSPA28"
+   ]
+  },
+  {
+   "fabric_id": "A28",
+   "color_id": "SGR",
+   "swatch_key": "SW__A28__SGR",
+   "name_en": "Grey",
+   "name_vi": "xám",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Smoke Grey",
+   "codes_as_written": "SGR",
+   "used_by": [
+    "MLPA28",
+    "MSPA28"
+   ]
+  },
+  {
+   "fabric_id": "A29",
+   "color_id": "BLK",
+   "swatch_key": "SW__A29__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MLPA29"
+   ]
+  },
+  {
+   "fabric_id": "A29",
+   "color_id": "KAK",
+   "swatch_key": "SW__A29__KAK",
+   "name_en": "Khaki",
+   "name_vi": "kaki",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "KAK",
+   "used_by": [
+    "MLPA29"
+   ]
+  },
+  {
+   "fabric_id": "A29",
+   "color_id": "NAV",
+   "swatch_key": "SW__A29__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MLPA29"
+   ]
+  },
+  {
+   "fabric_id": "A29",
+   "color_id": "SGR",
+   "swatch_key": "SW__A29__SGR",
+   "name_en": "Grey",
+   "name_vi": "xám",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Smoke Grey",
+   "codes_as_written": "SGR",
+   "used_by": [
+    "MLPA29"
+   ]
+  },
+  {
+   "fabric_id": "K03",
+   "color_id": "BLK",
+   "swatch_key": "SW__K03__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "MSPK03"
+   ]
+  },
+  {
+   "fabric_id": "K03",
+   "color_id": "OLV",
+   "swatch_key": "SW__K03__OLV",
+   "name_en": "Olive Green",
+   "name_vi": "xanh olive",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Olive",
+   "codes_as_written": "OLY",
+   "used_by": [
+    "MSPK03"
+   ]
+  },
+  {
+   "fabric_id": "K03",
+   "color_id": "NAV",
+   "swatch_key": "SW__K03__NAV",
+   "name_en": "Navy",
+   "name_vi": "xanh navy",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "NAV",
+   "used_by": [
+    "MSPK03"
+   ]
+  },
+  {
+   "fabric_id": "K03",
+   "color_id": "KAK",
+   "swatch_key": "SW__K03__KAK",
+   "name_en": "Khaki",
+   "name_vi": "kaki",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "Kak",
+   "used_by": [
+    "MSPK03"
+   ]
+  },
+  {
+   "fabric_id": "CM26-F",
+   "color_id": "CRT",
+   "swatch_key": "SW__CM26-F__CRT",
+   "name_en": "Deep Orange",
+   "name_vi": "cam đậm",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Carrot",
+   "codes_as_written": "CRT",
+   "used_by": [
+    "WTSHIRT-CM262",
+    "WVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-F",
+   "color_id": "WHT",
+   "swatch_key": "SW__CM26-F__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "WHT",
+   "used_by": [
+    "WTSHIRT-CM262",
+    "WVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-F",
+   "color_id": "RAS",
+   "swatch_key": "SW__CM26-F__RAS",
+   "name_en": "Deep Pink",
+   "name_vi": "hồng đậm",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Lotus Pink",
+   "codes_as_written": "RAS",
+   "used_by": [
+    "WTSHIRT-CM262",
+    "WVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-F",
+   "color_id": "BLK",
+   "swatch_key": "SW__CM26-F__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "WTSHIRT-CM262",
+    "WVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM26-F",
+   "color_id": "GRY",
+   "swatch_key": "SW__CM26-F__GRY",
+   "name_en": "Grey",
+   "name_vi": "xám",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "GRY",
+   "used_by": [
+    "WTSHIRT-CM262",
+    "WVNECK-CM26"
+   ]
+  },
+  {
+   "fabric_id": "CM30",
+   "color_id": "OLIVE-GREEN",
+   "swatch_key": "SW__CM30__OLIVE-GREEN",
+   "name_en": "Olive Green",
+   "name_vi": "xanh ô liu",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "Olive Green",
+   "used_by": [
+    "WTSHIRT-L",
+    "WTSHIRT1-CM30",
+    "WTSHIRT2"
+   ]
+  },
+  {
+   "fabric_id": "CM30",
+   "color_id": "CREAM-WHITE",
+   "swatch_key": "SW__CM30__CREAM-WHITE",
+   "name_en": "Cream White",
+   "name_vi": "trắng kem",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "Cream White",
+   "used_by": [
+    "WTSHIRT-L",
+    "WTSHIRT1-CM30",
+    "WTSHIRT2"
+   ]
+  },
+  {
+   "fabric_id": "CM30",
+   "color_id": "SILVER-SAGE",
+   "swatch_key": "SW__CM30__SILVER-SAGE",
+   "name_en": "Silver Sage",
+   "name_vi": "nâu nhạt",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "Silver Sage",
+   "used_by": [
+    "WTSHIRT-L",
+    "WTSHIRT1-CM30",
+    "WTSHIRT2"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-F",
+   "color_id": "B5650",
+   "swatch_key": "SW__MODAL-F__B5650",
+   "name_en": "Purple",
+   "name_vi": "tím",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "B5650",
+   "used_by": [
+    "WPOLO-MD2"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-F",
+   "color_id": "B1045",
+   "swatch_key": "SW__MODAL-F__B1045",
+   "name_en": "Pink",
+   "name_vi": "hồng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "B1045",
+   "used_by": [
+    "WPOLO-MD2"
+   ]
+  },
+  {
+   "fabric_id": "MODAL-F",
+   "color_id": "B3404",
+   "swatch_key": "SW__MODAL-F__B3404",
+   "name_en": "Yellow",
+   "name_vi": "vàng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "B3404",
+   "used_by": [
+    "WPOLO-MD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "RAS",
+   "swatch_key": "SW__YODY-F__RAS",
+   "name_en": "Deep Pink",
+   "name_vi": "hồng đậm",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Lotus Pink",
+   "codes_as_written": "RAS",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "CCL",
+   "swatch_key": "SW__YODY-F__CCL",
+   "name_en": "Brown",
+   "name_vi": "nâu",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Chocolate",
+   "codes_as_written": "CCL",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "WHT",
+   "swatch_key": "SW__YODY-F__WHT",
+   "name_en": "White",
+   "name_vi": "trắng",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "WHT",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "JAD",
+   "swatch_key": "SW__YODY-F__JAD",
+   "name_en": "Green",
+   "name_vi": "xanh lá",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Jade",
+   "codes_as_written": "JAD",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "PNK",
+   "swatch_key": "SW__YODY-F__PNK",
+   "name_en": "Mauve Pink",
+   "name_vi": "hồng tím",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Lime Pink",
+   "codes_as_written": "PNK",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "GRY",
+   "swatch_key": "SW__YODY-F__GRY",
+   "name_en": "Grey",
+   "name_vi": "xám",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "GRY",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "MRG",
+   "swatch_key": "SW__YODY-F__MRG",
+   "name_en": "Pastel Orange",
+   "name_vi": "cam sữa",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Cream Orange",
+   "codes_as_written": "MRG",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "CRT",
+   "swatch_key": "SW__YODY-F__CRT",
+   "name_en": "Deep Orange",
+   "name_vi": "cam đậm",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Carrot",
+   "codes_as_written": "CRT",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "YODY-F",
+   "color_id": "BLK",
+   "swatch_key": "SW__YODY-F__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "WPOLO-YD1",
+    "WPOLO-YD2"
+   ]
+  },
+  {
+   "fabric_id": "F76",
+   "color_id": "FOG",
+   "swatch_key": "SW__F76__FOG",
+   "name_en": "Grey",
+   "name_vi": "xám",
+   "en_name_variants": null,
+   "previous_suggested_name_en": "Fog",
+   "codes_as_written": "FOG",
+   "used_by": [
+    "WBL0001",
+    "WSP0001"
+   ]
+  },
+  {
+   "fabric_id": "F76",
+   "color_id": "BLK",
+   "swatch_key": "SW__F76__BLK",
+   "name_en": "Black",
+   "name_vi": "đen",
+   "en_name_variants": null,
+   "previous_suggested_name_en": null,
+   "codes_as_written": "BLK",
+   "used_by": [
+    "WBL0001",
+    "WSP0001"
+   ]
+  }
+ ]
+}

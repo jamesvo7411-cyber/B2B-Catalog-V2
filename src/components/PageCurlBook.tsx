@@ -15,10 +15,12 @@ interface PageCurlBookProps {
   bookPage: number;
   totalSpreads: number;
   zoom: number;
+  fitScale?: number;
   classicMode: boolean;
   curlEnabled: boolean;
   turnRequest: TurnRequest | null;
   onCommitPage: (nextPage: number) => void;
+  onBookSizeChange?: (size: { w: number; h: number }) => void;
   renderSpread: (
     pageIndex: number,
     side: SpreadLeafSide,
@@ -123,16 +125,18 @@ export const PageCurlBook: React.FC<PageCurlBookProps> = ({
   bookPage,
   totalSpreads,
   zoom,
+  fitScale = 1,
   classicMode,
   curlEnabled,
   turnRequest,
   onCommitPage,
+  onBookSizeChange,
   renderSpread,
 }) => {
   const outerViewportRef = useRef<HTMLDivElement | null>(null);
   const bookRef = useRef<HTMLDivElement | null>(null);
 
-  const [bookSize, setBookSize] = useState<{ w: number; h: number }>({ w: 1280, h: 720 });
+  const [bookSize, setBookSize] = useState<{ w: number; h: number }>({ w: 1190, h: 842 });
   const [curl, setCurl] = useState<CurlSession | null>(null);
   const curlRef = useRef<CurlSession | null>(null);
   const pointerDownStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
@@ -157,13 +161,15 @@ export const PageCurlBook: React.FC<PageCurlBookProps> = ({
       for (const entry of entries) {
         const cr = entry.contentRect;
         if (cr.width > 100 && cr.height > 100) {
-          setBookSize({ w: cr.width, h: cr.height });
+          const next = { w: cr.width, h: cr.height };
+          setBookSize(next);
+          onBookSizeChange?.(next);
         }
       }
     });
     ro.observe(el);
     return () => ro.disconnect();
-  }, [bookPage, zoom]);
+  }, [bookPage, zoom, onBookSizeChange]);
 
   // Stage gutters reduce a 768px viewport to roughly 720px of book width.
   const isDesktopSpread = bookSize.w >= 680;
@@ -555,21 +561,45 @@ export const PageCurlBook: React.FC<PageCurlBookProps> = ({
         zoom > 1 ? 'overflow-auto pb-4' : 'overflow-visible'
       }`}
     >
-      {/* Scaled Container for Zoom Support */}
-      <div
-        className="mx-auto transition-[width] duration-200 ease-out"
-        style={{
-          width: zoom === 1 ? '100%' : `${Math.round(1280 * zoom)}px`,
-          maxWidth: zoom === 1 ? '1320px' : 'none',
-        }}
-      >
-        {/* Physical Open-Book Frame */}
-        <div
-          ref={bookRef}
-          className={`relative border border-[#DEDEDE] bg-white shadow-[0_12px_36px_rgba(0,0,0,0.06)] ${
-            curlEnabled && curl?.mode === 'dragging' ? 'cursor-grabbing select-none' : ''
-          }`}
-        >
+      {/* Scaled Container for Unified ISO A4 Spread Proportions (1190 x 842 / 595 x 842 per leaf) */}
+      {(() => {
+        const effectiveScale = zoom === 1 ? fitScale : zoom;
+        const useTransformScale = effectiveScale !== 1;
+        return (
+          <div
+            className="mx-auto transition-[width,height] duration-150 ease-out"
+            style={
+              useTransformScale
+                ? {
+                    width: `${Math.round(1190 * effectiveScale)}px`,
+                    height: `${Math.round(842 * effectiveScale)}px`,
+                  }
+                : {
+                    width: '100%',
+                    maxWidth: '1190px',
+                    height: '842px',
+                  }
+            }
+          >
+            {/* Physical Open-Book Frame (Strict Unified 1190 x 842 ISO A4 Spread) */}
+            <div
+              ref={bookRef}
+              style={
+                useTransformScale
+                  ? {
+                      width: '1190px',
+                      height: '842px',
+                      transform: `scale(${effectiveScale})`,
+                      transformOrigin: 'top left',
+                    }
+                  : {
+                      height: '842px',
+                    }
+              }
+              className={`relative border border-[#DEDEDE] bg-white shadow-[0_12px_36px_rgba(0,0,0,0.06)] ${
+                curlEnabled && curl?.mode === 'dragging' ? 'cursor-grabbing select-none' : ''
+              }`}
+            >
           {/* Architectural outer frame corner registration ticks */}
           {curlEnabled && !classicMode && (
             <>
@@ -584,7 +614,7 @@ export const PageCurlBook: React.FC<PageCurlBookProps> = ({
               PERSISTENT TWO-PAGE SPREAD (ZERO UNMOUNTING ON HOVER/DRAG)
               Left Page (Verso) | Center Spine | Right Page (Recto)
               ================================================================ */}
-          <div className="relative grid grid-cols-1 bg-white md:grid-cols-2">
+          <div className="relative grid h-full grid-cols-1 bg-white md:grid-cols-2">
             {/* LEFT HALF (VERSO) */}
             <div className="relative overflow-hidden bg-white">
               {geom && curl && curl.side === 'left' && (
@@ -765,8 +795,10 @@ export const PageCurlBook: React.FC<PageCurlBookProps> = ({
               </div>
             );
           })}
-        </div>
-      </div>
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 };

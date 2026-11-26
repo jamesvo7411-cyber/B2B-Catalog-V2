@@ -22,11 +22,12 @@ export const DEFAULT_CATALOGUE_META: CatalogueMetadata = {
   season: 'Dream Tomorrow (DT) — B2B Landscape Catalogue',
   edition: 'CM · OEM · ODM Capability & 43-Style Line Book',
   subtitle:
-    'A modular monochrome B2B lookbook and technical specification portfolio for Dream Tomorrow (DT), structured for CM, OEM, and ODM wholesale partners.',
+    'A modular monochrome B2B lookbook and textile specification book for Dream Tomorrow (DT), structured for CM, OEM, and ODM wholesale partners.',
   presentationNote:
-    'Visual frames are initialized as architectural blank plates mapped to each real style code and swatchbook fabric roll. Drag and drop local images onto any slot to preview live in-browser (session-only unless saved to project assets or exported).',
-  contactEmail: 'wholesale@dreamtomorrow.studio',
-  showroomUrl: 'https://dreamtomorrow.studio/b2b',
+    'Visual frames map directly to each official style code and swatchbook fabric roll. Drag and drop local images onto any studio slot to preview live in-browser.',
+  contactPhone: '0392 52 68 52',
+  contactEmail: 'contact@dtuniforms.com',
+  showroomUrl: 'https://www.dtuniforms.com',
 };
 
 export const CATEGORIES: {
@@ -41,35 +42,35 @@ export const CATEGORIES: {
     numeral: 'I',
     range: '01 – 04',
     count: 4,
-    craftFocus: 'Curtained waistbands, French bearer pockets, structured suiting drape',
+    craftFocus: 'Structured suiting drape, belt-loop waistbands, and clean pocket lines',
   },
   {
     name: 'Shorts',
     numeral: 'II',
     range: '05 – 09',
     count: 5,
-    craftFocus: 'Bar-tacked pocket corners, stretch twill recovery, clean bound interiors',
+    craftFocus: 'Stretch twill & A82 tailoring with cuffed hems and contoured waistbands',
   },
   {
     name: 'Polos',
     numeral: 'III',
     range: '10 – 23',
     count: 14,
-    craftFocus: 'Reinforced box plackets, shape-retaining rib collars, breathable knits',
+    craftFocus: 'Button & zip plackets across Cotton-Modal, 4-Way Piqué, and Slub 20 knits',
   },
   {
     name: 'Tees & V-Necks',
     numeral: 'IV',
     range: '24 – 40',
     count: 17,
-    craftFocus: 'Zero-torque coverstitch hems, taped shoulder seams, cotton-modal hand-feel',
+    craftFocus: 'Breathable Combed Cotton, Cotton-Modal, and compact stretch essentials',
   },
   {
     name: 'Skirts',
     numeral: 'V',
     range: '41 – 43',
     count: 3,
-    craftFocus: 'Concealed zip plackets, clean interior seam overlocking, fluid twill drape',
+    craftFocus: 'A-line skorts and knife-pleated skirts with built-in inner shorts',
   },
 ];
 
@@ -83,10 +84,9 @@ export const CM_OEM_ODM_PILLARS = [
       '/src/assets/images/pillar_cm_illustration_1795580914784.jpg'
     ),
     cropScaleClass: 'scale-[1.13]',
-    buyerSupplies: 'Fabric rolls, trims & graded tech pack',
-    dtDelivers: 'Precision cutting, assembly & inline SPI QC',
-    detail:
-      'Precision cutting, grading, bar-tacking, and flatlock/coverstitch assembly for client-supplied fabric rolls with inline SPI inspection.',
+    buyerSupplies: 'Fabric rolls, trims & tech pack',
+    dtDelivers: 'Cutting, sewing & inline QC',
+    detail: 'Precision cutting and assembly for client-supplied textiles and graded specs.',
   },
   {
     index: '02',
@@ -97,10 +97,9 @@ export const CM_OEM_ODM_PILLARS = [
       '/src/assets/images/pillar_oem_illustration_1795580915075.jpg'
     ),
     cropScaleClass: 'scale-[1.03]',
-    buyerSupplies: 'Target spec sheet & Pantone TCX palette',
-    dtDelivers: '15-mill program sourcing, lab dips & bulk',
-    detail:
-      'End-to-end mill sourcing across our 15 verified knit & woven programs (Modal, 4-Way Piqué, Slub 20, A-Series Suiting) to your exact tech pack.',
+    buyerSupplies: 'Spec sheet & TCX palette',
+    dtDelivers: '15-mill fabric sourcing & bulk',
+    detail: 'Full mill sourcing across 15 verified knit & suiting programs to your tech pack.',
   },
   {
     index: '03',
@@ -111,10 +110,9 @@ export const CM_OEM_ODM_PILLARS = [
       '/src/assets/images/pillar_odm_illustration_1795580916550.jpg'
     ),
     cropScaleClass: 'scale-[1.03]',
-    buyerSupplies: 'Brand labels, colorway choice & volume',
-    dtDelivers: '43 engineered Men’s & Women’s styles',
-    detail:
-      '43 pre-engineered Men’s (Nam) and Women’s (Nữ) silhouettes ready for private-label branding, custom colorways, and rapid showroom sampling.',
+    buyerSupplies: 'Brand labels & colorway order',
+    dtDelivers: '43 Men’s & Women’s styles',
+    detail: 'Ready-to-brand Men’s (Nam) and Women’s (Nữ) silhouettes for rapid sampling.',
   },
 ];
 
@@ -124,13 +122,19 @@ const COLOR_HEX_MAP: Record<string, string> = {
   white: '#F8F8F6',
   'bright white': '#FFFFFF',
   'cream white': '#F3EFE6',
+  cream: '#EFECE3',
   egret: '#EFECE3',
   'stone grey': '#9C9B96',
   'smoke grey': '#6A6D70',
   'cement grey': '#8B8E8F',
   'salt-and-pepper grey': '#8A8C8E',
   'heather grey': '#A7A9AC',
+  'heather grey (melange)': '#9B9E9F',
   'melange grey': '#9B9E9F',
+  'charcoal grey': '#4F5459',
+  'dark grey': '#4A4D50',
+  'light grey': '#C8CACD',
+  'slate blue-grey': '#6B7F8E',
   'bean grey': '#7F7B75',
   grey: '#808285',
   fog: '#C6C8C7',
@@ -138,14 +142,21 @@ const COLOR_HEX_MAP: Record<string, string> = {
   khaki: '#B6A88D',
   'stone khaki': '#B6AA92',
   navy: '#1D2939',
+  'dark blue': '#1B2D4F',
+  'sky blue': '#9CB7CC',
   'light blue': '#9CB7CC',
   blue: '#2E5B88',
   'sea blue': '#3E7A9E',
+  turquoise: '#3BA99C',
   'orchid ice': '#DFD1DE',
   peach: '#E5B096',
   mauve: '#9E7B82',
+  'mauve pink': '#C88FA4',
   brick: '#9E4B3B',
   pink: '#E8A5B8',
+  'light pink': '#F2CBD4',
+  'deep pink': '#D94F7A',
+  'dusty rose': '#C48B8E',
   'lotus pink': '#E49EB0',
   'lime pink': '#DF8FA8',
   yellow: '#E6C24C',
@@ -153,14 +164,21 @@ const COLOR_HEX_MAP: Record<string, string> = {
   purple: '#7E5A8F',
   carrot: '#DF6D3B',
   'cream orange': '#E99D6B',
+  'pastel orange': '#F2B27E',
+  'deep orange': '#D95D2E',
+  'terracotta orange': '#C45B3B',
+  brown: '#5C3A2B',
   chocolate: '#5C3A2B',
+  green: '#3E7A5A',
+  mint: '#7AC4AE',
+  'mint green': '#7AC4AE',
   olive: '#5A6145',
   'olive green': '#5B6442',
   'silver sage': '#AEB5AC',
   jade: '#4B8B74',
-  b8385: '#6D7278',
-  b7901: '#4C5055',
-  bc14: '#A6A49E',
+  b8385: '#6B7F8E',
+  b7901: '#7AC4AE',
+  bc14: '#4F5459',
 };
 
 export function getColorSwatchHex(colorLabel: string): string | null {
@@ -182,6 +200,7 @@ interface RawProductRow {
   genderCode: 'Nam' | 'Nữ';
   productGroupVi: string;
   sku: string;
+  mcCode?: string;
   title: string;
   category: GarmentCategory;
   chapterNumeral: string;
@@ -192,7 +211,11 @@ interface RawProductRow {
   stretchFeelNote: string;
   colorCount: number;
   colorways: string[];
-  fitNote: string;
+  summary: string;
+  keyFeatures: string[];
+  descriptionBullets?: string[];
+  seamFinish?: string;
+  pocketConstruction?: string;
   dataFlags?: string[];
 }
 
@@ -210,27 +233,36 @@ const COLORS_FTR76 = getFactoryColorLabels('76');
 const COLORS_MODAL_NU = getFactoryColorLabels('MODAL NỮ');
 const COLORS_PIQUE_YODY_NU = getFactoryColorLabels('YODY NỮ');
 const COLORS_CM26_NU = getFactoryColorLabels('CM26 NỮ');
-const COLORS_AK005 = getFactoryColorLabels('CM30');
+const COLORS_CM30 = getFactoryColorLabels('CM30');
 
 const RAW_PRODUCTS: RawProductRow[] = [
-  // TROUSERS
+  // I. TROUSERS (01 – 04)
   {
     rowNum: 1,
     gender: 'Men',
     genderCode: 'Nam',
     productGroupVi: 'Quần Dài Nam',
     sku: 'MLPA82',
-    title: "Men's Heavyweight Structured Trouser",
+    title: "Men's Straight-Leg Trouser Pants",
     category: 'Trousers',
     chapterNumeral: 'I',
     fabricCode: 'A82',
-    composition: '95% Rayon-Poly, 5% Spandex',
+    composition: '95% Rayon Polyester, 5% Spandex',
     weightGsm: '330 GSM',
     fabricWidth: '152 cm',
-    stretchFeelNote: 'Dense 330 GSM structured hand-feel with controlled stretch recovery',
-    colorCount: 4,
+    stretchFeelNote: 'Dense, smooth-surface 330 GSM suiting with crisp recovery and light stretch.',
+    colorCount: COLORS_A82.length,
     colorways: COLORS_A82,
-    fitNote: 'Tailored straight-leg ankle-skimming cut with structured 330 GSM architectural drape',
+    summary:
+      'Classic relaxed straight-leg trouser in dense, wrinkle-resistant 330 GSM Rayon-Polyester suiting with crisp drape.',
+    keyFeatures: [
+      '95% Rayon Polyester, 5% Spandex',
+      'Relaxed full-length straight-leg cut',
+      'Belt-loop waistband with button & zip fly',
+      '2 piped side slant pockets + 2 button-through back pockets',
+    ],
+    seamFinish: 'Belt-loop waistband with button & zip fly; full-length straight leg',
+    pocketConstruction: '4 pockets: 2 piped side slant pockets & 2 button-through back pockets',
   },
   {
     rowNum: 2,
@@ -238,17 +270,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Quần Dài Nam',
     sku: 'MLPA28',
-    title: "Men's Everyday Stretch Tailored Trouser",
+    title: "Men's Straight-Leg Trouser Pants",
     category: 'Trousers',
     chapterNumeral: 'I',
     fabricCode: 'A28',
-    composition: '75% Poly, 20% Rayon, 5% Spandex',
+    composition: '75% Polyester, 20% Rayon, 5% Spandex',
     weightGsm: '245–250 GSM',
     fabricWidth: '150 cm (1M50)',
-    stretchFeelNote: 'Mid-weight smooth suiting finish engineered for crease resistance',
-    colorCount: 4,
+    stretchFeelNote: 'Breathable mid-weight suiting engineered for daily crease resistance and mobility.',
+    colorCount: COLORS_A28.length,
     colorways: COLORS_A28,
-    fitNote: 'Balanced mid-weight straight trouser engineered for crease resistance and daily mobility',
+    summary:
+      'Crisp office straight-leg trouser in breathable 75/20/5 Poly-Rayon-Spandex suiting that holds its line all day.',
+    keyFeatures: [
+      '75% Polyester, 20% Rayon, 5% Spandex',
+      'Relaxed full-length straight-leg cut',
+      'Belt-loop waistband with button & zip fly',
+      '2 side slant pockets + 2 button-through back pockets',
+    ],
+    seamFinish: 'Belt-loop waistband with button & zip fly; full-length straight leg',
+    pocketConstruction: '4 pockets: 2 side slant pockets & 2 button-through back pockets',
   },
   {
     rowNum: 3,
@@ -256,17 +297,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Quần Dài Nam',
     sku: 'MLPA29',
-    title: "Men's Heavy Suiting Pleated Trouser",
+    title: "Men's Straight-Leg Trouser Pants",
     category: 'Trousers',
     chapterNumeral: 'I',
     fabricCode: 'A29',
-    composition: '75% Poly, 20% Rayon, 5% Spandex',
+    composition: '75% Polyester, 20% Rayon, 5% Spandex',
     weightGsm: '330–350 GSM',
     fabricWidth: '150 cm (1M50)',
-    stretchFeelNote: 'Heavyweight winter suiting drape with crisp vertical crease retention',
-    colorCount: 4,
+    stretchFeelNote: 'Thick heavyweight suiting for cooler seasons with crisp vertical leg retention.',
+    colorCount: COLORS_A29.length,
     colorways: COLORS_A29,
-    fitNote: 'Dense autumn/winter suiting trouser engineered for crisp leg line retention',
+    summary:
+      'Structured heavyweight office trouser featuring softly curved S-shaped front pockets and sharp seasonal drape.',
+    keyFeatures: [
+      '75% Polyester, 20% Rayon, 5% Spandex',
+      'Relaxed full-length straight-leg cut',
+      'Belt-loop waistband with button & zip fly',
+      '2 S-shaped side pockets + 2 back pockets',
+    ],
+    seamFinish: 'Belt-loop waistband with button & zip fly; heavyweight winter drape',
+    pocketConstruction: '4 pockets: 2 curved S-shaped side pockets & 2 back pockets',
   },
   {
     rowNum: 23,
@@ -274,37 +324,55 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Quần Dài Nữ',
     sku: 'WBL0001',
-    title: "Women's Fluid Wide-Leg Tailored Trouser",
+    title: "Women's Slightly Flared Trouser Pants",
     category: 'Trousers',
     chapterNumeral: 'I',
     fabricCode: '76',
     composition: '76% Polyester, 18% Rayon, 6% Spandex',
     weightGsm: '203 GSM',
     fabricWidth: '57/58"',
-    stretchFeelNote: 'Lightweight fluid suiting hand-feel with soft movement',
-    colorCount: 2,
+    stretchFeelNote: 'Mid-weight fluid suiting that resists wrinkles while draping cleanly in motion.',
+    colorCount: COLORS_FTR76.length,
     colorways: COLORS_FTR76,
-    fitNote: 'Lightweight fluid wide-leg suiting trouser pairing cleanly with the WSP0001 skirt',
+    summary:
+      'Leg-lengthening slightly flared office trouser in fluid Poly-Rayon-Spandex finished with wide cuffed hems.',
+    keyFeatures: [
+      '76% Polyester, 18% Rayon, 6% Spandex',
+      'Slightly flared straight-leg silhouette',
+      'Medium waistband with button & zip fly',
+      'Wide cuffed hem + 3 pockets (2 slant front, 1 right back)',
+    ],
+    seamFinish: 'Medium waistband, button & zip fly, statement wide cuffed hem',
+    pocketConstruction: '3 pockets: 2 side slant pockets & 1 right back pocket',
   },
 
-  // SHORTS
+  // II. SHORTS (05 – 09)
   {
     rowNum: 4,
     gender: 'Men',
     genderCode: 'Nam',
     productGroupVi: 'Quần Short Khaki Nam',
     sku: 'MSPA28',
-    title: "Men's Tailored Khaki Walk Short",
+    title: "Men's Straight-Leg Shorts Pant",
     category: 'Shorts',
     chapterNumeral: 'II',
     fabricCode: 'A28',
-    composition: '75% Poly, 20% Rayon, 5% Spandex',
+    composition: '75% Polyester, 20% Rayon, 5% Spandex',
     weightGsm: '245–250 GSM',
     fabricWidth: '150 cm (1M50)',
-    stretchFeelNote: 'Clean matte khaki hand-feel matching the A28 trouser program',
-    colorCount: 4,
+    stretchFeelNote: 'Soft, matte suiting twill matching the A28 trouser line with cool stretch recovery.',
+    colorCount: COLORS_A28.length,
     colorways: COLORS_A28,
-    fitNote: 'Above-knee flat-front chino walk short matching the A28 trouser suiting program',
+    summary:
+      'Polished straight-leg shorts in wrinkle-resistant A28 suiting blend for effortless everyday wear and travel.',
+    keyFeatures: [
+      '75% Polyester, 20% Rayon, 5% Spandex',
+      'Clean straight-leg cut above the knee',
+      'Standard belt-loop waist with button & zip fly',
+      '4 pockets (2 side slant pockets, 2 back pockets)',
+    ],
+    seamFinish: 'Standard belt-loop waistband with button & zip fly',
+    pocketConstruction: '4 pockets: 2 side slant pockets & 2 back pockets',
   },
   {
     rowNum: 5,
@@ -312,17 +380,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Quần Short Nam',
     sku: 'MSPK03',
-    title: "Men's Stretch Cotton Twill Short",
+    title: "Men's Straight-Leg Khaki Shorts Pant",
     category: 'Shorts',
     chapterNumeral: 'II',
     fabricCode: 'K03',
     composition: '95% Cotton, 5% Spandex',
     weightGsm: '240 GSM',
     fabricWidth: '150 cm (1M50)',
-    stretchFeelNote: 'Breathable cotton twill with responsive 5% spandex comfort stretch',
-    colorCount: 4,
+    stretchFeelNote: 'Thick, breathable 95% cotton khaki twill with responsive 5% stretch comfort.',
+    colorCount: COLORS_K03.length,
     colorways: COLORS_K03,
-    fitNote: 'Clean straight-leg cotton twill short with responsive 5% stretch and matte snap waist',
+    summary:
+      'Rugged, breathable straight-leg khaki shorts woven from stretch cotton twill for outdoor and daily utility.',
+    keyFeatures: [
+      '95% Cotton, 5% Spandex',
+      'Durable straight-leg khaki silhouette',
+      'Standard belt-loop waist with button & zip fly',
+      '4 pockets (2 side slant pockets, 2 back pockets)',
+    ],
+    seamFinish: 'Standard belt-loop waistband with button & zip fly',
+    pocketConstruction: '4 pockets: 2 side slant pockets & 2 back pockets',
   },
   {
     rowNum: 24,
@@ -330,17 +407,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Quần Short Nữ',
     sku: 'WBS0001-A82',
-    title: "Women's High-Rise Tailored Short — Edition 01",
+    mcCode: 'WBS0001',
+    title: "Women's High-Waisted Cuffed Shorts",
     category: 'Shorts',
     chapterNumeral: 'II',
     fabricCode: 'A82',
-    composition: '95% Rayon-Poly, 5% Spandex',
+    composition: '95% Rayon Polyester, 5% Spandex',
     weightGsm: '330 GSM',
     fabricWidth: '152 cm',
-    stretchFeelNote: 'Substantial 330 GSM woven structure holding clean front lines',
-    colorCount: 4,
+    stretchFeelNote: 'Smooth, structured 330 GSM suiting resisting creases with gentle comfort stretch.',
+    colorCount: COLORS_A82.length,
     colorways: COLORS_A82,
-    fitNote: 'High-rise tailored short crafted from structured 330 GSM A82 suiting cloth',
+    summary:
+      'High-waisted tailored shorts in crisp A82 cloth featuring clean center-front pintuck topstitching and medium cuffed hems.',
+    keyFeatures: [
+      '95% Rayon Polyester, 5% Spandex',
+      'High-waisted flat-front straight fit',
+      'Concealed back zip closure',
+      'Center-front pintuck topstitching & medium cuffed hem',
+    ],
+    seamFinish: 'Flat-front high waist with concealed back zip & medium cuffed hems',
+    pocketConstruction: 'Clean pocketless front with center-front pintuck seam line',
   },
   {
     rowNum: 25,
@@ -348,17 +435,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Quần Short Nữ',
     sku: 'WBS0002-A82',
-    title: "Women's Minimalist Cuff Short — Edition 02",
+    title: "Women's A-Line Shorts",
     category: 'Shorts',
     chapterNumeral: 'II',
     fabricCode: 'A82',
-    composition: '95% Rayon-Poly, 5% Spandex',
+    composition: '95% Rayon Polyester, 5% Spandex',
     weightGsm: '330 GSM',
     fabricWidth: '152 cm',
-    stretchFeelNote: 'Firm architectural drape supporting front darts and notched cuff hems',
-    colorCount: 4,
+    stretchFeelNote: 'Structured 330 GSM suiting holding a crisp, crease-resistant A-line flare.',
+    colorCount: COLORS_A82.length,
     colorways: COLORS_A82,
-    fitNote: 'High-rise A-line tailored short with twin front waist darts and side-notched cuff hems',
+    summary:
+      'Waist-defining high-rise A-line shorts with a wide contoured waistband, concealed back zip, and short side hem slits.',
+    keyFeatures: [
+      '95% Rayon Polyester, 5% Spandex',
+      'High-waisted flared A-line silhouette',
+      'Wide contoured flat-front waistband',
+      'Concealed back zip & short side hem slits',
+    ],
+    seamFinish: 'Wide high-rise waistband, back zip closure & short side hem slits',
+    pocketConstruction: 'Sleek flat-front A-line panelling with clean thigh flare',
   },
   {
     rowNum: 26,
@@ -366,37 +462,56 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Quần Short Nữ',
     sku: 'WBS0003-A82',
-    title: "Women's Wide-Cut Atelier Short — Edition 03",
+    title: "Women's Elastic-Back A-Line Shorts",
     category: 'Shorts',
     chapterNumeral: 'II',
     fabricCode: 'A82',
-    composition: '95% Rayon-Poly, 5% Spandex',
+    composition: '95% Rayon Polyester, 5% Spandex',
     weightGsm: '330 GSM',
     fabricWidth: '152 cm',
-    stretchFeelNote: 'Smooth heavyweight finish pairing clean front drape with elastic rear comfort',
-    colorCount: 4,
+    stretchFeelNote: 'Smooth 330 GSM woven drape pairing structured A-line form with easy care.',
+    colorCount: COLORS_A82.length,
     colorways: COLORS_A82,
-    fitNote: 'Clean flat-front A-line short engineered with a gathered elastic rear waistband',
+    summary:
+      'High-waisted A-line shorts pairing a tailored button-and-zip trouser front with an adaptable elastic back waistband.',
+    keyFeatures: [
+      '95% Rayon Polyester, 5% Spandex',
+      'High-waisted A-line silhouette',
+      'Wide waistband with elasticized back',
+      'Front button and zip fly closure',
+    ],
+    seamFinish: 'Tailored flat-front waistband with elastic back channel & front fly',
+    pocketConstruction: 'Slanted side-seam pockets integrated cleanly into the A-line cut',
   },
 
-  // POLOS
+  // III. POLOS (10 – 23)
   {
     rowNum: 6,
     gender: 'Men',
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-MD1',
-    title: "Men's Cotton-Modal Essential Polo — Design 01",
+    title: "Men's 3-Button Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Cool silk-smooth modal touch with 6% spandex 4-way recovery',
-    colorCount: 8,
+    stretchFeelNote: 'Smooth, cool-to-the-touch cotton-modal knit with wrinkle-resistant 4-way stretch.',
+    colorCount: COLORS_MODAL_NAM.length,
     colorways: COLORS_MODAL_NAM,
-    fitNote: 'Tailored 3-button box-placket polo in cool, silk-smooth cotton-modal jersey',
+    summary:
+      'Smart-casual 3-button polo in cooling cotton-modal stretch jersey, finished with elasticized cuffs and 3 cm side vents.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: Cotton Modal)',
+      'Polo collar · 13 cm 3-button placket',
+      'Short sleeves with elasticized cuffs',
+      'Straight fit with 3 cm side vents',
+    ],
+    seamFinish: 'Classic polo collar, elasticized cuffs & 3 cm side vents',
+    pocketConstruction: '13 cm 3-button front placket; clean torso',
+    dataFlags: ['I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 7,
@@ -404,17 +519,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-MD2',
-    title: "Men's Cotton-Modal Tipped Collar Polo — Design 02",
+    title: "Men's Faux-Pocket Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Cool silk-smooth modal touch with 6% spandex 4-way recovery',
-    colorCount: 8,
+    stretchFeelNote: 'Silky cotton-modal blend with breathable moisture absorption and shape stability.',
+    colorCount: COLORS_MODAL_NAM.length,
     colorways: COLORS_MODAL_NAM,
-    fitNote: '2-button box-placket cotton-modal polo distinguished by a faux chest welt detail',
+    summary:
+      'Refined straight-fit polo featuring a 13 cm 2-button placket, elasticized cuffs, and a decorative chest faux welt pocket.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: Cotton Modal)',
+      'Polo collar · 13 cm 2-button placket',
+      '1 faux chest pocket accent',
+      'Elasticized short sleeves & 3 cm side vents',
+    ],
+    seamFinish: 'Polo collar, elasticized cuffs & 3 cm side vents',
+    pocketConstruction: '13 cm 2-button placket + 1 decorative faux chest pocket',
+    dataFlags: ['I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 8,
@@ -422,17 +547,28 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-MD3',
-    title: "Men's Cotton-Modal Architectural Polo — Design 03",
+    mcCode: 'MTPZ001',
+    title: "Men's Shiny Zip Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Cool silk-smooth modal touch with 6% spandex 4-way recovery',
-    colorCount: 8,
+    stretchFeelNote: 'Ultra-soft, cooling cotton-modal knit with responsive 4-way stretch.',
+    colorCount: COLORS_MODAL_NAM.length,
     colorways: COLORS_MODAL_NAM,
-    fitNote: 'Refined shoulder-line cotton-modal polo tailored for smart-casual layering',
+    summary:
+      'Modern polo in silky stretch modal knit swapping buttons for a smooth 13 cm mirror-finish metallic zipper placket.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: Cotton Modal)',
+      'Polo collar · 13 cm mirror-finish zipper placket',
+      'Short sleeves with elasticized cuffs',
+      'Straight fit with 3 cm side vents',
+    ],
+    seamFinish: 'Polo collar, elasticized cuffs & 3 cm side vents',
+    pocketConstruction: '13 cm mirror-finish metallic zipper placket',
+    dataFlags: ['I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 9,
@@ -440,17 +576,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-MD4',
-    title: "Men's Cotton-Modal Relaxed Polo — Design 04",
+    title: "Men's Concealed-Zip Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Cool silk-smooth modal touch with 6% spandex 4-way recovery',
-    colorCount: 8,
+    stretchFeelNote: 'Airy, smooth cotton-modal fabric engineered for lasting color and shape retention.',
+    colorCount: COLORS_MODAL_NAM.length,
     colorways: COLORS_MODAL_NAM,
-    fitNote: 'Modern concealed-zip polo highlighting fluid drape and 6% spandex recovery',
+    summary:
+      'Minimalist tailored polo crafted with a flat, fabric-covered 13 cm concealed zipper placket and elasticized cuffs.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: Cotton Modal)',
+      'Polo collar · 13 cm concealed zipper placket',
+      'Short sleeves with elasticized cuffs',
+      'Straight fit with 3 cm side vents',
+    ],
+    seamFinish: 'Polo collar, elasticized cuffs & 3 cm side vents',
+    pocketConstruction: 'Flat 13 cm fabric-concealed zipper placket',
+    dataFlags: ['I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 10,
@@ -458,17 +604,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-PQ1',
-    title: "Men's 4-Way Stretch Piqué Polo — Design 01",
+    mcCode: 'MTP0001',
+    title: "Men's 2-Button Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'PQ 4 CHIỀU / PIQUE NAM – 4 WAYS',
     composition: '95% Cotton, 5% Spandex',
     weightGsm: '190–200 GSM',
     fabricWidth: '185–195 cm',
-    stretchFeelNote: 'Airy honeycomb micro-piqué texture with full 4-way stretch mobility',
-    colorCount: 8,
+    stretchFeelNote: 'Structured, breathable piqué weave with soft hand-feel and 4-way stretch mobility.',
+    colorCount: COLORS_PIQUE_NAM.length,
     colorways: COLORS_PIQUE_NAM,
-    fitNote: 'Breathable micro-piqué weave engineered with full 4-way stretch comfort',
+    summary:
+      'Structured 2-button polo in breathable 4-way stretch cotton piqué with elasticized cuffs and 3 cm side vents.',
+    keyFeatures: [
+      '95% Cotton, 5% Spandex · 4-Way Piqué',
+      'Polo collar · 13 cm 2-button placket',
+      'Short sleeves with elasticized cuffs',
+      'Straight fit with 3 cm side vents',
+    ],
+    seamFinish: 'Structured polo collar, elasticized cuffs & 3 cm side vents',
+    pocketConstruction: '13 cm 2-button placket; clean pocketless chest',
   },
   {
     rowNum: 11,
@@ -476,17 +632,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-PQ2',
-    title: "Men's 4-Way Stretch Piqué Polo — Design 02",
+    title: "Men's 3-Button Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'PQ 4 CHIỀU / PIQUE NAM – 4 WAYS',
     composition: '95% Cotton, 5% Spandex',
     weightGsm: '190–200 GSM',
     fabricWidth: '185–195 cm',
-    stretchFeelNote: 'Airy honeycomb micro-piqué texture with full 4-way stretch mobility',
-    colorCount: 8,
+    stretchFeelNote: 'Airy, structured honeycomb cotton piqué with 4-way stretch and minimal pilling.',
+    colorCount: COLORS_PIQUE_NAM.length,
     colorways: COLORS_PIQUE_NAM,
-    fitNote: 'Structured 3-button micro-piqué polo with crisp ribbed collar and cuffs',
+    summary:
+      'Masculine 4-way piqué polo distinguished by an elongated 15 cm 3-button placket, ribbed cuffs, and 2 cm side vents.',
+    keyFeatures: [
+      '95% Cotton, 5% Spandex · 4-Way Piqué',
+      'Polo collar · 15 cm 3-button placket',
+      'Short sleeves with ribbed cuffs',
+      'Straight fit with 2 cm side vents',
+    ],
+    seamFinish: 'Polo collar, fine ribbed cuffs & 2 cm side vents',
+    pocketConstruction: '15 cm elongated 3-button placket',
   },
   {
     rowNum: 12,
@@ -494,17 +659,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-PQ3',
-    title: "Men's 4-Way Stretch Piqué Polo — Design 03",
+    mcCode: 'MTPZ001',
+    title: "Men's Mirror-Zip Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'PQ 4 CHIỀU / PIQUE NAM – 4 WAYS',
     composition: '95% Cotton, 5% Spandex',
     weightGsm: '190–200 GSM',
     fabricWidth: '185–195 cm',
-    stretchFeelNote: 'Airy honeycomb micro-piqué texture with full 4-way stretch mobility',
-    colorCount: 8,
+    stretchFeelNote: 'Crisp cotton-spandex micro-piqué holding structured collar geometry wash after wash.',
+    colorCount: COLORS_PIQUE_NAM.length,
     colorways: COLORS_PIQUE_NAM,
-    fitNote: 'Contemporary cut piqué polo built for high-frequency corporate & retail wear',
+    summary:
+      'Polished yet dynamic 4-way piqué polo accented with a 13 cm mirror-finish metallic zipper and ribbed cuffs.',
+    keyFeatures: [
+      '95% Cotton, 5% Spandex · 4-Way Piqué',
+      'Polo collar · 13 cm mirror-finish zipper',
+      'Short sleeves with ribbed cuffs',
+      'Straight fit with 2 cm side vents',
+    ],
+    seamFinish: 'Polo collar, ribbed cuffs & 2 cm side vents',
+    pocketConstruction: '13 cm mirror-finish exposed metallic zipper placket',
   },
   {
     rowNum: 13,
@@ -512,17 +687,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-PQ4',
-    title: "Men's 4-Way Stretch Piqué Polo — Design 04",
+    title: "Men's Concealed-Zip Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'PQ 4 CHIỀU / PIQUE NAM – 4 WAYS',
     composition: '95% Cotton, 5% Spandex',
     weightGsm: '190–200 GSM',
     fabricWidth: '185–195 cm',
-    stretchFeelNote: 'Airy honeycomb micro-piqué texture with full 4-way stretch mobility',
-    colorCount: 8,
+    stretchFeelNote: 'Breathable 4-way stretch cotton piqué with firm anti-sag silhouette structure.',
+    colorCount: COLORS_PIQUE_NAM.length,
     colorways: COLORS_PIQUE_NAM,
-    fitNote: 'Minimalist concealed-zip piqué polo showcasing dimensional honeycomb texture',
+    summary:
+      'Dressy minimalist 4-way piqué polo combining a clean 13 cm concealed zipper placket with ribbed sleeve cuffs.',
+    keyFeatures: [
+      '95% Cotton, 5% Spandex · 4-Way Piqué',
+      'Polo collar · 13 cm concealed zipper placket',
+      'Short sleeves with ribbed cuffs',
+      'Straight fit with 2 cm side vents',
+    ],
+    seamFinish: 'Polo collar, ribbed cuffs & 2 cm side vents',
+    pocketConstruction: '13 cm concealed zipper placket under fabric flap',
   },
   {
     rowNum: 14,
@@ -530,17 +714,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-SL201',
-    title: "Men's Slub 20 Pure Cotton Polo — Design 201",
+    title: "Men's 100% Cotton Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'SLUB 20',
     composition: '100% Cotton',
     weightGsm: '185–190 GSM',
     fabricWidth: '208 cm (2.08 m)',
-    stretchFeelNote: 'Natural dry cotton hand-feel with organic irregular slub yarn texture',
-    colorCount: 7,
+    stretchFeelNote: 'Organic 100% cotton slub yarn texture offering dry breathability and structured drape.',
+    colorCount: COLORS_SLUB20.length,
     colorways: COLORS_SLUB20,
-    fitNote: 'Textured 100% cotton slub 3-button polo offering organic visual depth',
+    summary:
+      'Naturally breathable 100% cotton slub polo tailored in a clean straight fit with a 13 cm 3-button placket.',
+    keyFeatures: [
+      '100% Cotton · Slub 20 knit',
+      'Polo collar · 13 cm 3-button placket',
+      'Open clean-hemmed short sleeves',
+      'Straight fit with 2 cm side vents',
+    ],
+    seamFinish: 'Polo collar, open short sleeves & 2 cm side vents',
+    pocketConstruction: '13 cm 3-button placket on textured cotton slub body',
   },
   {
     rowNum: 15,
@@ -548,17 +741,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Polo Nam',
     sku: 'MPOLO-SL203',
-    title: "Men's Slub 20 Pure Cotton Polo — Design 203",
+    title: "Men's 100% Cotton Zip Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'SLUB 20',
     composition: '100% Cotton',
     weightGsm: '185–190 GSM',
     fabricWidth: '208 cm (2.08 m)',
-    stretchFeelNote: 'Natural dry cotton hand-feel with organic irregular slub yarn texture',
-    colorCount: 7,
+    stretchFeelNote: '100% pure cotton slub texture with crisp hand-feel and natural moisture absorption.',
+    colorCount: COLORS_SLUB20.length,
     colorways: COLORS_SLUB20,
-    fitNote: 'Relaxed Slub 20 cotton zip-placket polo with exposed metallic puller',
+    summary:
+      'Contemporary 100% cotton slub polo featuring a light-catching 13 cm mirror-finish zipper and 3 cm side vents.',
+    keyFeatures: [
+      '100% Cotton · Slub 20 knit',
+      'Polo collar · 13 cm mirror-finish zipper',
+      'Open short sleeves',
+      'Straight fit with 3 cm side vents',
+    ],
+    seamFinish: 'Polo collar, open short sleeves & 3 cm side vents',
+    pocketConstruction: '13 cm mirror-finish exposed zipper placket',
   },
   {
     rowNum: 27,
@@ -566,17 +768,30 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Polo Nữ',
     sku: 'WPOLO-MD1',
-    title: "Women's Cotton-Modal Fitted Polo — Design 01",
+    title: "Women's Slim-Fit Zip Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
-    fabricCode: 'MODAL NỮ',
+    fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Ultra-soft modal blend with smooth fluid contour and stretch return',
-    colorCount: 3,
-    colorways: COLORS_MODAL_NU,
-    fitNote: 'Fitted 3/4-sleeve cotton-modal polo accented with an exposed gold-tone zip neck',
+    stretchFeelNote: 'Silky, cool-to-the-touch stretch cotton-modal jersey draping smoothly close to the body.',
+    colorCount: COLORS_MODAL_NAM.length,
+    colorways: COLORS_MODAL_NAM,
+    summary:
+      'Sporty, feminine slim-fit polo in stretch cotton-modal jersey featuring sculpted 3/4 sleeves and a 21 cm metal zipper.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: MODAL-M)',
+      'Polo collar · 21 cm exposed metal zipper',
+      'Three-quarter sleeves',
+      'Contoured slim fit',
+    ],
+    seamFinish: 'Slim-fit 3/4-sleeve cut with spread polo collar',
+    pocketConstruction: '21 cm deep exposed metal zipper placket',
+    dataFlags: [
+      'I01: Synced to MODAL NAM 8-color lineup per official sheet (confirm vs earlier Modal Nữ assignment).',
+      'I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.',
+    ],
   },
   {
     rowNum: 28,
@@ -584,17 +799,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Polo Nữ',
     sku: 'WPOLO-MD2',
-    title: "Women's Cotton-Modal Short-Sleeve Polo — Design 02",
+    title: "Women's 5-Button Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'MODAL NỮ',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Ultra-soft modal blend with smooth fluid contour and stretch return',
-    colorCount: 3,
+    stretchFeelNote: 'Cooling, silky-soft Cotton Modal blend with breathable stretch and supple drape.',
+    colorCount: COLORS_MODAL_NU.length,
     colorways: COLORS_MODAL_NU,
-    fitNote: 'Contour-friendly cotton-modal polo with an elongated 5-button narrow placket',
+    summary:
+      'Soft feminine polo in 94% Cotton Modal blend tailored with an elongated 16 cm 5-button placket and cinched waist.',
+    keyFeatures: [
+      '94% Cotton Modal, 6% Spandex',
+      'Polo collar · 16 cm 5-button placket',
+      'Short sleeves',
+      'Regular fit with cinched waist & 5 cm side vents',
+    ],
+    seamFinish: 'Cinched-waist regular fit, short sleeves & 5 cm side vents',
+    pocketConstruction: '16 cm narrow 5-button front placket',
   },
   {
     rowNum: 29,
@@ -602,17 +826,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Polo Nữ',
     sku: 'WPOLO-YD1',
-    title: "Women's Performance Piqué Polo — Design 01",
+    title: "Women's Slim-Fit 5-Button Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'YODY NỮ',
-    composition: '45% Cotton, 50% Poly, 5% Spandex',
+    composition: '50% Polyester, 45% Cotton, 5% Spandex',
     weightGsm: '190–200 GSM',
     fabricWidth: '180–185 cm',
-    stretchFeelNote: 'Crisp quick-dry cotton-poly piqué with 5% stretch and high colorfastness',
-    colorCount: 9,
+    stretchFeelNote: 'Crisp Poly-Cotton-Spandex performance piqué with colorfast, quick-dry resilience.',
+    colorCount: COLORS_PIQUE_YODY_NU.length,
     colorways: COLORS_PIQUE_YODY_NU,
-    fitNote: 'Slim-fit performance piqué polo with an elongated narrow button placket across 9 shades',
+    summary:
+      'Contoured slim-fit performance piqué polo with an elongated 20 cm 5-button placket and 5 cm side vents.',
+    keyFeatures: [
+      '50% Polyester, 45% Cotton, 5% Spandex',
+      'Polo collar · 20 cm 5-button placket',
+      'Short sleeves',
+      'Slim fit with 5 cm deep side vents',
+    ],
+    seamFinish: 'Slim-fit piqué cut with 5 cm deep side vents',
+    pocketConstruction: 'Elongated 20 cm 5-button narrow placket',
   },
   {
     rowNum: 30,
@@ -620,20 +853,29 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Polo Nữ',
     sku: 'WPOLO-YD2',
-    title: "Women's Performance Piqué Polo — Design 02",
+    title: "Women's Contrast-Trim Polo Shirt",
     category: 'Polos',
     chapterNumeral: 'III',
     fabricCode: 'YODY NỮ',
-    composition: '45% Cotton, 50% Poly, 5% Spandex',
+    composition: '50% Polyester, 45% Cotton, 5% Spandex',
     weightGsm: '190–200 GSM',
     fabricWidth: '180–185 cm',
-    stretchFeelNote: 'Crisp quick-dry cotton-poly piqué with 5% stretch and high colorfastness',
-    colorCount: 9,
+    stretchFeelNote: 'Wrinkle-resistant Poly-Cotton-Spandex piqué retaining vivid color and structure.',
+    colorCount: COLORS_PIQUE_YODY_NU.length,
     colorways: COLORS_PIQUE_YODY_NU,
-    fitNote: 'Fitted performance piqué polo framed with crisp white contrast inner-placket piping',
+    summary:
+      'Tailored contrast-trim polo framed with crisp white inner placket piping, 3 decorative buttons, and a cinched waist.',
+    keyFeatures: [
+      '50% Polyester, 45% Cotton, 5% Spandex',
+      'Polo collar · 18 cm placket with contrast inner trim',
+      '3 decorative buttons · Short sleeves',
+      'Regular cinched-waist fit & 5 cm side vents',
+    ],
+    seamFinish: 'Regular cinched-waist fit, contrast inner placket & 5 cm side vents',
+    pocketConstruction: '18 cm contrast-trimmed placket with 3 decorative buttons',
   },
 
-  // TEES & V-NECKS
+  // IV. TEES & V-NECKS (24 – 40)
   {
     rowNum: 16,
     gender: 'Men',
@@ -647,10 +889,20 @@ const RAW_PRODUCTS: RawProductRow[] = [
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Smooth moisture-wicking modal blend with 6% spandex body recovery',
-    colorCount: 8,
+    stretchFeelNote: 'Smooth, breathable stretch knit with moisture-wicking modal softness.',
+    colorCount: COLORS_MODAL_NAM.length,
     colorways: COLORS_MODAL_NAM,
-    fitNote: 'Clean, minimalist straight-fit crew neck with mid-bicep short sleeves',
+    summary:
+      'Minimalist straight-fit crew neck tee in smooth, moisture-wicking stretch jersey built for shape-retaining everyday wear.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: Cotton Modal)',
+      'Durable shape-retaining ribbed crew neck',
+      'Straight fit',
+      'Mid-bicep short sleeves',
+    ],
+    seamFinish: 'Durable ribbed crew neck & twin-needle short sleeves',
+    pocketConstruction: 'Clean pocketless chest',
+    dataFlags: ['I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 17,
@@ -658,17 +910,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Tshirt Nam',
     sku: 'MTSHIRT-MD2',
-    title: "Men's Cotton-Modal Pocket Crew Tee",
+    title: "Men's Button-Placket Crew Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Smooth moisture-wicking modal blend with 6% spandex body recovery',
-    colorCount: 8,
+    stretchFeelNote: 'Silky-soft, cool cotton-modal knit with responsive stretch recovery.',
+    colorCount: COLORS_MODAL_NAM.length,
     colorways: COLORS_MODAL_NAM,
-    fitNote: 'Clean straight-fit cotton-modal Henley crew elevated with a 2-button neck placket',
+    summary:
+      'Crew neck Henley tee elevated with a 13 cm 3-button front placket in cool, elastic stretch cotton-modal jersey.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: Cotton Modal)',
+      'Ribbed crew neck · 13 cm 3-button placket',
+      'Roomy straight fit',
+      'Short sleeves',
+    ],
+    seamFinish: 'Ribbed crew neck with 13 cm 3-button front placket',
+    pocketConstruction: '13 cm 3-button Henley placket; clean torso',
+    dataFlags: ['I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 18,
@@ -676,17 +938,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Tshirt Nam',
     sku: 'MTSHIRT-MD3',
-    title: "Men's Cotton-Modal Relaxed Boxy Tee",
+    title: "Men's Button-Neck Pocket T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Smooth moisture-wicking modal blend with 6% spandex body recovery',
-    colorCount: 8,
+    stretchFeelNote: 'Breathable 4-way stretch modal blend resisting creases throughout the day.',
+    colorCount: COLORS_MODAL_NAM.length,
     colorways: COLORS_MODAL_NAM,
-    fitNote: 'Cotton-modal 3-button Henley tee anchored by a crisp mitered chest pocket',
+    summary:
+      'Utility-inspired crew tee pairing a 13 cm 3-button neckline and functional chest patch pocket with 4-way stretch comfort.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: Cotton Modal)',
+      'Ribbed crew neck · 13 cm 3-button placket',
+      '1 functional front chest pocket',
+      'Straight fit · Short sleeves',
+    ],
+    seamFinish: 'Ribbed crew neck, 13 cm 3-button placket & straight body',
+    pocketConstruction: '1 front chest patch pocket + 3-button Henley neck',
+    dataFlags: ['I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 19,
@@ -694,17 +966,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Tshirt Nam',
     sku: 'MTSHIRT-CM26',
-    title: "Men's Combed 26s Pure Cotton Crew Tee",
+    mcCode: 'MTT0003',
+    title: "Men's 100% Cotton Crew Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM26 NAM',
     composition: '100% Cotton',
     weightGsm: '195–200 GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Classic crisp 26s combed cotton hand-feel with natural breathability',
-    colorCount: 8,
+    stretchFeelNote: '100% combed 26s pure cotton delivering crisp structure and high moisture absorption.',
+    colorCount: COLORS_CM26_NAM.length,
     colorways: COLORS_CM26_NAM,
-    fitNote: 'Crisp 100% combed 26s cotton jersey delivering classic dry hand-feel',
+    summary:
+      'Durable 100% combed cotton crew tee balancing structured drape, breathability, and natural skin comfort.',
+    keyFeatures: [
+      '100% Cotton · Combed 26s',
+      'Classic ribbed crew neck',
+      'Straight fit',
+      'Short sleeves',
+    ],
+    seamFinish: 'Ribbed crew neck & structured straight-fit seams',
+    pocketConstruction: 'Clean pocketless chest',
   },
   {
     rowNum: 20,
@@ -712,17 +994,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Tshirt Nam',
     sku: 'MVNECK-CM26',
-    title: "Men's Combed 26s Pure Cotton V-Neck Tee",
+    title: "Men's V-Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM26 NAM',
     composition: '100% Cotton',
     weightGsm: '195–200 GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Classic crisp 26s combed cotton hand-feel with natural breathability',
-    colorCount: 8,
+    stretchFeelNote: 'Smooth, colorfast 100% combed cotton knit engineered for cool moisture absorption.',
+    colorCount: COLORS_CM26_NAM.length,
     colorways: COLORS_CM26_NAM,
-    fitNote: 'Precision mitered V-neck rib construction in breathable 100% combed cotton',
+    summary:
+      'Sleek straight-fit tee in breathable 100% combed cotton finished with a balanced, modest mitered V-neckline.',
+    keyFeatures: [
+      '100% Cotton · Combed 26s',
+      'Modest ribbed V-neck',
+      'Straight fit',
+      'Short sleeves',
+    ],
+    seamFinish: 'Mitered V-neck rib binding & straight-fit seams',
+    pocketConstruction: 'Clean pocketless chest',
   },
   {
     rowNum: 21,
@@ -730,17 +1021,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Tshirt Nam',
     sku: 'MTSHIRT-CM36',
-    title: "Men's Heavyweight Stretch CM36 Crew Tee",
+    title: "Men's Crew Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM36',
     composition: '95% Cotton, 5% Spandex',
     weightGsm: '220 GSM',
     fabricWidth: '177 cm',
-    stretchFeelNote: 'Substantial 220 GSM compact jersey with 5% stretch structure',
-    colorCount: 6,
+    stretchFeelNote: 'Substantial 220 GSM cotton-spandex jersey combining crisp structure with flexible stretch.',
+    colorCount: COLORS_CM36.length,
     colorways: COLORS_CM36,
-    fitNote: 'Substantial 220 GSM jersey providing structured chest presence and stretch return',
+    summary:
+      'Mid-heavyweight 220 GSM stretch cotton crew tee offering reliable shape retention for solo or layered styling.',
+    keyFeatures: [
+      '95% Cotton, 5% Spandex · 220 GSM',
+      'Sturdy ribbed crew neck',
+      'Straight fit',
+      'Short sleeves',
+    ],
+    seamFinish: 'Substantial ribbed crew neck & twin-needle hems',
+    pocketConstruction: 'Clean pocketless chest',
   },
   {
     rowNum: 22,
@@ -748,17 +1048,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nam',
     productGroupVi: 'Áo Thun Tshirt Nam',
     sku: 'MTSHIRT-CM40',
-    title: "Men's Featherweight Combed 40s Jersey Tee",
+    title: "Men's Crew Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM40',
     composition: '100% Cotton',
     weightGsm: '125–130 GSM',
     fabricWidth: '155 cm',
-    stretchFeelNote: 'Ultra-fine 40s combed cotton jersey with airy summer weight',
-    colorCount: 6,
+    stretchFeelNote: 'Featherweight 40s pure cotton single jersey with ultra-soft, fast-absorbing breathability.',
+    colorCount: COLORS_CM40.length,
     colorways: COLORS_CM40,
-    fitNote: 'Ultra-fine 40s single-jersey cotton engineered for warm-climate breathability',
+    summary:
+      'Ultra-lightweight 100% combed 40s cotton tee engineered for maximum airflow and relaxed warm-weather movement.',
+    keyFeatures: [
+      '100% Cotton · Featherweight 40s',
+      'Ribbed crew neck',
+      'Roomy straight fit',
+      'Short sleeves',
+    ],
+    seamFinish: 'Fine single-jersey crew neck & light twin-needle hems',
+    pocketConstruction: 'Clean pocketless chest',
   },
   {
     rowNum: 31,
@@ -766,17 +1075,31 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WVNECK-MD',
-    title: "Women's Cotton-Modal Sculpted V-Neck Tee",
+    mcCode: 'WTTV001',
+    title: "Women's Cinched-Waist V-Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
-    fabricCode: 'MODAL NỮ',
+    fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Ultra-soft modal blend with smooth fluid contour and stretch return',
-    colorCount: 3,
-    colorways: COLORS_MODAL_NU,
-    fitNote: 'Cinched-waist overlap V-neck silhouette paired with silky cotton-modal recovery',
+    stretchFeelNote: 'Silky-smooth, non-clinging stretch cotton-modal knit with soft moisture breathability.',
+    colorCount: COLORS_MODAL_NAM.length,
+    colorways: COLORS_MODAL_NAM,
+    summary:
+      'Gently waist-contoured V-neck tee in cooling stretch cotton-modal jersey for a sleek, flattering everyday profile.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: MODAL-M)',
+      'Flattering V-neck',
+      'Regular fit with cinched waist',
+      'Short sleeves',
+    ],
+    seamFinish: 'Contoured waist seams & clean V-neck binding',
+    pocketConstruction: 'Clean chest profile',
+    dataFlags: [
+      'I01: Synced to MODAL NAM 8-color lineup per official sheet (confirm vs earlier Modal Nữ assignment).',
+      'I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.',
+    ],
   },
   {
     rowNum: 32,
@@ -784,17 +1107,30 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WTSHIRT-MD1',
-    title: "Women's Cotton-Modal Essential Crew Tee — Design 01",
+    title: "Women's Cropped Slim-Fit T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
-    fabricCode: 'MODAL NỮ',
+    fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Ultra-soft modal blend with smooth fluid contour and stretch return',
-    colorCount: 3,
-    colorways: COLORS_MODAL_NU,
-    fitNote: 'Contoured slim-fit silhouette with high-resilience rib crew neckline',
+    stretchFeelNote: 'Cool, wrinkle-resistant cotton-modal blend with crisp 4-way stretch recovery.',
+    colorCount: COLORS_MODAL_NAM.length,
+    colorways: COLORS_MODAL_NAM,
+    summary:
+      'Sporty cropped slim-fit crew tee in resilient stretch modal blend shaped to pair cleanly with high-rise bottoms.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: MODAL-M)',
+      'Shape-retaining ribbed crew neck',
+      'Cropped slim-fit length',
+      'Short sleeves',
+    ],
+    seamFinish: 'Cropped twin-needle hem & snug ribbed crew neck',
+    pocketConstruction: 'Clean minimalist front',
+    dataFlags: [
+      'I01: Synced to MODAL NAM 8-color lineup per official sheet (confirm vs earlier Modal Nữ assignment).',
+      'I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.',
+    ],
   },
   {
     rowNum: 33,
@@ -802,17 +1138,30 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WTSHIRT-MD2',
-    title: "Women's Cotton-Modal Relaxed Crew Tee — Design 02",
+    title: "Women's Trimmed Straight-Fit T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
-    fabricCode: 'MODAL NỮ',
+    fabricCode: 'MODAL NAM',
     composition: '94% Cotton Modal, 6% Spandex',
     weightGsm: '190–200 (195) GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Ultra-soft modal blend with smooth fluid contour and stretch return',
-    colorCount: 3,
-    colorways: COLORS_MODAL_NU,
-    fitNote: 'Straight-fit ringer-style crew tee edged with contrast navy sleeve and hem binding',
+    stretchFeelNote: 'Smooth, cool cotton-modal stretch knit offering breathable all-day drape.',
+    colorCount: COLORS_MODAL_NAM.length,
+    colorways: COLORS_MODAL_NAM,
+    summary:
+      'Straight-fit cotton-modal crew tee distinguished by crisp contrast binding along the short sleeve cuffs and bottom hem.',
+    keyFeatures: [
+      '94% Cotton, 6% Spandex (Swatch book: MODAL-M)',
+      'Ribbed crew neck · Straight fit',
+      'Contrast-trimmed short sleeves',
+      'Contrast-trimmed bottom hem',
+    ],
+    seamFinish: 'Contrast binding along sleeve cuffs & bottom hem',
+    pocketConstruction: 'Minimalist bound-edge ringer profile',
+    dataFlags: [
+      'I01: Synced to MODAL NAM 8-color lineup per official sheet (confirm vs earlier Modal Nữ assignment).',
+      'I02: Swatch book states 94% Cotton Modal, 6% Spandex; product text states 94% Cotton, 6% Spandex.',
+    ],
   },
   {
     rowNum: 34,
@@ -820,17 +1169,32 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WTSHIRT-CM261',
-    title: "Women's Combed 26s Pure Cotton Tee — Design 01",
+    title: "Women's T-Shirt (Sample Pending)",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM26 NỮ',
     composition: '100% Cotton',
     weightGsm: '180–185 GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Smooth combed 26s pure cotton with balanced 180–185 GSM structure',
-    colorCount: 5,
-    colorways: COLORS_CM26_NU,
-    fitNote: 'Crisp 180–185 GSM combed cotton silhouette with clean twin-needle hems',
+    stretchFeelNote: '180–185 GSM combed 26s pure cotton jersey (sample specifications pending).',
+    colorCount: 0,
+    colorways: [],
+    summary:
+      'Style slot assigned to CM26-F combed cotton jersey; sample garment specifications and colorways remain pending.',
+    keyFeatures: [
+      '100% Cotton · CM26-F (180–185 GSM)',
+      'Sample status: Pending confirmation ("Chưa có mẫu")',
+      'Colorways awaiting sample sign-off',
+    ],
+    descriptionBullets: [
+      'Fabric program CM26 NỮ (100% Cotton, 180–185 GSM) carried forward from mill schedule.',
+      'Style features and approved colorway roster pending physical sample confirmation.',
+    ],
+    seamFinish: 'Pending sample sign-off',
+    pocketConstruction: 'Pending sample sign-off',
+    dataFlags: [
+      'I04: No sample or official spec yet ("Chưa có mẫu"); fabric CM26-F carried over with empty colorways.',
+    ],
   },
   {
     rowNum: 35,
@@ -838,17 +1202,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WTSHIRT-CM262',
-    title: "Women's Combed 26s Pure Cotton Tee — Design 02",
+    title: "Women's Cinched-Waist Crew Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM26 NỮ',
     composition: '100% Cotton',
     weightGsm: '180–185 GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Smooth combed 26s pure cotton with balanced 180–185 GSM structure',
-    colorCount: 5,
+    stretchFeelNote: 'Breathable 100% combed cotton knit with crisp structure and non-irritating comfort.',
+    colorCount: COLORS_CM26_NU.length,
     colorways: COLORS_CM26_NU,
-    fitNote: 'Tailored cinched-waist crew neck tee sculpted for clean close-to-body layering',
+    summary:
+      'Waist-tailored crew neck tee in crisp 100% cotton jersey, combining airy breathability with a neat contoured silhouette.',
+    keyFeatures: [
+      '100% Cotton · Combed 26s',
+      'Classic ribbed crew neck',
+      'Regular fit with cinched waist',
+      'Short sleeves',
+    ],
+    seamFinish: 'Contoured waist seams & fine ribbed crew collar',
+    pocketConstruction: 'Clean pocketless front',
   },
   {
     rowNum: 36,
@@ -856,17 +1229,27 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WVNECK-CM26',
-    title: "Women's Combed 26s Pure Cotton V-Neck Tee",
+    title: "Women's Cinched-Waist V-Neck T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM26 NỮ',
     composition: '100% Cotton',
     weightGsm: '180–185 GSM',
     fabricWidth: '175–180 cm',
-    stretchFeelNote: 'Smooth combed 26s pure cotton with balanced 180–185 GSM structure',
-    colorCount: 5,
+    stretchFeelNote: 'Smooth, absorbent 100% pure cotton keeping a structured, fresh appearance.',
+    colorCount: COLORS_CM26_NU.length,
     colorways: COLORS_CM26_NU,
-    fitNote: 'Clean mitered V-neck silhouette woven from breathable 100% combed cotton',
+    summary:
+      'Airy 100% cotton V-neck tee cut with a softly cinched waist and flattering modest neckline for daily wear.',
+    keyFeatures: [
+      '100% Cotton · Combed 26s',
+      'Modest ribbed V-neck',
+      'Regular fit with cinched waist',
+      'Short sleeves',
+    ],
+    seamFinish: 'Mitered V-neck rib binding & waist-contoured seams',
+    pocketConstruction: 'Clean chest profile',
+    dataFlags: ['I06: Studio sample photo marked pending ("ảnh chưa chụp") in official sheet.'],
   },
   {
     rowNum: 37,
@@ -874,17 +1257,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WTSHIRT-CM402',
-    title: "Women's Featherweight Combed 40s Tee",
+    title: "Women's Oversized T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM40',
     composition: '100% Cotton',
     weightGsm: '125–130 GSM',
     fabricWidth: '155 cm',
-    stretchFeelNote: 'Featherweight 40s combed cotton jersey for breathable drape',
-    colorCount: 6,
+    stretchFeelNote: 'Featherlight 40s combed 100% cotton jersey for maximum warm-weather airflow.',
+    colorCount: COLORS_CM40.length,
     colorways: COLORS_CM40,
-    fitNote: 'Relaxed oversized dropped-shoulder silhouette in airy 125–130 GSM combed cotton',
+    summary:
+      'Relaxed oversized longline tee in ultra-lightweight 100% cotton jersey featuring a crisp raised neckband.',
+    keyFeatures: [
+      '100% Cotton · Featherweight 40s',
+      'Ribbed crew neck with raised neckband',
+      'Longline straight fit, oversized silhouette',
+      'Relaxed short sleeves',
+    ],
+    seamFinish: 'Raised ribbed neckband & oversized longline drape',
+    pocketConstruction: 'Clean unbranded oversized front',
   },
   {
     rowNum: 38,
@@ -892,35 +1284,56 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WTSHIRT-L',
-    title: "Women's 4-Way Stretch Compact Cotton Long-Line Tee",
+    mcCode: 'WTTL001',
+    title: "Women's Cinched-Waist Long-Sleeve T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM30',
     composition: '94% Cotton, 6% Spandex',
     weightGsm: '175–185 GSM',
     fabricWidth: '175 cm (1M75)',
-    stretchFeelNote: '40s combed cotton + 30D elastane giving dense 4-way stretch & sleek surface',
-    colorCount: 3,
-    colorways: COLORS_AK005,
-    fitNote: 'Fine 40s combed cotton spun with 30D elastane for 4-way recovery and smooth sheen',
+    stretchFeelNote: 'Fine compact 40s cotton-spandex knit with dense 4-way recovery and smooth sheen.',
+    colorCount: COLORS_CM30.length,
+    colorways: COLORS_CM30,
+    summary:
+      'Transitional long-sleeve crew tee in fine compact jersey cut with a regular cinched waist for effortless layering.',
+    keyFeatures: [
+      '100% Cotton (Swatch book CM30: 94% Cotton, 6% Spandex)',
+      'Ribbed crew neck',
+      'Full-length long sleeves',
+      'Regular fit with cinched waist',
+    ],
+    seamFinish: 'Contoured waist seams & full-length sleeves',
+    pocketConstruction: 'Clean layered-ready front',
+    dataFlags: ['I03: Product text states 100% Cotton; CM30 swatch book states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 39,
     gender: 'Women',
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
-    sku: 'WTSHIRT1',
-    title: "Women's 4-Way Stretch Compact Cotton Crew — Edition 01",
+    sku: 'WTSHIRT1-CM30',
+    title: "Women's Regular Straight-Fit T-Shirt",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM30',
     composition: '94% Cotton, 6% Spandex',
     weightGsm: '175–185 GSM',
     fabricWidth: '175 cm (1M75)',
-    stretchFeelNote: '40s combed cotton + 30D elastane giving dense 4-way stretch & sleek surface',
-    colorCount: 3,
-    colorways: COLORS_AK005,
-    fitNote: 'Clean straight-cut crew tee showcasing smooth 4-way compact jersey drape',
+    stretchFeelNote: 'Smooth compact knit delivering even surface hand-feel and resilient comfort.',
+    colorCount: COLORS_CM30.length,
+    colorways: COLORS_CM30,
+    summary:
+      'Versatile regular-length straight-fit crew tee crafted for balanced everyday proportions across all silhouettes.',
+    keyFeatures: [
+      '100% Cotton (Swatch book CM30: 94% Cotton, 6% Spandex)',
+      'Shape-retaining ribbed crew neck',
+      'Straight fit, regular hip length',
+      'Short sleeves',
+    ],
+    seamFinish: 'Ribbed crew neck & regular straight-fit seams',
+    pocketConstruction: 'Clean minimal front',
+    dataFlags: ['I03: Product text states 100% Cotton; CM30 swatch book states 94% Cotton, 6% Spandex.'],
   },
   {
     rowNum: 40,
@@ -928,37 +1341,56 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Áo Thun Tshirt Nữ',
     sku: 'WTSHIRT2',
-    title: "Women's 4-Way Stretch Compact Cotton Crew — Edition 02",
+    title: "Women's Relaxed Crop Top",
     category: 'Tees & V-Necks',
     chapterNumeral: 'IV',
     fabricCode: 'CM30',
     composition: '94% Cotton, 6% Spandex',
     weightGsm: '175–185 GSM',
     fabricWidth: '175 cm (1M75)',
-    stretchFeelNote: '40s combed cotton + 30D elastane giving dense 4-way stretch & sleek surface',
-    colorCount: 3,
-    colorways: COLORS_AK005,
-    fitNote: 'Waist-skimming relaxed crop tee with 4-way elastane return and clean chest profile',
+    stretchFeelNote: 'Compact jersey with clean drape and smooth, soft hand-feel.',
+    colorCount: COLORS_CM30.length,
+    colorways: COLORS_CM30,
+    summary:
+      'Fresh waist-skimming relaxed crop top engineered to pair effortlessly with high-waisted trousers, shorts, or skirts.',
+    keyFeatures: [
+      '100% Cotton (Swatch book CM30: 94% Cotton, 6% Spandex)',
+      'Ribbed crew neck',
+      'Relaxed-fit crop length',
+      'Short sleeves',
+    ],
+    seamFinish: 'Relaxed cropped twin-needle hem & ribbed crew collar',
+    pocketConstruction: 'Clean modern cropped torso',
+    dataFlags: ['I03: Product text states 100% Cotton; CM30 swatch book states 94% Cotton, 6% Spandex.'],
   },
 
-  // SKIRTS
+  // V. SKIRTS (41 – 43)
   {
     rowNum: 41,
     gender: 'Women',
     genderCode: 'Nữ',
     productGroupVi: 'Váy Nữ',
     sku: 'WBSK001-A82',
-    title: "Women's Architectural A-Line Tailored Skirt — Edition 01",
+    title: "Women's A-Line Skort",
     category: 'Skirts',
     chapterNumeral: 'V',
     fabricCode: 'A82',
-    composition: '95% Rayon-Poly, 5% Spandex',
+    composition: '95% Rayon Polyester, 5% Spandex',
     weightGsm: '330 GSM',
     fabricWidth: '152 cm',
-    stretchFeelNote: 'Structured 330 GSM cloth holding crisp asymmetrical wrap-front volume',
-    colorCount: 4,
+    stretchFeelNote: 'Structured 330 GSM Rayon-Polyester suiting maintaining crisp asymmetrical wrap geometry.',
+    colorCount: COLORS_A82.length,
     colorways: COLORS_A82,
-    fitNote: 'Asymmetric overlap wrap-front skort integrating concealed inner tailored shorts',
+    summary:
+      'Asymmetrical wrap-front A-line skort uniting a polished skirt silhouette with built-in tailored inner shorts.',
+    keyFeatures: [
+      '95% Rayon Polyester, 5% Spandex',
+      'A-line skort with asymmetrical wrap front',
+      'Concealed back zip closure',
+      'Wide cuffed hem & 2 faux back pockets',
+    ],
+    seamFinish: 'Asymmetrical wrap front over built-in shorts; concealed back zip',
+    pocketConstruction: '2 faux back welt pockets & wide cuffed hem',
   },
   {
     rowNum: 42,
@@ -966,17 +1398,26 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Váy Nữ',
     sku: 'WBSK002-A82',
-    title: "Women's Minimalist Wrap-Front Skirt — Edition 02",
+    title: "Women's Low-Rise Skort",
     category: 'Skirts',
     chapterNumeral: 'V',
     fabricCode: 'A82',
-    composition: '95% Rayon-Poly, 5% Spandex',
+    composition: '95% Rayon Polyester, 5% Spandex',
     weightGsm: '330 GSM',
     fabricWidth: '152 cm',
-    stretchFeelNote: 'Structured 330 GSM weave retaining clean low-rise A-line silhouette',
-    colorCount: 4,
+    stretchFeelNote: 'Cool, smooth 330 GSM suiting weave with light comfort stretch and sharp structure.',
+    colorCount: COLORS_A82.length,
     colorways: COLORS_A82,
-    fitNote: 'Low-rise A-line skort tailored with front waist darts and concealed side zipper',
+    summary:
+      'Modern low-rise skort with skirt-front overlay, wide cuffed hems, and a concealed left-side zipper.',
+    keyFeatures: [
+      '95% Rayon Polyester, 5% Spandex',
+      'Modern low-rise skort silhouette',
+      'Concealed left-side zip closure',
+      'Wide cuffed hem & 1 faux right back pocket',
+    ],
+    seamFinish: 'Low-rise waist, concealed left-side zip & wide cuffed hems',
+    pocketConstruction: '1 faux right back pocket with clean skirt-front overlay',
   },
   {
     rowNum: 43,
@@ -984,822 +1425,195 @@ const RAW_PRODUCTS: RawProductRow[] = [
     genderCode: 'Nữ',
     productGroupVi: 'Váy Nữ',
     sku: 'WSP0001',
-    title: "Women's Fluid Pleated Skirt",
+    title: "Women's A-Line Pleated Skirt",
     category: 'Skirts',
     chapterNumeral: 'V',
     fabricCode: '76',
     composition: '76% Polyester, 18% Rayon, 6% Spandex',
     weightGsm: '203 GSM',
     fabricWidth: '57/58"',
-    stretchFeelNote: 'Lightweight 203 GSM fluid suiting weave holding sharp knife pleats',
-    colorCount: 2,
+    stretchFeelNote: 'Crisp Poly-Rayon-Spandex suiting holding sharp knife pleats with stretch ease.',
+    colorCount: COLORS_FTR76.length,
     colorways: COLORS_FTR76,
-    fitNote: 'A-line knife-pleated mini skirt paired with the WBL0001 fluid suiting program',
+    summary:
+      'Gently flared knife-pleated A-line skirt anchored on a wide high-rise waistband with built-in inner shorts.',
+    keyFeatures: [
+      '76% Polyester, 18% Rayon, 6% Spandex',
+      'Uniform knife pleats with built-in inner shorts',
+      'High-rise wide waistband',
+      'Gently flared A-line silhouette & side zip',
+    ],
+    seamFinish: 'Wide high-rise waistband, knife pleats & built-in inner shorts',
+    pocketConstruction: 'Concealed side zipper with uninterrupted pleated drape',
   },
 ];
 
-const OFFICIAL_COLORWAYS = {
-  a82: ['Black', 'Smoke Grey', 'Stone Grey', 'Beige'],
-  menModal: [
-    'Dark Grey',
-    'Mint',
-    'Charcoal Grey',
-    'Slate Blue-Grey',
-    'Navy',
-    'Black',
-    'Light Grey',
-    'White',
-  ],
-  menPique: [
-    'Black',
-    'Navy',
-    'Dark Blue',
-    'Light Grey',
-    'Turquoise',
-    'Peach',
-    'Light Pink',
-    'White',
-  ],
-  slub: [
-    'Stone Grey',
-    'Terracotta Orange',
-    'Black',
-    'Dark Blue',
-    'White',
-    'Khaki',
-    'Dusty Rose',
-  ],
-  cottonMen: ['Sky Blue', 'White', 'Black', 'Khaki', 'Peach'],
-  cm36: ['Black', 'White', 'Blue', 'Heather Grey (Melange)', 'Navy', 'Cream'],
-  cm40: ['Navy', 'Yellow', 'White', 'Stone Grey', 'Peach', 'Black'],
-  womenModal: [
-    'Dark Grey',
-    'Mint Green',
-    'Charcoal Grey',
-    'Slate Blue-Grey',
-    'Navy',
-    'Black',
-    'Light Grey',
-    'White',
-  ],
-  womenYody: [
-    'Deep Pink',
-    'Brown',
-    'White',
-    'Green',
-    'Mauve Pink',
-    'Grey',
-    'Pastel Orange',
-    'Deep Orange',
-    'Black',
-  ],
-  womenCotton: ['Deep Orange', 'White', 'Deep Pink', 'Black', 'Grey'],
-  cm30: ['Olive Green', 'Cream White', 'Silver Sage'],
-  womenA82: ['Black', 'Smoke Grey', 'Stone Grey', 'Beige'],
-  blackGrey: ['Grey', 'Black'],
-} as const;
-
-interface OfficialProductData {
-  title: string;
-  summary: string;
-  highlights: string[];
-  composition: string;
-  colorways: readonly string[];
+interface SkuDetailHints {
+  pocket: string;
+  seam: string;
+  custom: string;
 }
 
-const OFFICIAL_PRODUCT_DATA: Record<string, OfficialProductData> = {
+const SKU_DETAIL_HINTS: Record<string, SkuDetailHints> = {
   MLPA82: {
-    title: "Men's Straight-Leg Trouser Pants",
-    summary: 'Classic straight-leg trousers for work and formal occasions.',
-    highlights: ['Medium-width belted waist with button-and-zip fly.', 'Four functional pockets.'],
-    composition: '95% Rayon Polyester, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.a82,
-  },
-  MLPA28: {
-    title: "Men's Straight-Leg Trouser Pants",
-    summary: 'Relaxed straight-leg trousers designed for everyday office wear.',
-    highlights: ['Belt-loop waistband with button-and-zip closure.', 'Side slant pockets and buttoned back pockets.'],
-    composition: '75% Polyester, 20% Rayon, 5% Spandex',
-    colorways: ['Black', 'Khaki', 'Navy', 'Grey'],
-  },
-  MLPA29: {
-    title: "Men's Straight-Leg Trouser Pants",
-    summary: 'Full-length straight-leg trousers with curved front pocket openings.',
-    highlights: ['Medium-width belted waistband with button-and-zip fly.', 'Four pockets, including curved front pockets.'],
-    composition: '75% Polyester, 20% Rayon, 5% Spandex',
-    colorways: ['Black', 'Khaki', 'Navy', 'Grey'],
-  },
-  WBL0001: {
-    title: "Women's Slightly Flared Trouser Pants",
-    summary: 'Full-length straight silhouette with a subtle lower flare.',
-    highlights: ['Wide cuffed hems.', 'Two side pockets and one right back pocket.'],
-    composition: '76% Polyester, 18% Rayon, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.blackGrey,
+    pocket: 'Piped side pocket & waist closeup',
+    seam: 'Button-through back welt closeup',
+    custom: 'Straight-leg ankle drape',
   },
   MSPA28: {
-    title: "Men's Straight-Leg Shorts Pant",
-    summary: 'A straight-leg short with a neat, polished profile.',
-    highlights: ['Belt loops with button-and-zip fly.', 'Four pockets: two side and two back.'],
-    composition: '75% Polyester, 20% Rayon, 5% Spandex',
-    colorways: ['Black', 'Khaki', 'Navy', 'Grey'],
+    pocket: 'Rear welt pocket & DT tab closeup',
+    seam: 'Back rise & waist closeup',
+    custom: 'Side slant pocket & fly closeup',
   },
   MSPK03: {
-    title: "Men's Straight-Leg Khaki Shorts Pant",
-    summary: 'Breathable straight-leg shorts for daily wear.',
-    highlights: ['Belted waist with button-and-zip fly.', 'Four roomy pockets: two side and two back.'],
-    composition: '95% Cotton, 5% Spandex',
-    colorways: ['Black', 'Olive Green', 'Navy', 'Khaki'],
-  },
-  'WBS0001-A82': {
-    title: "Women's High-Waisted Cuffed Shorts",
-    summary: 'High-waisted straight shorts with a clean, elevated look.',
-    highlights: ['Concealed back zip and front pintuck seams.', 'Medium cuffed hems.'],
-    composition: '95% Rayon Polyester, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenA82,
+    pocket: 'Rear welt & DT tab closeup',
+    seam: 'Waistband & button fly closeup',
+    custom: 'Cotton twill texture & hem',
   },
   'WBS0002-A82': {
-    title: "Women's A-Line Shorts",
-    summary: 'High-rise A-line shorts with slightly flared leg openings.',
-    highlights: ['Wide waistband with concealed back zip.', 'Short side hem slits.'],
-    composition: '95% Rayon Polyester, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenA82,
+    pocket: 'Wide waist & side hem slit',
+    seam: 'Concealed back zip closeup',
+    custom: 'Flared A-line hem detail',
   },
   'WBS0003-A82': {
-    title: "Women's Elastic-Back A-Line Shorts",
-    summary: 'Tailored front meets a flexible elastic-back waistband.',
-    highlights: ['High-waisted A-line silhouette.', 'Button-and-zip fly with stretchy back waist.'],
-    composition: '95% Rayon Polyester, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenA82,
+    pocket: 'Tailored front & fly closeup',
+    seam: 'Elastic-back waistband closeup',
+    custom: 'A-line side drape',
   },
   'MPOLO-MD1': {
-    title: "Men's 3-Button Polo Shirt",
-    summary: 'A smart-casual polo with a classic three-button collar.',
-    highlights: ['13 cm placket with elasticized sleeve cuffs.', 'Straight body with 3 cm side vents.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menModal,
+    pocket: '13 cm 3-button placket closeup',
+    seam: 'Polo collar & elasticized cuff',
+    custom: 'Straight-fit drape',
   },
   'MPOLO-MD2': {
-    title: "Men's Faux-Pocket Polo Shirt",
-    summary: 'A classic polo accented with a faux welt chest pocket.',
-    highlights: ['13 cm, two-button polo collar.', 'Elasticized sleeves and 3 cm side vents.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menModal,
-  },
-  'MPOLO-MD3': {
-    title: "Men's Shiny Zip Polo Shirt",
-    summary: 'A modern polo with a polished metallic zipper.',
-    highlights: ['13 cm mirror-finish zipper and elasticized cuffs.', 'Straight fit with 3 cm side vents.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menModal,
+    pocket: '2-button placket & faux chest pocket',
+    seam: 'Collar & elasticized cuff closeup',
+    custom: 'Body drape & side vent',
   },
   'MPOLO-MD4': {
-    title: "Men's Concealed-Zip Polo Shirt",
-    summary: 'Minimalist polo styling with a concealed zipper placket.',
-    highlights: ['13 cm fabric-covered zipper and elasticized cuffs.', 'Straight fit with 3 cm side vents.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menModal,
-  },
-  'MPOLO-PQ1': {
-    title: "Men's 2-Button Polo Shirt",
-    summary: 'Structured, breathable piqué with a two-button collar.',
-    highlights: ['13 cm placket with elasticized short sleeves.', 'Straight hem with 3 cm side vents.'],
-    composition: '95% Cotton, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menPique,
+    pocket: '13 cm concealed-zip placket',
+    seam: 'Collar & cuff finish closeup',
+    custom: 'Straight-fit drape',
   },
   'MPOLO-PQ2': {
-    title: "Men's 3-Button Polo Shirt",
-    summary: 'A relaxed straight-fit polo with an elongated placket.',
-    highlights: ['15 cm, three-button collar with ribbed sleeves.', 'Subtle 2 cm side vents.'],
-    composition: '95% Cotton, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menPique,
-  },
-  'MPOLO-PQ3': {
-    title: "Men's Mirror-Zip Polo Shirt",
-    summary: 'A classic polo collar updated with a mirror-finish zipper.',
-    highlights: ['13 cm zipper with ribbed sleeve cuffs.', 'Straight fit with 2 cm side vents.'],
-    composition: '95% Cotton, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menPique,
+    pocket: '15 cm 3-button placket & piqué grain',
+    seam: '2 cm side vent & hem closeup',
+    custom: 'Ribbed collar & cuff finish',
   },
   'MPOLO-PQ4': {
-    title: "Men's Concealed-Zip Polo Shirt",
-    summary: 'A structured polo with a modern hidden-zip placket.',
-    highlights: ['13 cm concealed zip and ribbed short sleeves.', 'Straight silhouette with 2 cm side vents.'],
-    composition: '95% Cotton, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menPique,
+    pocket: '13 cm concealed zip & collar',
+    seam: 'Ribbed cuff & piqué surface',
+    custom: 'Straight-fit silhouette',
   },
   'MPOLO-SL201': {
-    title: "Men's 100% Cotton Polo Shirt",
-    summary: 'A breathable cotton polo with a crisp, smooth texture.',
-    highlights: ['13 cm, three-button collar.', 'Unbanded sleeves and 2 cm side vents.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.slub,
+    pocket: '3-button placket & slub grain',
+    seam: 'Sleeve cuff & 2 cm side vent',
+    custom: '100% cotton slub drape',
   },
   'MPOLO-SL203': {
-    title: "Men's 100% Cotton Zip Polo Shirt",
-    summary: 'A cotton polo with a polished zipper accent.',
-    highlights: ['13 cm mirror-finish zipper and unbanded sleeves.', 'Straight body with 3 cm side vents.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.slub,
+    pocket: '13 cm mirror zipper & slub texture',
+    seam: 'Polo collar & sleeve closeup',
+    custom: 'Straight-fit silhouette',
   },
   'WPOLO-MD1': {
-    title: "Women's Slim-Fit Zip Polo Shirt",
-    summary: 'A slim-fit polo with a polished metal zip neckline.',
-    highlights: ['21 cm zipper with short sleeves.', 'Contoured fit.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenModal,
+    pocket: '21 cm metal zipper closeup',
+    seam: 'Three-quarter sleeve & collar',
+    custom: 'Slim-fit profile',
   },
   'WPOLO-MD2': {
-    title: "Women's 5-Button Polo Shirt",
-    summary: 'A soft, feminine polo with a vertical button placket.',
-    highlights: ['16 cm, five-button placket.', 'Waist-cinched fit with 5 cm side vents.'],
-    composition: '94% Cotton Modal, 6% Spandex',
-    colorways: ['Purple', 'Pink', 'Yellow'],
+    pocket: '16 cm 5-button placket closeup',
+    seam: 'Cinched waist & 5 cm side vent',
+    custom: 'Short-sleeve profile',
   },
   'WPOLO-YD1': {
-    title: "Women's Slim-Fit 5-Button Polo Shirt",
-    summary: 'A contoured polo with an elongated five-button placket.',
-    highlights: ['20 cm placket with short sleeves.', 'Slim fit with 5 cm side vents.'],
-    composition: '50% Polyester, 45% Cotton, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenYody,
+    pocket: '20 cm 5-button placket & piqué',
+    seam: 'Collar & 5 cm side vent closeup',
+    custom: 'Slim-fit silhouette',
   },
   'WPOLO-YD2': {
-    title: "Women's Contrast-Trim Polo Shirt",
-    summary: 'A tailored polo with subtle inner-placket contrast trim.',
-    highlights: ['18 cm placket with three decorative buttons.', 'Waist-cinched fit with 5 cm side vents.'],
-    composition: '50% Polyester, 45% Cotton, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenYody,
+    pocket: '18 cm contrast-trim placket',
+    seam: 'Decorative buttons & collar closeup',
+    custom: 'Cinched-waist profile',
   },
   'MTSHIRT-MD1': {
-    title: "Men's Straight-Fit Crew Neck T-Shirt",
-    summary: 'A clean, minimalist crew tee for everyday wear.',
-    highlights: ['Straight fit with short sleeves.', 'Smooth stretch cotton jersey.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menModal,
+    pocket: 'Ribbed crew neck closeup',
+    seam: 'Sleeve & shoulder seam closeup',
+    custom: 'Straight-fit body drape',
   },
   'MTSHIRT-MD2': {
-    title: "Men's Button-Placket Crew Neck T-Shirt",
-    summary: 'A straight-fit crew tee with a button-placket accent.',
-    highlights: ['13 cm, three-button front placket.', 'Roomy straight fit with short sleeves.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menModal,
+    pocket: '13 cm 3-button placket closeup',
+    seam: 'Ribbed collar & sleeve closeup',
+    custom: 'Roomy straight fit',
   },
   'MTSHIRT-MD3': {
-    title: "Men's Button-Neck Pocket T-Shirt",
-    summary: 'A relaxed crew tee with a practical chest pocket.',
-    highlights: ['13 cm, three-button placket.', 'Straight fit with a front patch pocket.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.menModal,
-  },
-  'MTSHIRT-CM26': {
-    title: "Men's 100% Cotton Crew Neck T-Shirt",
-    summary: 'A durable cotton crew tee for everyday use.',
-    highlights: ['Classic crew neck with short sleeves.', 'Straight-fit body.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.cottonMen,
+    pocket: '3-button neck & chest pocket',
+    seam: 'Pocket stitching & sleeve closeup',
+    custom: 'Straight-fit drape',
   },
   'MVNECK-CM26': {
-    title: "Men's V-Neck T-Shirt",
-    summary: 'A clean V-neck profile with a straight-fit body.',
-    highlights: ['Modest V-neck and short sleeves.', '100% cotton jersey.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.cottonMen,
+    pocket: 'Ribbed V-neck collar closeup',
+    seam: 'Sleeve & shoulder seam closeup',
+    custom: 'Straight-fit hem',
   },
   'MTSHIRT-CM36': {
-    title: "Men's Crew Neck T-Shirt",
-    summary: 'A mid-weight cotton-stretch tee with a structured feel.',
-    highlights: ['Ribbed crew neck with short sleeves.', 'Straight silhouette.'],
-    composition: '95% Cotton, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.cm36,
+    pocket: 'Sturdy ribbed crew neck closeup',
+    seam: '220 GSM knit & cuff closeup',
+    custom: 'Straight-fit silhouette',
   },
   'MTSHIRT-CM40': {
-    title: "Men's Crew Neck T-Shirt",
-    summary: 'A lightweight cotton crew tee for warm-weather wear.',
-    highlights: ['Classic ribbed crew neck and short sleeves.', 'Roomy straight fit.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.cm40,
+    pocket: 'Fine crew neck rib closeup',
+    seam: '40s lightweight cotton texture',
+    custom: 'Relaxed straight fit',
   },
   'WVNECK-MD': {
-    title: "Women's Cinched-Waist V-Neck T-Shirt",
-    summary: 'A V-neck tee with subtle waist shaping.',
-    highlights: ['Fitted short sleeves.', 'Contoured waist.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenModal,
+    pocket: 'V-neck collar closeup',
+    seam: 'Cinched waist & sleeve closeup',
+    custom: 'Contoured fit profile',
   },
   'WTSHIRT-MD1': {
-    title: "Women's Cropped Slim-Fit T-Shirt",
-    summary: 'A cropped slim-fit tee with a youthful silhouette.',
-    highlights: ['Classic crew neck and short sleeves.', 'Cropped length.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenModal,
+    pocket: 'Ribbed crew neck closeup',
+    seam: 'Cropped hem & sleeve closeup',
+    custom: 'Slim-fit contour',
   },
   'WTSHIRT-MD2': {
-    title: "Women's Trimmed Straight-Fit T-Shirt",
-    summary: 'A straight-fit tee with coordinated hem and sleeve trim.',
-    highlights: ['Modest crew neck with short sleeves.', 'Binding at cuffs and lower hem.'],
-    composition: '94% Cotton, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenModal,
-  },
-  'WTSHIRT-CM261': {
-    title: "Women's T-Shirt",
-    summary: '',
-    highlights: [],
-    composition: '',
-    colorways: [],
+    pocket: 'Crew neck & trimmed sleeve cuff',
+    seam: 'Contrast-trimmed bottom hem',
+    custom: 'Straight-fit silhouette',
   },
   'WTSHIRT-CM262': {
-    title: "Women's Cinched-Waist Crew Neck T-Shirt",
-    summary: 'A cotton crew tee with subtle waist shaping.',
-    highlights: ['Classic crew neck and short sleeves.', 'Regular fit with a contoured waist.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.womenCotton,
-  },
-  'WVNECK-CM26': {
-    title: "Women's Cinched-Waist V-Neck T-Shirt",
-    summary: 'A contoured V-neck tee for everyday wear.',
-    highlights: ['Open V-neckline with short sleeves.', 'Regular fit with a shaped waist.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.womenCotton,
+    pocket: 'Ribbed crew neck closeup',
+    seam: 'Sleeve seam & cuff closeup',
+    custom: 'Cinched-waist silhouette',
   },
   'WTSHIRT-CM402': {
-    title: "Women's Oversized T-Shirt",
-    summary: 'A relaxed longline tee with an oversized silhouette.',
-    highlights: ['Raised crew neckband and short sleeves.', 'Roomy straight cut.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.cm40,
+    pocket: 'Raised neckband & collar closeup',
+    seam: 'Oversized hem & cuff closeup',
+    custom: 'Relaxed longline drape',
   },
-  'WTSHIRT-L': {
-    title: "Women's Cinched-Waist Long-Sleeve T-Shirt",
-    summary: 'A breathable long-sleeve layer with a contoured waist.',
-    highlights: ['Classic crew neck and fitted long sleeves.', 'Soft stretch knit; composition not specified.'],
-    composition: '',
-    colorways: OFFICIAL_COLORWAYS.cm30,
-  },
-  WTSHIRT1: {
-    title: "Women's Regular Straight-Fit T-Shirt",
-    summary: 'A versatile straight-fit tee with a clean profile.',
-    highlights: ['Crew neck with short sleeves.', 'Balanced fit, neither loose nor tight.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.cm30,
+  'WTSHIRT1-CM30': {
+    pocket: 'Crew collar & surface closeup',
+    seam: 'Short sleeve & hem closeup',
+    custom: 'Regular straight-fit drape',
   },
   WTSHIRT2: {
-    title: "Women's Relaxed Crop Top",
-    summary: 'A relaxed cropped tee with an easy, modern fit.',
-    highlights: ['Crew neck and short sleeves.', 'Airy cropped body.'],
-    composition: '100% Cotton',
-    colorways: OFFICIAL_COLORWAYS.cm30,
+    pocket: 'Ribbed crew collar closeup',
+    seam: 'Cropped hem & sleeve closeup',
+    custom: 'Relaxed crop proportion',
   },
   'WBSK001-A82': {
-    title: "Women's A-Line Skort",
-    summary: 'An A-line skort with a wrap-front skirt and built-in shorts.',
-    highlights: ['Asymmetrical wrap front with wide cuffed hems.', 'Concealed back zip and faux back pockets.'],
-    composition: '95% Rayon Polyester, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenA82,
+    pocket: '2 faux back pockets & back zip',
+    seam: 'Asymmetric wrap front closeup',
+    custom: 'Wide cuffed hem detail',
   },
   'WBSK002-A82': {
-    title: "Women's Low-Rise Skort",
-    summary: 'Low-rise shorts with a skirt-front overlay.',
-    highlights: ['Wide cuffed hems and concealed side zip.', 'Right faux back pocket.'],
-    composition: '95% Rayon Polyester, 5% Spandex',
-    colorways: OFFICIAL_COLORWAYS.womenA82,
+    pocket: '1 faux right back pocket closeup',
+    seam: 'Left-side zip & low-rise waist',
+    custom: 'Wide cuffed hem detail',
   },
   WSP0001: {
-    title: "Women's A-Line Pleated Skirt",
-    summary: 'A gently flared A-line skirt with uniform pleats.',
-    highlights: ['Wide high-rise waistband and concealed side zip.', 'Built-in inner shorts.'],
-    composition: '76% Polyester, 18% Rayon, 6% Spandex',
-    colorways: OFFICIAL_COLORWAYS.blackGrey,
-  },
-};
-
-interface SkuCraftOverride {
-  stitchDensity?: string;
-  seamFinish?: string;
-  pocketConstruction?: string;
-  bulletConstruction?: string;
-  bulletDetail?: string;
-  detailHints?: {
-    pocket: string;
-    seam: string;
-    custom: string;
-  };
-}
-
-const SKU_CRAFT_OVERRIDES: Record<string, SkuCraftOverride> = {
-  MLPA82: {
-    seamFinish: 'Clean-bound internal outseams with curtained belt-loop waistband',
-    pocketConstruction: 'Slanted French side pockets + buttoned rear single-welt pocket with DT flag',
-    bulletConstruction:
-      'Built on a structured belt-loop waistband with concealed hook-and-bar zip fly and bound interior seams.',
-    bulletDetail:
-      'Finished with slanted side pockets and a buttoned rear single-welt pocket trimmed with a subtle DT woven flag.',
-    detailHints: {
-      pocket: 'Slanted pocket & DT flag closeup',
-      seam: 'Buttoned rear welt & waist closeup',
-      custom: 'Ankle taper & drape study',
-    },
-  },
-  MSPA28: {
-    seamFinish: 'Flat-pressed overlocked outseams with belt-loop waistband & matte snap fly',
-    pocketConstruction: 'Slanted side pockets + dual rear single-welt pockets with DT woven flag',
-    bulletConstruction:
-      'Constructed with flat-pressed outseams, reinforced belt loops, and a matte snap zip-fly closure.',
-    bulletDetail:
-      'Finished with deep slanted side pockets and twin rear single-welt pockets stamped with a DT woven tab.',
-    detailHints: {
-      pocket: 'Rear welt pocket & DT flag closeup',
-      seam: 'Back rise & dual welt construction',
-      custom: 'Front snap fly & slant pocket closeup',
-    },
-  },
-  MSPK03: {
-    seamFinish: 'Clean twin-stitched hems with matte button waist & reinforced belt loops',
-    pocketConstruction: 'Slanted side pockets + twin rear single-welt pockets with DT woven flag',
-    bulletConstruction:
-      'Topstitched at pocket stress points, belt loops, and zip-fly J-stitch for repeat wear stability.',
-    bulletDetail:
-      'Accented with twin rear single-welt pockets, matte top button, and signature DT black woven side tab.',
-    detailHints: {
-      pocket: 'Rear welt & DT tab closeup',
-      seam: 'Button fly & waistband closeup',
-      custom: 'Twill weave & hem topstitch',
-    },
-  },
-  'WBS0002-A82': {
-    seamFinish: 'Concealed invisible zipper & contoured beltless waist with front darts',
-    pocketConstruction: 'Pocketless sleek hip line; twin front darts & notched side-slit hem cuffs',
-    bulletConstruction:
-      'Shaped with twin front waist darts, a wide contoured waistband, and concealed back zip closure.',
-    bulletDetail:
-      'Distinguished by side-slit notched hem cuffs and a subtle DT woven flag anchored at the hip seam.',
-    detailHints: {
-      pocket: 'Front darts & notched cuff hem closeup',
-      seam: 'Contoured back waist & zip closeup',
-      custom: 'Side split cuff detail',
-    },
-  },
-  'WBS0003-A82': {
-    seamFinish: 'Smooth flat-front waistband paired with gathered elastic rear waist',
-    pocketConstruction: 'Slanted in-seam side pockets anchored neatly into the front panel',
-    bulletConstruction:
-      'Pairs a tailored flat-front waist with a gathered elastic back channel for adaptable waist comfort.',
-    bulletDetail:
-      'Finished with angled side-seam pockets and clean twin-needle hems that preserve an A-line flare.',
-    detailHints: {
-      pocket: 'Slanted side pocket closeup',
-      seam: 'Elastic-back waistband closeup',
-      custom: 'A-line side profile detail',
-    },
-  },
-  'MPOLO-MD1': {
-    seamFinish: 'Herringbone neck tape with flat-knit collar stand & cuffed sleeves',
-    pocketConstruction: 'Clean 3-button box placket (no chest pocket) with tonal DT monogram',
-    bulletConstruction:
-      'Engineered with an anti-curl flat-knit collar, herringbone neck tape, and crisp 3-button box placket.',
-    bulletDetail:
-      'Finished with tonal DT left-chest embroidery and ribbed sleeve bands over a clean pocketless torso.',
-    detailHints: {
-      pocket: '3-button placket & DT embroidery',
-      seam: 'Flat-knit collar & neck tape closeup',
-      custom: 'Sleeve cuff & drape detail',
-    },
-  },
-  'MPOLO-MD2': {
-    seamFinish: 'Ribbed flat-knit collar, herringbone neck tape & cuffed short sleeves',
-    pocketConstruction: '2-button box placket paired with faux chest welt trim ("DREAM TOMORROW")',
-    bulletConstruction:
-      'Constructed with a firm ribbed flat-knit collar and clean 2-button front placket backed by fusible stay.',
-    bulletDetail:
-      'Distinguished by a decorative faux chest welt bar stamped "DREAM TOMORROW" for subtle graphic structure.',
-    detailHints: {
-      pocket: 'Collar, placket & faux welt closeup',
-      seam: 'Shoulder seam & sleeve rib closeup',
-      custom: 'Body drape & cuff study',
-    },
-  },
-  'MPOLO-MD4': {
-    seamFinish: 'Concealed half-zip front placket with flat-knit collar & ribbed cuffs',
-    pocketConstruction: 'Minimalist hidden-zip neck closure with tonal DT left-chest embroidery',
-    bulletConstruction:
-      'Tailored with a smooth concealed half-zip front placket and structured flat-knit rib collar.',
-    bulletDetail:
-      'Completed with tonal embroidered DT chest branding and fine-gauge ribbed sleeve cuffs.',
-    detailHints: {
-      pocket: 'Concealed zip placket closeup',
-      seam: 'Collar & cuff rib closeup',
-      custom: 'Drape & silhouette detail',
-    },
-  },
-  'MPOLO-PQ2': {
-    seamFinish: 'Taped inner neck, reinforced side vents & fine ribbed sleeve cuffs',
-    pocketConstruction: '3-button box placket with DT chest embroidery & side-hem woven flag',
-    bulletConstruction:
-      'Built with an anti-curl ribbed collar, taped shoulder seams, and clean 3-button placket.',
-    bulletDetail:
-      'Accented with subtle DT left-chest embroidery, side-hem DT woven flag, and reinforced side vents.',
-    detailHints: {
-      pocket: '3-button placket & piqué grain',
-      seam: 'Side-hem slit & DT flag closeup',
-      custom: 'Collar & cuff rib finish',
-    },
-  },
-  'MPOLO-PQ4': {
-    seamFinish: 'Concealed silver-zip front placket with structured flat-knit collar',
-    pocketConstruction: 'Clean hidden half-zip collar closure with tonal DT chest embroidery',
-    bulletConstruction:
-      'Integrates a smooth silver-pull concealed zip placket into a dimensionally stable flat-knit collar.',
-    bulletDetail:
-      'Finished with ribbed sleeve cuffs, side vents, and tonal embroidered DT chest insignia.',
-    detailHints: {
-      pocket: 'Concealed zip pull & collar closeup',
-      seam: 'Micro-piqué rib cuff closeup',
-      custom: 'Body silhouette detail',
-    },
-  },
-  'MPOLO-SL201': {
-    seamFinish: 'Self-taped neck, open clean-hemmed sleeves & split side-vent bottom',
-    pocketConstruction: '3-button box placket with DT chest embroidery & sleeve woven flag',
-    bulletConstruction:
-      'Tailored with a crisp flat-knit collar, 3-button box placket, and open twin-needle sleeve hems.',
-    bulletDetail:
-      'Detailed with fine DT left-chest embroidery and a signature black DT flag tab on the left cuff.',
-    detailHints: {
-      pocket: '3-button placket & slub grain closeup',
-      seam: 'Sleeve flag & clean hem closeup',
-      custom: 'Drape & collar fit study',
-    },
-  },
-  'MPOLO-SL203': {
-    seamFinish: 'Exposed metallic zip-front placket with self-fabric collar & twin-needle hems',
-    pocketConstruction: 'Exposed silver zipper neck closure with DT chest embroidery & sleeve flag',
-    bulletConstruction:
-      'Replaces buttons with a smooth exposed silver zip placket anchored cleanly into the self-fabric collar.',
-    bulletDetail:
-      'Highlights raw 100% cotton slub striations paired with DT chest embroidery and a sleeve woven flag.',
-    detailHints: {
-      pocket: 'Exposed silver zip & slub closeup',
-      seam: 'Collar & sleeve flag closeup',
-      custom: 'Silhouette & drape detail',
-    },
-  },
-  'WPOLO-MD1': {
-    seamFinish: 'Slim 3/4-sleeve contoured cut with clean twin-needle cuffs & hem',
-    pocketConstruction: 'Exposed gold-tone half-zip front placket with tonal DREAM TOMORROW print',
-    bulletConstruction:
-      'Contoured with sculpted 3/4 sleeves and a pointed spread collar anchored by an exposed gold zipper.',
-    bulletDetail:
-      'Finished with tonal matte "DREAM TOMORROW" left-chest print and clean pocketless front panelling.',
-    detailHints: {
-      pocket: 'Gold-tone zip & chest print closeup',
-      seam: '3/4 sleeve & collar seam closeup',
-      custom: 'Fitted torso drape detail',
-    },
-  },
-  'WPOLO-MD2': {
-    seamFinish: 'Contour side seams, flat-knit collar & notched side-vent hem',
-    pocketConstruction: 'Elongated 5-button narrow box placket with DREAM TOMORROW chest print',
-    bulletConstruction:
-      'Tailored through the waist with a crisp flat-knit collar and slim 5-button placket.',
-    bulletDetail:
-      'Accented with left-chest "DREAM TOMORROW" lettering and a woven DT flag at the left sleeve cuff.',
-    detailHints: {
-      pocket: '5-button placket & print closeup',
-      seam: 'Cuff tab & hem vent closeup',
-      custom: 'Slim-fit profile study',
-    },
-  },
-  'WPOLO-YD1': {
-    seamFinish: 'Moisture-wicking flat seams with split side-vent hem & narrow placket',
-    pocketConstruction: '4-button narrow box placket with crisp DREAM TOMORROW chest print',
-    bulletConstruction:
-      'Engineered with a breathable piqué body, slim 4-button placket, and clean side-slit bottom vents.',
-    bulletDetail:
-      'Detailed with crisp high-contrast "DREAM TOMORROW" chest branding and quick-dry collar recovery.',
-    detailHints: {
-      pocket: '4-button placket & piqué closeup',
-      seam: 'Collar & side vent closeup',
-      custom: 'Silhouette fit study',
-    },
-  },
-  'WPOLO-YD2': {
-    seamFinish: 'Reinforced split side vents with contrast inner-placket woven piping',
-    pocketConstruction: '4-button contrast white-piped placket with DREAM TOMORROW chest print',
-    bulletConstruction:
-      'Framed along the inner placket and collar edge with crisp contrast white piping for clean definition.',
-    bulletDetail:
-      'Completed with a 4-button closure, clean twin-needle sleeve hems, and "DREAM TOMORROW" chest mark.',
-    detailHints: {
-      pocket: 'Contrast white-piped placket closeup',
-      seam: 'Collar trim & hem closeup',
-      custom: 'Silhouette & drape detail',
-    },
-  },
-  'MTSHIRT-MD1': {
-    seamFinish: 'Shoulder-to-shoulder twill tape with zero-torque twin-needle hems',
-    pocketConstruction: 'Clean pocketless crew neck with DT left-chest embroidery & sleeve flag',
-    bulletConstruction:
-      'Anchored with a durable 1x1 ribbed crew collar, inner neck tape, and twin-needle sleeve and bottom hems.',
-    bulletDetail:
-      'Signed with subtle DT left-chest embroidery and a signature black DT woven flag on the left cuff.',
-    detailHints: {
-      pocket: 'Ribbed crew neck & DT embroidery',
-      seam: 'Sleeve flag & shoulder seam closeup',
-      custom: 'Straight-fit body drape',
-    },
-  },
-  'MTSHIRT-MD2': {
-    seamFinish: 'Clean twin-needle hems paired with bound 2-button Henley neck placket',
-    pocketConstruction: '2-button Henley placket (clean pocketless chest) + DT embroidery & sleeve tab',
-    bulletConstruction:
-      'Updates the essential crew tee with a fused 2-button Henley neck placket and clean shoulder taping.',
-    bulletDetail:
-      'Finished with DT left-chest embroidery and a woven DT sleeve flag on a clean pocketless front.',
-    detailHints: {
-      pocket: '2-button Henley placket closeup',
-      seam: 'DT embroidery & sleeve tab closeup',
-      custom: 'Straight-fit chest drape',
-    },
-  },
-  'MTSHIRT-MD3': {
-    seamFinish: 'Shoulder twill neck tape with twin-needle hems & 3-button Henley placket',
-    pocketConstruction: '3-button Henley placket + mitered chest patch pocket embroidered DT',
-    bulletConstruction:
-      'Combines a structured 3-button Henley neckline with reinforced shoulder seams and clean twin-needle hems.',
-    bulletDetail:
-      'Grounded by a crisp bar-tacked left-chest patch pocket with DT embroidery and matching sleeve flag.',
-    detailHints: {
-      pocket: '3-button Henley & patch pocket closeup',
-      seam: 'Pocket bar-tack & DT sleeve tab',
-      custom: 'Relaxed fit & drape detail',
-    },
-  },
-  'MVNECK-CM26': {
-    seamFinish: 'Overlapping mitered V-neck rib collar with clean twin-needle hems',
-    pocketConstruction: 'Precision V-neck rib binding with DT chest embroidery & sleeve woven flag',
-    bulletConstruction:
-      'Engineered with an overlapping mitered V-neck rib that sits flat against the collarbone without gapping.',
-    bulletDetail:
-      'Detailed with sharp DT left-chest embroidery and a left-sleeve woven DT flag tab.',
-    detailHints: {
-      pocket: 'Mitered V-neck collar & DT mark',
-      seam: 'Sleeve flag & shoulder seam closeup',
-      custom: 'Clean drape & hem detail',
-    },
-  },
-  'MTSHIRT-CM36': {
-    seamFinish: 'Heavyweight 1x1 dense neck rib with clean shoulder tape & twin-needle hems',
-    pocketConstruction: 'Pocketless heavyweight crew profile with DT embroidery & sleeve woven flag',
-    bulletConstruction:
-      'Paired with a substantial ribbed neckline and flat twin-needle coverstitching built for 220 GSM fabric.',
-    bulletDetail:
-      'Signed with subtle DT left-chest embroidery and a signature DT sleeve cuff woven tab.',
-    detailHints: {
-      pocket: 'Dense neck rib & DT embroidery',
-      seam: 'Sleeve flag & compact knit closeup',
-      custom: 'Structured boxy silhouette',
-    },
-  },
-  'MTSHIRT-CM40': {
-    seamFinish: 'Fine single-jersey shoulder seams with clean 1x1 rib collar & twin-needle hems',
-    pocketConstruction: 'Featherweight pocketless crew cut with DT embroidery & sleeve woven flag',
-    bulletConstruction:
-      'Constructed with fine-needle coverstitch hems to keep seams light and flat against 125–130 GSM jersey.',
-    bulletDetail:
-      'Finished with tonal DT chest embroidery and a miniature DT woven flag tab on the sleeve cuff.',
-    detailHints: {
-      pocket: 'Fine neck rib & DT embroidery',
-      seam: 'Sleeve flag & jersey hand closeup',
-      custom: 'Breathable drape detail',
-    },
-  },
-  'WVNECK-MD': {
-    seamFinish: 'Contour side-seam shaping with flat mitered V-neck rib & twin-needle hems',
-    pocketConstruction: 'Sculpted V-neck rib profile with DREAM TOMORROW chest print & DT sleeve tab',
-    bulletConstruction:
-      'Patterned with subtle waist-cinching side seams and a smooth mitered V-neck binding.',
-    bulletDetail:
-      'Completed with left-chest "DREAM TOMORROW" print and a woven DT flag on the short sleeve.',
-    detailHints: {
-      pocket: 'Mitered V-neck & chest print closeup',
-      seam: 'Cinched waist & sleeve flag closeup',
-      custom: 'Contoured fit profile',
-    },
-  },
-  'WTSHIRT-MD1': {
-    seamFinish: 'High-recovery baby-rib crew collar with contour side seams & clean hems',
-    pocketConstruction: 'Minimalist crew silhouette with DREAM TOMORROW chest print & DT sleeve tab',
-    bulletConstruction:
-      'Built with a neat baby-rib collar and sculpted side seams that hold shape across repeated washes.',
-    bulletDetail:
-      'Finished with clean "DREAM TOMORROW" chest lettering and a left-sleeve black DT woven flag.',
-    detailHints: {
-      pocket: 'Crew neckline & chest print closeup',
-      seam: 'Back drape & sleeve flag closeup',
-      custom: 'Slim-fit contour detail',
-    },
-  },
-  'WTSHIRT-MD2': {
-    seamFinish: 'Fine twin-needle body seams framed by contrast navy binding on cuffs & hem',
-    pocketConstruction: 'Contrast navy ringer trim along short sleeve cuffs & bottom hem',
-    bulletConstruction:
-      'Framed with crisp navy contrast binding on the sleeve cuffs and bottom hem over a white modal body.',
-    bulletDetail:
-      'Clean unadorned front lets the ringer contrast trim and smooth body contour lead the silhouette.',
-    detailHints: {
-      pocket: 'Contrast sleeve & neck binding closeup',
-      seam: 'Contrast navy bottom hem closeup',
-      custom: 'Back & fitted profile study',
-    },
-  },
-  'WTSHIRT-CM262': {
-    seamFinish: 'Waist-tapered side seams with 1x1 rib crew neck & twin-needle coverstitch hems',
-    pocketConstruction: 'Contoured waist crew tee with DREAM TOMORROW chest print & DT sleeve flag',
-    bulletConstruction:
-      'Darted through the waist side seams over a fine 1x1 ribbed crew collar for a tailored, close line.',
-    bulletDetail:
-      'Signed with "DREAM TOMORROW" chest lettering and a woven DT sleeve tab.',
-    detailHints: {
-      pocket: 'Rib collar & chest wordmark closeup',
-      seam: 'DT sleeve flag & cuff seam closeup',
-      custom: 'Cinched waist silhouette',
-    },
-  },
-  'WTSHIRT-CM402': {
-    seamFinish: 'Dropped-shoulder seams with relaxed wide sleeve opening & twin-needle hems',
-    pocketConstruction: 'Clean minimalist pocketless front for uninterrupted fluid summer drape',
-    bulletConstruction:
-      'Cut with generous dropped shoulders, wider short sleeves, and crisp twin-needle coverstitch hems.',
-    bulletDetail:
-      'Left completely unbranded on the exterior chest for clean private-label CM / OEM / ODM programs.',
-    detailHints: {
-      pocket: 'Relaxed crew collar & shoulder closeup',
-      seam: 'Twin-needle hem & cuff closeup',
-      custom: 'Oversized airy drape study',
-    },
-  },
-  WTSHIRT1: {
-    seamFinish: 'Fine coverstitch hems & smooth baby-rib crew collar on 4-way stretch jersey',
-    pocketConstruction: 'Unbranded clean front panel with woven sleeve flag detail',
-    bulletConstruction:
-      'Constructed with elastic-core thread along the hems to flex cleanly with 4-way stretch recovery.',
-    bulletDetail:
-      'Minimalist clean-front aesthetic makes it an immediate canvas for custom B2B heat-transfer or embroidery.',
-    detailHints: {
-      pocket: 'Crew collar & matte surface closeup',
-      seam: 'Sleeve hem & coverstitch closeup',
-      custom: 'Straight-fit drape detail',
-    },
-  },
-  WTSHIRT2: {
-    seamFinish: 'Fine twin-needle cropped bottom hem & sleek bound crew neckline',
-    pocketConstruction: 'Cropped waist-skimming silhouette with DT chest embroidery & sleeve tab',
-    bulletConstruction:
-      'Cut to a clean cropped length with stretch-calibrated twin-needle bottom and sleeve hems.',
-    bulletDetail:
-      'Accented with delicate DT left-chest embroidery and a miniature DT woven flag on the cuff.',
-    detailHints: {
-      pocket: 'DT chest embroidery & collar closeup',
-      seam: 'Cropped hem & sleeve tab closeup',
-      custom: 'Waist-skimming proportion',
-    },
-  },
-  'WBSK001-A82': {
-    seamFinish: 'Concealed center-back invisible zipper with inner short lining & clean hem',
-    pocketConstruction: 'Slanted in-seam side pockets + dual rear single-welt pockets',
-    bulletConstruction:
-      'Engineered with an asymmetric wrap-front panel stitched neatly over a comfortable concealed inner short.',
-    bulletDetail:
-      'Equipped with slanted side-seam pockets, a center-back invisible zipper, and dual rear welt pockets.',
-    detailHints: {
-      pocket: 'Rear welt pockets & center-back zip',
-      seam: 'Slanted side pocket under wrap panel',
-      custom: 'Asymmetric wrap-front hem detail',
-    },
-  },
-  'WBSK002-A82': {
-    seamFinish: 'Concealed left-side invisible zipper, front waist darts & wide hem band',
-    pocketConstruction: 'Single rear single-welt pocket + woven DT hip flag (clean pocketless front)',
-    bulletConstruction:
-      'Tailored with twin front darts for smooth hip contouring, concealed side zipper, and deep hem band.',
-    bulletDetail:
-      'Finished on the back with a single sleek welt pocket and miniature DT woven hip seam flag.',
-    detailHints: {
-      pocket: 'Rear welt pocket & DT hip flag',
-      seam: 'Concealed side zip & dart closeup',
-      custom: 'Wide topstitched hem band',
-    },
-  },
-  WSP0001: {
-    seamFinish: 'Crisp heat-set knife pleats anchored into a smooth contoured waistband',
-    pocketConstruction: 'Clean concealed-zip side closure with uninterrupted pleated skirt fall',
-    bulletConstruction:
-      'Constructed with evenly spaced knife pleats pressed to hold crisp vertical geometry in motion.',
-    bulletDetail:
-      'Coordinates directly with WBL0001 suiting trousers in matching 203 GSM 76-series drape.',
-    detailHints: {
-      pocket: 'Knife pleat waist joinery closeup',
-      seam: 'Concealed zip & pleat edge closeup',
-      custom: 'Pleat movement & hem detail',
-    },
+    pocket: 'Wide high-rise waistband & pleats',
+    seam: 'Side zip & built-in shorts detail',
+    custom: 'A-line pleat movement',
   },
 };
 
@@ -1810,176 +1624,27 @@ function getCraftDetails(row: RawProductRow): {
   moq: string;
   bullets: string[];
   features: string[];
-  detailHints: {
-    pocket: string;
-    seam: string;
-    custom: string;
-  };
+  detailHints: SkuDetailHints;
 } {
-  const override = SKU_CRAFT_OVERRIDES[row.sku];
-
-  if (row.category === 'Trousers') {
-    const seamFinish =
-      override?.seamFinish ?? 'Clean-bound internal outseams with curtained waistband tape';
-    const pocketConstruction =
-      override?.pocketConstruction ??
-      'Slanted French bearer side pockets with reinforced 32-stitch bar-tacks';
-    return {
-      stitchDensity: override?.stitchDensity ?? '16–18 SPI',
-      seamFinish,
-      pocketConstruction,
-      moq: '100 pcs / color (Placeholder)',
-      bullets: [
-        `Cut from ${row.composition} (${row.weightGsm}, ${row.fabricWidth} roll width) for structured drape and crease recovery.`,
-        override?.bulletConstruction ??
-          'Finished with a curtained tailored waistband and bar-tacked stress zones for extended B2B longevity.',
-        override?.bulletDetail ??
-          'Reinforced French bearer side pockets and clean overlocked interior seams resist fray across wash cycles.',
-      ],
-      features: [
-        `Structured ${row.weightGsm} fabric architecture (${row.fabricCode}) retaining crisp leg line`,
-        pocketConstruction,
-        seamFinish,
-        `Offered in ${row.colorways.length} colorways across full graded sizing`,
-      ],
-      detailHints: override?.detailHints ?? {
-        pocket: 'Pocket & waist closeup',
-        seam: 'Tailored seam & hem closeup',
-        custom: 'Silhouette & drape detail',
-      },
-    };
-  }
-
-  if (row.category === 'Shorts') {
-    const seamFinish =
-      override?.seamFinish ?? 'Flat-pressed overlocked outseams with clean-bound inner waist';
-    const pocketConstruction =
-      override?.pocketConstruction ??
-      'Slanted side pockets and rear welt pockets with reinforced bar-tacks';
-    return {
-      stitchDensity: override?.stitchDensity ?? '15–16 SPI',
-      seamFinish,
-      pocketConstruction,
-      moq: '120 pcs / color (Placeholder)',
-      bullets: [
-        `Crafted from ${row.composition} (${row.weightGsm}) balancing breathable comfort with structured form.`,
-        override?.bulletConstruction ??
-          'Cleanly finished interior waist and flat-pressed outseams maintain sharp profile through repeat wear.',
-        override?.bulletDetail ??
-          'Reinforced pocket corners and neat twin-needle hems deliver dependable daily durability.',
-      ],
-      features: [
-        `Recovery-engineered ${row.fabricCode} weave preventing hip and seat bagging`,
-        pocketConstruction,
-        seamFinish,
-        `Available across ${row.colorways.length} core monochrome & neutral shades`,
-      ],
-      detailHints: override?.detailHints ?? {
-        pocket: 'Pocket & waist closeup',
-        seam: 'Seam & hem closeup',
-        custom: 'Fit & proportion detail',
-      },
-    };
-  }
-
-  if (row.category === 'Polos') {
-    const seamFinish =
-      override?.seamFinish ??
-      'Herringbone-taped back neck & shoulder seams with twin-needle side vents';
-    const pocketConstruction =
-      override?.pocketConstruction ??
-      'Structured collar stand with reinforced box placket & internal stay';
-    return {
-      stitchDensity: override?.stitchDensity ?? '18 SPI / 4-Thread Overlock',
-      seamFinish,
-      pocketConstruction,
-      moq: '150 pcs / color (Placeholder)',
-      bullets: [
-        `Knitted in ${row.composition} (${row.weightGsm}) combining breathable surface hand-feel with shape retention.`,
-        override?.bulletConstruction ??
-          'Engineered with an anti-curl flat-knit collar and clean placket backed by fusible interlining.',
-        override?.bulletDetail ??
-          'Completed with split side-vent hems and crisp tonal chest or sleeve branding.',
-      ],
-      features: [
-        `Signature ${row.fabricCode} textile offering smooth drape and collar stability`,
-        pocketConstruction,
-        seamFinish,
-        `Offered in ${row.colorways.length} palette options from core neutrals to Pantone TCX accents`,
-      ],
-      detailHints: override?.detailHints ?? {
-        pocket: 'Placket & chest mark closeup',
-        seam: 'Collar & cuff closeup',
-        custom: 'Fit & drape detail',
-      },
-    };
-  }
-
-  if (row.category === 'Skirts') {
-    const seamFinish =
-      override?.seamFinish ??
-      'Concealed invisible zipper placket with clean bias-bound or 4-thread seams';
-    const pocketConstruction =
-      override?.pocketConstruction ??
-      'In-seam or rear welt pocket construction anchored cleanly into the waist';
-    return {
-      stitchDensity: override?.stitchDensity ?? '18 SPI',
-      seamFinish,
-      pocketConstruction,
-      moq: '100 pcs / color (Placeholder)',
-      bullets: [
-        `Tailored from ${row.composition} (${row.weightGsm}, ${row.fabricWidth} width) for balanced structure and fluid movement.`,
-        override?.bulletConstruction ??
-          'Finished with a concealed invisible zipper closure and contoured waistband stay.',
-        override?.bulletDetail ??
-          'Clean hem construction and flat internal pocket anchoring eliminate hip pulling.',
-      ],
-      features: [
-        `Matching ${row.fabricCode} suiting textile enabling cohesive coordinated B2B sets`,
-        pocketConstruction,
-        seamFinish,
-        `Produced in ${row.colorways.length} refined shades for versatile merchandising`,
-      ],
-      detailHints: override?.detailHints ?? {
-        pocket: 'Waist & pocket closeup',
-        seam: 'Zipper & hem closeup',
-        custom: 'Silhouette & drape detail',
-      },
-    };
-  }
-
   const isVNeck = row.sku.includes('VNECK');
-  const seamFinish =
-    override?.seamFinish ??
-    'Shoulder-to-shoulder twill neck tape with zero-torque twin-needle hems';
-  const pocketConstruction =
-    override?.pocketConstruction ??
-    (isVNeck
-      ? 'Precision mitered V-neck rib collar engineered to lie flat without gapping'
-      : 'Clean seamless chest profile with high-recovery 1x1 rib crew collar');
+  const seamFinish = row.seamFinish ?? 'Clean tailored seams & shape-retaining neckline';
+  const pocketConstruction = row.pocketConstruction ?? 'Clean front construction';
+  const bullets =
+    row.descriptionBullets && row.descriptionBullets.length > 0
+      ? row.descriptionBullets
+      : [row.summary, row.stretchFeelNote];
 
   return {
-    stitchDensity: override?.stitchDensity ?? '18–20 SPI Coverstitch',
+    stitchDensity: '',
     seamFinish,
     pocketConstruction,
-    moq: '150 pcs / color (Placeholder)',
-    bullets: [
-      `Crafted from ${row.composition} (${row.weightGsm}) with a smooth, breathable finish that moves comfortably with the body.`,
-      override?.bulletConstruction ??
-        'Designed with a durable ribbed neckline that retains its shape wash after wash, paired with clean twin-needle sleeve and bottom hems.',
-      override?.bulletDetail ??
-        'Four-thread overlocked internal seams and flat twin-needle coverstitching ensure zero torque and long-term durability.',
-    ],
-    features: [
-      `Crafted on the ${row.fabricCode} textile roll (${row.fabricWidth} width) for uniform batch hand-feel`,
-      pocketConstruction,
-      seamFinish,
-      `Available in ${row.colorways.length} colorway options for modular B2B assortment`,
-    ],
-    detailHints: override?.detailHints ?? {
-      pocket: isVNeck ? 'Mitered V-neck closeup' : 'Neckline & chest mark closeup',
-      seam: 'Sleeve flag & hem closeup',
-      custom: 'Fit & drape detail',
+    moq: '',
+    bullets,
+    features: row.keyFeatures,
+    detailHints: SKU_DETAIL_HINTS[row.sku] ?? {
+      pocket: isVNeck ? 'V-neck & front detail' : 'Neckline / waist detail',
+      seam: 'Construction & seam closeup',
+      custom: 'Fit & drape study',
     },
   };
 }
@@ -2035,24 +1700,23 @@ export function buildDefaultDescriptionBullets(specs: {
   seamFinish: string;
 }): string[] {
   return [
-    `Crafted from ${specs.composition} (${specs.weightGsm}) engineered for clean architectural drape and multi-season durability.`,
-    `Constructed with ${specs.seamFinish.toLowerCase()} to maintain garment structure wash after wash.`,
-    `Finished with ${specs.pocketConstruction.toLowerCase()} for long-term B2B performance.`,
+    `${specs.composition} (${specs.weightGsm}) engineered for breathable structure.`,
+    `${specs.seamFinish} with ${specs.pocketConstruction.toLowerCase()}.`,
   ];
 }
 
 export function buildDefaultKeyFeatures(specs: {
-  stitchDensity: string;
+  stitchDensity?: string;
   seamFinish: string;
   pocketConstruction: string;
   fabricRollRef: string;
+  composition?: string;
 }): string[] {
   return [
-    `High-precision ${specs.stitchDensity} stitch calibration across primary stress zones`,
-    `${specs.seamFinish} for clean interior presentation and zero fray`,
-    `${specs.pocketConstruction} with reinforced anchor points`,
-    `Traceable swatchbook fabric code (${specs.fabricRollRef}) with pre-shrunk stability`,
-  ];
+    specs.composition ? `${specs.composition} (${specs.fabricRollRef})` : `Fabric ${specs.fabricRollRef}`,
+    specs.seamFinish,
+    specs.pocketConstruction,
+  ].filter(Boolean);
 }
 
 export const DEFAULT_COLORWAYS: string[] = ['Black', 'White', 'Grey', 'Navy'];
@@ -2061,10 +1725,7 @@ export function createInitialGarments(): GarmentItem[] {
   return RAW_PRODUCTS.map((row, idx) => {
     const num = idx + 1;
     const craft = getCraftDetails(row);
-    const official = OFFICIAL_PRODUCT_DATA[row.sku];
-    if (!official) {
-      throw new Error(`Missing official product data for ${row.sku}`);
-    }
+    const slug = row.sku.toLowerCase().replace(/[^a-z0-9]+/g, '-');
     const assetMapping = PRODUCT_ASSETS[row.sku];
     const studioMapping = PRODUCT_STUDIO_ASSETS[row.sku];
     const expectedHeroFile = assetMapping
@@ -2128,26 +1789,26 @@ export function createInitialGarments(): GarmentItem[] {
       id: `garment-${String(num).padStart(2, '0')}`,
       index: num,
       sku: row.sku,
-      title: official.title,
+      title: row.title,
       gender: row.gender,
       genderCode: row.genderCode,
       productGroupVi: row.productGroupVi,
       category: row.category,
       chapterNumeral: row.chapterNumeral,
-      summary: official.summary,
-      descriptionBullets: official.highlights,
+      summary: row.summary,
+      descriptionBullets: craft.bullets,
       keyFeatures: craft.features,
-      colorCount: official.colorways.length,
-      colorways: [...official.colorways],
+      colorCount: row.colorCount,
+      colorways: row.colorways,
       dataFlags: row.dataFlags,
       productUrl:
         assetMapping?.productUrl ??
-        '',
+        `https://dreamtomorrow.studio/b2b/line-sheet/${slug}`,
       videoUrl: '',
       videoTitle: `${row.sku} Drape & Movement Study`,
       specs: {
         fabricRollRef: row.fabricCode,
-        composition: official.composition,
+        composition: row.composition,
         weightGsm: row.weightGsm,
         fabricWidth: row.fabricWidth,
         stretchFeelNote: row.stretchFeelNote,
@@ -2157,7 +1818,7 @@ export function createInitialGarments(): GarmentItem[] {
         cmOemOdmScope: 'CM / OEM / ODM Ready',
         sizeRun: row.gender === 'Men' ? 'S / M / L / XL / XXL' : 'XS / S / M / L / XL',
         moq: craft.moq,
-        leadTime: '4 – 6 Weeks Ex-Factory (Placeholder)',
+        leadTime: '',
         wholesaleRef: 'CM / OEM / ODM Quote',
       },
       media,
@@ -2194,11 +1855,6 @@ export function buildFabricSwatchPrograms(garments: GarmentItem[]): FabricSwatch
     } else {
       existing.linkedSkus.push(g.sku);
       existing.linkedIndices.push(g.index);
-      for (const colorway of g.colorways) {
-        if (!existing.colorways.includes(colorway)) {
-          existing.colorways.push(colorway);
-        }
-      }
       if (!existing.genders.includes(g.gender)) {
         existing.genders.push(g.gender);
       }
@@ -2225,9 +1881,7 @@ export function getFabricSwatchSpreadPage(fabricCode: string, garments: GarmentI
   const programIndex = buildFabricSwatchPrograms(garments).findIndex(
     (program) => program.fabricCode === fabricCode
   );
-  return programIndex < 0
-    ? 2
-    : 2 + programIndex;
+  return programIndex < 0 ? 2 : 2 + programIndex;
 }
 
 export const METALLIC_THEMES = [
@@ -2258,8 +1912,8 @@ export const STAGE_LABELS: Record<'blank' | 'ai-concept' | 'studio-final', strin
 };
 
 export const PRINT_PRODUCTION_SPEC = {
-  pageFormat: 'A4 Landscape Open Spread (297 × 210 mm)',
-  spreadDimensionsMm: '297 × 210 mm (148.5 × 210 mm per Verso/Recto leaf)',
+  pageFormat: 'A4 / A3 ISO 216 (1:1.414 · 1190 × 842 Spread)',
+  spreadDimensionsMm: '297 × 210 mm A4 Landscape Spread · 210 × 297 mm A4 Portrait Leaf (420 × 297 mm A3 Spread)',
   bleedMm: 3,
   trimMarginMm: 10,
   innerGutterMm: 18,
@@ -2268,4 +1922,3 @@ export const PRINT_PRODUCTION_SPEC = {
   colorProfile: 'sRGB Web Prototype → CMYK ISO Coated v2 (FOGRA39)',
   bindingMethod: 'Smyth-Sewn Lay-Flat / Saddle-Stitch B2B Lookbook',
 } as const;
-

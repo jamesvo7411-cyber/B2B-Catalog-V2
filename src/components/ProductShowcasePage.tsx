@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Bookmark, Check } from 'lucide-react';
 import type { GarmentItem, MediaSlot, MediaSlotKey } from '../types/catalogue';
 import {
   displayBuyerProductTitle,
@@ -7,12 +7,14 @@ import {
 } from '../utils/productDisplay';
 import {
   formatSpreadPageCode,
+  getFabricFamilyName,
   type CatalogueNavigationMap,
 } from '../utils/catalogueOrder';
 import { RunningHeader, SectionWayfinderBar } from './CatalogueNavigation';
 import { MediaPlate } from './MediaPlate';
 import { ProductSpecStrip } from './ProductSpecStrip';
 import { ColorSwatchList } from './ColorSwatchList';
+import { SizeRunChips } from './SizeRunChips';
 
 interface ProductShowcasePageProps {
   garment: GarmentItem;
@@ -20,10 +22,18 @@ interface ProductShowcasePageProps {
   navMap?: CatalogueNavigationMap;
   demoMode?: boolean;
   onToggleDemoMode?: () => void;
+  shortlist?: string[];
+  onToggleShortlist?: (id: string) => void;
   onSelectSpread?: (pageIndex: number) => void;
   onSelectGarment: (index: number) => void;
   onSelectFabricCode: (fabricCode: string) => void;
   onInspectMedia: (slot: MediaSlot, titleLabel: string, garmentTitle: string) => void;
+}
+
+function getBalancedDetailGrid(count: number): { gridClass: string; aspectClass: string } {
+  if (count === 1) return { gridClass: 'grid-cols-1', aspectClass: 'aspect-[16/9] w-full bg-[#F5F4F0]' };
+  if (count === 3) return { gridClass: 'grid-cols-3', aspectClass: 'aspect-[4/3] w-full bg-[#F5F4F0]' };
+  return { gridClass: 'grid-cols-2', aspectClass: 'aspect-[16/10] w-full bg-[#F5F4F0]' };
 }
 
 export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
@@ -32,6 +42,8 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
   navMap,
   demoMode = false,
   onToggleDemoMode,
+  shortlist = [],
+  onToggleShortlist,
   onSelectSpread,
   onSelectGarment,
   onSelectFabricCode,
@@ -48,9 +60,15 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
       ? String(spreadIdx + 1).padStart(2, '0')
       : String(garment.index).padStart(2, '0');
   const sectionId = garment.gender === 'Women' ? 'women' : 'men';
+  const sectionStartPage = navMap?.sections.find((s) => s.id === sectionId)?.startSpreadPage;
+  const categoryStartPage = navMap?.categoryRanges.find(
+    (c) => c.name === garment.category
+  )?.firstPage;
   const fabricSpreadIdx = navMap?.fabricPageByCode.get(garment.specs.fabricRollRef);
   const fabricPageLabel =
     fabricSpreadIdx !== undefined ? formatSpreadPageCode(fabricSpreadIdx) : undefined;
+  const fabricFamilyName = getFabricFamilyName(garment.specs.fabricRollRef);
+  const isShortlisted = shortlist.includes(garment.id);
 
   const paddedNumber = String(garment.index).padStart(2, '0');
   const [unavailableSlots, setUnavailableSlots] = useState<Partial<Record<MediaSlotKey, boolean>>>({});
@@ -81,6 +99,7 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
     const slot = garment.media[key];
     return Boolean(slot.url || slot.fallbackUrl) && !unavailableSlots[key];
   });
+  const detailLayout = getBalancedDetailGrid(visibleDetailSlots.length);
   const hasHeroAsset =
     Boolean(garment.media.hero.url || garment.media.hero.fallbackUrl) &&
     !unavailableSlots.hero;
@@ -106,6 +125,16 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
         pageLabel={`P.${spreadPadded}A`}
         rightContext={garment.sku}
         overImage={hasHeroAsset}
+        onSectionClick={
+          onSelectSpread && sectionStartPage !== undefined
+            ? () => onSelectSpread(sectionStartPage)
+            : undefined
+        }
+        onCategoryClick={
+          onSelectSpread && categoryStartPage !== undefined
+            ? () => onSelectSpread(categoryStartPage)
+            : undefined
+        }
       />
       <div className="flex items-start justify-between gap-3 [text-shadow:0_1px_10px_rgba(247,246,242,0.92)]">
         <div className="inline-block">
@@ -116,9 +145,29 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
             {garment.gender} · {garment.category}
           </span>
         </div>
-        <span className="pt-1 font-mono text-[8.5px] font-semibold uppercase tracking-[0.18em] text-[#33322F]">
-          {garment.specs.fabricRollRef}
-        </span>
+        <div className="flex items-center gap-2 pt-0.5">
+          <button
+            type="button"
+            onClick={() => onSelectFabricCode(garment.specs.fabricRollRef)}
+            className="font-mono text-[8.5px] font-semibold uppercase tracking-[0.18em] text-[#33322F] underline decoration-[#B8B5AD] underline-offset-2 hover:text-[#0A0A0A] hover:decoration-[#0A0A0A] cursor-pointer"
+          >
+            {garment.specs.fabricRollRef}
+          </button>
+          {onToggleShortlist && (
+            <button
+              type="button"
+              onClick={() => onToggleShortlist(garment.id)}
+              className={`pointer-events-auto inline-flex items-center gap-1 border px-2 py-1 text-[9.5px] font-medium transition-colors cursor-pointer ${
+                isShortlisted
+                  ? 'border-[#111111] bg-[#111111] text-white'
+                  : 'border-[#DCDAD3] bg-white/95 text-[#33322F] hover:border-[#111111] hover:text-[#111111]'
+              }`}
+            >
+              {isShortlisted ? <Check className="h-2.5 w-2.5" /> : <Bookmark className="h-2.5 w-2.5" />}
+              <span>{isShortlisted ? 'Saved' : 'Save style'}</span>
+            </button>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -137,6 +186,8 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
         <ProductSpecStrip
           item={garment}
           overlay
+          fabricPageLabel={fabricPageLabel}
+          onSelectFabricCode={onSelectFabricCode}
           showWorkbenchNotes={false}
           showFabricCrossReference={false}
         />
@@ -147,7 +198,7 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
   return (
     <section className="min-h-[calc(100vh-9rem)] bg-[#F4F3EF] px-3 py-5 sm:px-6 sm:py-6 lg:px-10">
       <div className="mx-auto max-w-[1380px]">
-        {navMap && onToggleDemoMode && onSelectSpread && (
+        {navMap && onSelectSpread && (
           <SectionWayfinderBar
             activeSection={sectionId}
             activeCategory={garment.category}
@@ -236,46 +287,59 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
               categoryLabel={`${garment.category} · DETAILS`}
               pageLabel={`P.${spreadPadded}B`}
               rightContext={`STYLE ${garment.sku}`}
+              onSectionClick={
+                onSelectSpread && sectionStartPage !== undefined
+                  ? () => onSelectSpread(sectionStartPage)
+                  : undefined
+              }
+              onCategoryClick={
+                onSelectSpread && categoryStartPage !== undefined
+                  ? () => onSelectSpread(categoryStartPage)
+                  : undefined
+              }
             />
 
             {visibleDetailSlots.length > 0 && (
-            <section className="border-b border-[#E8E6E0] pb-4">
-              <div className="mb-3 flex items-baseline justify-between gap-3">
-                <h2 className="font-serif text-[26px] font-normal leading-none tracking-tight text-[#141412]">
-                  Product details
-                </h2>
-              </div>
-              <div className="grid grid-cols-2 gap-3.5">
-                {visibleDetailSlots.map(({ key, label }) => {
-                  const slot = garment.media[key];
-                  const hasLoadedAsset =
-                    Boolean(slot.url || slot.fallbackUrl) && !unavailableSlots[key];
-                  return hasLoadedAsset ? (
-                    <div key={key} className="min-w-0">
-                      <MediaPlate
-                        slotKey={key}
-                        slot={slot}
-                        aspectClass="aspect-[16/10] w-full bg-[#F5F4F0]"
-                        titleLabel={`${garment.sku} ${label}`}
-                        editMode={false}
-                        compact
-                        displayScale={key === 'swatch' ? 1.65 : 1}
-                        editable={false}
-                        showBlankGuides={false}
-                        onImageUnavailable={markSlotUnavailable}
-                        onInspect={(s, lbl) => onInspectMedia(s, lbl, garment.title)}
-                      />
-                      <p className="mt-1.5 font-mono text-[9px] font-semibold uppercase tracking-wide text-[#33322F]">
-                        {label}
-                      </p>
-                    </div>
-                  ) : null;
-                })}
-              </div>
-            </section>
+              <section className="border-b border-[#E8E6E0] pb-4">
+                <div className="mb-3 flex items-baseline justify-between gap-3">
+                  <h2 className="font-serif text-[26px] font-normal leading-none tracking-tight text-[#141412]">
+                    Details &amp; Material
+                  </h2>
+                  <span className="font-mono text-[9.5px] uppercase tracking-[0.12em] text-[#77756F]">
+                    {visibleDetailSlots.length}{' '}
+                    {visibleDetailSlots.length === 1 ? 'plate' : 'plates'}
+                  </span>
+                </div>
+                <div className={`grid gap-3.5 ${detailLayout.gridClass}`}>
+                  {visibleDetailSlots.map(({ key, label }) => {
+                    const slot = garment.media[key];
+                    const hasLoadedAsset =
+                      Boolean(slot.url || slot.fallbackUrl) && !unavailableSlots[key];
+                    return hasLoadedAsset ? (
+                      <div key={key} className="min-w-0">
+                        <MediaPlate
+                          slotKey={key}
+                          slot={slot}
+                          aspectClass={detailLayout.aspectClass}
+                          titleLabel={`${garment.sku} ${label}`}
+                          editMode={false}
+                          compact
+                          displayScale={key === 'swatch' ? 1.65 : 1}
+                          editable={false}
+                          showBlankGuides={false}
+                          onImageUnavailable={markSlotUnavailable}
+                          onInspect={(s, lbl) => onInspectMedia(s, lbl, garment.title)}
+                        />
+                        <p className="mt-1.5 font-mono text-[9px] font-semibold uppercase tracking-wide text-[#33322F]">
+                          {label}
+                        </p>
+                      </div>
+                    ) : null;
+                  })}
+                </div>
+              </section>
             )}
 
-            {buyerColorways.length > 0 && (
             <section className="border-b border-[#E8E6E0] pb-4">
               <div className="mb-2.5 flex items-baseline justify-between gap-2">
                 <h3 className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
@@ -292,38 +356,42 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
                 showPendingColorways={false}
               />
             </section>
-            )}
 
             <section className="flex flex-1 flex-col justify-between gap-4">
-              {(garment.summary || garment.descriptionBullets.length > 0) && (
               <div>
-                <h3 className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
-                  Design highlights
-                </h3>
-                {garment.summary && (
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
+                    Material &amp; Design Highlights
+                  </h3>
+                  <SizeRunChips sizeRun={garment.specs.sizeRun} size="md" />
+                </div>
                 <p className="mt-2 font-serif text-lg italic leading-snug text-[#1F1E1B]">
                   {garment.summary}
                 </p>
+                {garment.keyFeatures.length > 0 && (
+                  <ul className="mt-3 grid grid-cols-1 gap-x-5 gap-y-2 border-t border-[#EFECE6] pt-3 sm:grid-cols-2">
+                    {garment.keyFeatures.map((feat, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-baseline gap-2.5 text-xs leading-snug text-[#292824]"
+                      >
+                        <span className="font-mono text-[9px] text-[var(--metallic-strong)] tabular-nums">
+                          {String(idx + 1).padStart(2, '0')}
+                        </span>
+                        <span>{feat}</span>
+                      </li>
+                    ))}
+                  </ul>
                 )}
-                <ul className="mt-3 grid grid-cols-1 gap-2 text-xs leading-relaxed text-[#404040] sm:grid-cols-2">
-                  {garment.descriptionBullets.slice(0, 2).map((bullet, idx) => (
-                    <li key={idx} className="flex min-w-0 items-start gap-2.5 border border-[#E8E6E0] bg-[#FAF9F5] p-2.5">
-                      <span className="font-mono text-[9px] text-[var(--metallic-strong)] tabular-nums">
-                        {String(idx + 1).padStart(2, '0')}
-                      </span>
-                      <span className="min-w-0">{bullet}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
-              )}
 
               <div className="border-t border-[#E8E6E0] pt-3 text-xs text-[#66645F]">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <span>
                     <span className="font-mono text-[10px] font-semibold uppercase tracking-wide text-[#55534E]">
                       Fabric {garment.specs.fabricRollRef}
-                    </span>
+                    </span>{' '}
+                    · {fabricFamilyName}
                   </span>
                   <button
                     type="button"
@@ -359,7 +427,6 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
                   </p>
                 )}
               </div>
-
             </section>
           </div>
         </article>

@@ -117,6 +117,7 @@ export const FabricColorImageTile: React.FC<{
           alt={`${getDisplayColorName(color)} ${color.fabricCode} fabric texture`}
           loading="lazy"
           decoding="async"
+          referrerPolicy="no-referrer"
           onError={() => setImgError(true)}
           className={`h-full w-full object-cover ${tightCrop ? 'scale-[1.65]' : ''}`}
         />
@@ -125,14 +126,14 @@ export const FabricColorImageTile: React.FC<{
           {interactive ? (
             <div
               aria-hidden="true"
-              className="flex h-11 w-11 items-center justify-center rounded-full border border-[#D8D6D0] bg-white"
+              className="flex h-11 w-11 items-center justify-center border border-[#D8D6D0] bg-white"
             >
               <ImagePlus className="h-5 w-5 text-[#77756F]" />
             </div>
           ) : (
             <span
               aria-hidden="true"
-              className="h-12 w-12 rounded-full border border-black/10"
+              className="h-12 w-12 border border-black/15"
               style={{ backgroundColor: getColorSwatchHex(color.colorName) ?? '#F3F2EF' }}
             />
           )}
@@ -363,8 +364,8 @@ export const FabricSwatchBoard: React.FC<FabricSwatchBoardProps> = ({
               </h1>
               <p className="mt-2 max-w-[68ch] text-sm leading-relaxed text-[#55534E]">
                 {interactive
-                  ? 'Browse factory-listed fabric programs, shade codes, and Pantone or chart references. Some English shade names are provisional, so confirm the physical swatch along with current stock, MOQ, and lead time before placing an order.'
-                  : 'Explore our fabric programs, available shades, color references, and fabric specifications.'}
+                  ? 'Browse factory-listed fabric programs, official colorway names, shade codes, and Pantone or chart references. Confirm physical swatch lots, MOQ, and lead time prior to bulk ordering.'
+                  : 'Explore our fabric programs, official shades, color references, and textile specifications.'}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-2 sm:flex">
@@ -416,7 +417,7 @@ export const FabricSwatchBoard: React.FC<FabricSwatchBoardProps> = ({
           </div>
           {canEditColorImages && (
             <p className="mt-2 text-[11px] text-[#77756F]">
-              Workbench: drop or upload a different generated fabric image on each color card.
+              Studio: drop or upload a different generated fabric image on each color card.
             </p>
           )}
         </header>

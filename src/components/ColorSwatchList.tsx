@@ -25,6 +25,14 @@ function splitColorCode(raw: string): { name: string; code: string | null; isPen
   return { name: raw.trim(), code: null, isPending };
 }
 
+function getBalancedColorGridClass(count: number): string {
+  if (count <= 2) return 'grid-cols-2';
+  if (count === 3 || count === 5 || count === 6 || count === 9) {
+    return 'grid-cols-2 sm:grid-cols-3';
+  }
+  return 'grid-cols-2 sm:grid-cols-4';
+}
+
 export const ColorSwatchList: React.FC<ColorSwatchListProps> = ({
   colorways,
   fabricCode,
@@ -41,16 +49,16 @@ export const ColorSwatchList: React.FC<ColorSwatchListProps> = ({
           !color.toLowerCase().includes('pending')
       );
 
+  if (visibleColorways.length === 0) {
+    return (
+      <p className="border border-dashed border-[#E0DDD5] bg-[#FAF9F5] px-3 py-2 font-mono text-[9.5px] text-[#77756F]">
+        Colorways pending sample sign-off
+      </p>
+    );
+  }
+
   return (
-    <div
-      className={`grid gap-2 ${
-        editorial
-          ? 'grid-cols-2 sm:grid-cols-4'
-          : compact
-            ? 'grid-cols-2 sm:grid-cols-3'
-            : 'grid-cols-2 sm:grid-cols-4'
-      }`}
-    >
+    <div className={`grid gap-2 ${getBalancedColorGridClass(visibleColorways.length)}`}>
       {visibleColorways.map((color, idx) => {
         const hex = getColorSwatchHex(color);
         const { name, code, isPending } = splitColorCode(color);
@@ -75,7 +83,7 @@ export const ColorSwatchList: React.FC<ColorSwatchListProps> = ({
         return (
           <div
             key={`${color}-${idx}`}
-            className={`flex min-w-0 items-center gap-2.5 ${
+            className={`flex min-w-0 items-center gap-2 ${
               editorial
                 ? 'border-0 bg-transparent px-0 py-0'
                 : `border px-2.5 py-1.5 ${
@@ -87,7 +95,9 @@ export const ColorSwatchList: React.FC<ColorSwatchListProps> = ({
           >
             <span
               aria-hidden="true"
-              className={`shrink-0 border border-black/15 ${editorial ? 'h-4 w-5' : 'h-5 w-7'}`}
+              className={`shrink-0 border border-black/15 ${
+                editorial ? (compact ? 'h-3.5 w-4.5' : 'h-4 w-5') : 'h-5 w-7'
+              }`}
               style={
                 hex
                   ? { backgroundColor: hex }
@@ -124,4 +134,3 @@ export const ColorSwatchList: React.FC<ColorSwatchListProps> = ({
     </div>
   );
 };
-
