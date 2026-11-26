@@ -7,14 +7,12 @@ import {
 } from '../utils/productDisplay';
 import {
   formatSpreadPageCode,
-  getFabricFamilyName,
   type CatalogueNavigationMap,
 } from '../utils/catalogueOrder';
 import { RunningHeader, SectionWayfinderBar } from './CatalogueNavigation';
 import { MediaPlate } from './MediaPlate';
 import { ProductSpecStrip } from './ProductSpecStrip';
 import { ColorSwatchList } from './ColorSwatchList';
-import { SizeRunChips } from './SizeRunChips';
 
 interface ProductShowcasePageProps {
   garment: GarmentItem;
@@ -53,11 +51,9 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
   const fabricSpreadIdx = navMap?.fabricPageByCode.get(garment.specs.fabricRollRef);
   const fabricPageLabel =
     fabricSpreadIdx !== undefined ? formatSpreadPageCode(fabricSpreadIdx) : undefined;
-  const fabricFamilyName = getFabricFamilyName(garment.specs.fabricRollRef);
 
   const paddedNumber = String(garment.index).padStart(2, '0');
   const [unavailableSlots, setUnavailableSlots] = useState<Partial<Record<MediaSlotKey, boolean>>>({});
-  const buyerMoq = getBuyerVisibleValue(garment.specs.moq);
 
   useEffect(() => {
     setUnavailableSlots({});
@@ -246,7 +242,7 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
             <section className="border-b border-[#E8E6E0] pb-4">
               <div className="mb-3 flex items-baseline justify-between gap-3">
                 <h2 className="font-serif text-[26px] font-normal leading-none tracking-tight text-[#141412]">
-                  Details &amp; Craftsmanship
+                  Product details
                 </h2>
               </div>
               <div className="grid grid-cols-2 gap-3.5">
@@ -279,6 +275,7 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
             </section>
             )}
 
+            {buyerColorways.length > 0 && (
             <section className="border-b border-[#E8E6E0] pb-4">
               <div className="mb-2.5 flex items-baseline justify-between gap-2">
                 <h3 className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
@@ -295,65 +292,38 @@ export const ProductShowcasePage: React.FC<ProductShowcasePageProps> = ({
                 showPendingColorways={false}
               />
             </section>
+            )}
 
             <section className="flex flex-1 flex-col justify-between gap-4">
+              {(garment.summary || garment.descriptionBullets.length > 0) && (
               <div>
                 <h3 className="font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
-                  Silhouette &amp; Production Notes
+                  Design highlights
                 </h3>
+                {garment.summary && (
                 <p className="mt-2 font-serif text-lg italic leading-snug text-[#1F1E1B]">
                   {garment.summary}
                 </p>
-                <ul className="mt-3 space-y-2 text-xs leading-relaxed text-[#404040]">
-                  {garment.descriptionBullets.slice(0, 3).map((bullet, idx) => (
-                    <li key={idx} className="flex items-baseline gap-2.5">
+                )}
+                <ul className="mt-3 grid grid-cols-1 gap-2 text-xs leading-relaxed text-[#404040] sm:grid-cols-2">
+                  {garment.descriptionBullets.slice(0, 2).map((bullet, idx) => (
+                    <li key={idx} className="flex min-w-0 items-start gap-2.5 border border-[#E8E6E0] bg-[#FAF9F5] p-2.5">
                       <span className="font-mono text-[9px] text-[var(--metallic-strong)] tabular-nums">
                         {String(idx + 1).padStart(2, '0')}
                       </span>
-                      <span>{bullet}</span>
+                      <span className="min-w-0">{bullet}</span>
                     </li>
                   ))}
                 </ul>
               </div>
-
-              <dl className="grid grid-cols-2 gap-x-5 gap-y-3 border-t border-[#E8E6E0] pt-4 text-xs">
-                {[
-                  ['Stitch Density', garment.specs.stitchDensity],
-                  ['Seam Finish', garment.specs.seamFinish],
-                  ['Pocket & Trim', garment.specs.pocketConstruction],
-                ].map(([label, rawValue]) => {
-                  const value = getBuyerVisibleValue(rawValue);
-                  return value ? (
-                    <div key={label}>
-                      <dt className="font-mono text-[9px] uppercase tracking-wider text-[#77756F]">
-                        {label}
-                      </dt>
-                      <dd className="mt-0.5 font-semibold text-[#111111]">{value}</dd>
-                    </div>
-                  ) : null;
-                })}
-                <div>
-                  <dt className="font-mono text-[9px] uppercase tracking-wider text-[#77756F]">
-                    Size Run{buyerMoq ? ' · MOQ' : ''}
-                  </dt>
-                  <dd className="mt-1.5 flex flex-col gap-1.5">
-                    <SizeRunChips sizeRun={garment.specs.sizeRun} size="md" />
-                    {buyerMoq && (
-                      <span className="font-mono text-[10px] font-medium text-[#55534E] tabular-nums">
-                        MOQ {buyerMoq}
-                      </span>
-                    )}
-                  </dd>
-                </div>
-              </dl>
+              )}
 
               <div className="border-t border-[#E8E6E0] pt-3 text-xs text-[#66645F]">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <span>
                     <span className="font-mono text-[10px] font-semibold uppercase tracking-wide text-[#55534E]">
                       Fabric {garment.specs.fabricRollRef}
-                    </span>{' '}
-                    · {fabricFamilyName}
+                    </span>
                   </span>
                   <button
                     type="button"

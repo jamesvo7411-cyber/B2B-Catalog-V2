@@ -30,7 +30,7 @@ export const ProductSpecStrip: React.FC<ProductSpecStripProps> = ({
 }) => {
   const familyName = getFabricFamilyName(item.specs.fabricRollRef);
   const compositionIsIncomplete = hasIncompleteFabricComposition(item.dataFlags);
-  const fields = [
+  const allFields = [
     { label: 'Style Code', value: item.sku, mono: true, spanClass: '' },
     { label: 'Fabric Code', value: item.specs.fabricRollRef, mono: true, spanClass: '' },
     {
@@ -39,23 +39,28 @@ export const ProductSpecStrip: React.FC<ProductSpecStripProps> = ({
       mono: true,
       spanClass: '',
     },
-    { label: 'Colors', value: String(item.colorCount), mono: true, spanClass: '' },
+    {
+      label: 'Colors',
+      value: showWorkbenchNotes || item.colorCount > 0 ? String(item.colorCount) : '',
+      mono: true,
+      spanClass: '',
+    },
     {
       label: 'Fabric Content',
       value: displayFabricComposition(item.specs.composition),
       mono: false,
-      spanClass: compact ? 'col-span-2' : 'col-span-3',
+      spanClass: overlay ? 'col-span-4' : compact ? 'col-span-2' : 'col-span-4',
     },
     { label: 'Width', value: item.specs.fabricWidth, mono: true, spanClass: '' },
-  ].filter(
+  ];
+  const fields = allFields.filter(
     (field) =>
       showWorkbenchNotes ||
-      (getBuyerVisibleValue(field.value) &&
+      (['Style Code', 'Fabric Code', 'Colors', 'Fabric Content'].includes(field.label) &&
+        getBuyerVisibleValue(field.value) &&
         !(field.label === 'Fabric Content' && compositionIsIncomplete))
   );
-  const visibleFamilyName = showWorkbenchNotes
-    ? familyName
-    : getBuyerVisibleValue(familyName);
+  const visibleFamilyName = showWorkbenchNotes ? familyName : undefined;
   const visibleFabricPageLabel =
     showWorkbenchNotes || getBuyerVisibleValue(item.specs.fabricRollRef)
       ? fabricPageLabel

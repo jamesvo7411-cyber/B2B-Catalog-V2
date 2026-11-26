@@ -148,7 +148,7 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
               The collection<span className="text-[var(--metallic-strong)]">.</span>
             </h1>
             <p className="mt-4 max-w-[54ch] text-sm leading-6 text-[#66645F] sm:text-base">
-              Browse by category or line, then open a piece to see the full story.
+              Browse by category, then select a style.
             </p>
           </div>
           <div className="relative flex items-center gap-5 text-xs text-[#66645F]">
@@ -168,9 +168,6 @@ export const CatalogueIndex: React.FC<CatalogueIndexProps> = ({
             </div>
           </div>
         </div>
-        <p className="mt-4 text-[11px] text-[#8A877F]">
-          * Product name not yet matched to the team&apos;s official name.
-        </p>
       </div>
 
       <div className="flex flex-col gap-5 border-b border-[#EAE8E3] py-6">

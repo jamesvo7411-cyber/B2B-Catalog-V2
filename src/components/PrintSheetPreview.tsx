@@ -9,13 +9,12 @@ import type {
 import { imageCropStyle } from '../utils/media';
 import { RunningHeader } from './CatalogueNavigation';
 import { ProductSpecStrip } from './ProductSpecStrip';
-import { SizeRunChips } from './SizeRunChips';
 import { getFactoryFabricColors } from '../data/factoryFabricColors';
 import {
   getFabricFamilyName,
   type CatalogueNavigationMap,
 } from '../utils/catalogueOrder';
-import { conciseSourceNote, displayMoq } from '../utils/productDisplay';
+import { conciseSourceNote } from '../utils/productDisplay';
 import {
   BRAND_LOGO_PATH,
   CATEGORIES,
@@ -946,15 +945,18 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                   </div>
 
                   <div className="flex flex-1 flex-col justify-between gap-2.5">
+                    {(item.summary || item.descriptionBullets.length > 0) && (
                     <div>
                       <p className="font-mono text-[8px] font-semibold uppercase tracking-wider text-[#55534E]">
-                        Silhouette &amp; Production Notes
+                        Design highlights
                       </p>
+                      {item.summary && (
                       <p className="mt-1 font-serif text-[13.5px] italic leading-snug text-[#1F1E1B]">
                         {item.summary}
                       </p>
-                      <ul className="mt-2 space-y-1 text-[9.5px] leading-relaxed text-[#404040]">
-                        {item.descriptionBullets.slice(0, 3).map((bullet, idx) => (
+                      )}
+                      <ul className="mt-2 grid grid-cols-2 gap-1.5 text-[9.5px] leading-relaxed text-[#404040]">
+                        {item.descriptionBullets.slice(0, 2).map((bullet, idx) => (
                           <li key={idx} className="flex items-baseline gap-2">
                             <span className="font-mono text-[8px] text-[var(--metallic-strong)] tabular-nums">
                               {String(idx + 1).padStart(2, '0')}
@@ -964,44 +966,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                         ))}
                       </ul>
                     </div>
-
-                    <dl className="grid grid-cols-2 gap-x-4 gap-y-1.5 border-t border-[#E8E6E0] pt-2.5 text-[9px]">
-                      <div>
-                        <dt className="font-mono text-[7.5px] uppercase tracking-wider text-[#77756F]">
-                          Stitch Density
-                        </dt>
-                        <dd className="mt-0.5 font-medium text-[#111111]">
-                          {item.specs.stitchDensity}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="font-mono text-[7.5px] uppercase tracking-wider text-[#77756F]">
-                          Seam Finish
-                        </dt>
-                        <dd className="mt-0.5 font-medium text-[#111111]">
-                          {item.specs.seamFinish}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="font-mono text-[7.5px] uppercase tracking-wider text-[#77756F]">
-                          Pocket &amp; Trim
-                        </dt>
-                        <dd className="mt-0.5 font-medium text-[#111111]">
-                          {item.specs.pocketConstruction}
-                        </dd>
-                      </div>
-                      <div>
-                        <dt className="font-mono text-[7.5px] uppercase tracking-wider text-[#77756F]">
-                          Size Run · MOQ
-                        </dt>
-                        <dd className="mt-1 flex flex-col gap-1">
-                          <SizeRunChips sizeRun={item.specs.sizeRun} size="xs" />
-                          <span className="font-mono text-[8px] font-medium text-[#55534E] tabular-nums">
-                            MOQ {displayMoq(item.specs.moq)}
-                          </span>
-                        </dd>
-                      </div>
-                    </dl>
+                    )}
 
                     {sourceNote && (
                       <p className="border-t border-[#E8E6E0] pt-1.5 text-[8.5px] leading-relaxed text-[#77756F]">

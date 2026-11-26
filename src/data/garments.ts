@@ -998,6 +998,379 @@ const RAW_PRODUCTS: RawProductRow[] = [
   },
 ];
 
+const OFFICIAL_COLORWAYS = {
+  a82: ['Black', 'Smoke Grey', 'Stone Grey', 'Beige'],
+  menModal: [
+    'Dark Grey',
+    'Mint',
+    'Charcoal Grey',
+    'Slate Blue-Grey',
+    'Navy',
+    'Black',
+    'Light Grey',
+    'White',
+  ],
+  menPique: [
+    'Black',
+    'Navy',
+    'Dark Blue',
+    'Light Grey',
+    'Turquoise',
+    'Peach',
+    'Light Pink',
+    'White',
+  ],
+  slub: [
+    'Stone Grey',
+    'Terracotta Orange',
+    'Black',
+    'Dark Blue',
+    'White',
+    'Khaki',
+    'Dusty Rose',
+  ],
+  cottonMen: ['Sky Blue', 'White', 'Black', 'Khaki', 'Peach'],
+  cm36: ['Black', 'White', 'Blue', 'Heather Grey (Melange)', 'Navy', 'Cream'],
+  cm40: ['Navy', 'Yellow', 'White', 'Stone Grey', 'Peach', 'Black'],
+  womenModal: [
+    'Dark Grey',
+    'Mint Green',
+    'Charcoal Grey',
+    'Slate Blue-Grey',
+    'Navy',
+    'Black',
+    'Light Grey',
+    'White',
+  ],
+  womenYody: [
+    'Deep Pink',
+    'Brown',
+    'White',
+    'Green',
+    'Mauve Pink',
+    'Grey',
+    'Pastel Orange',
+    'Deep Orange',
+    'Black',
+  ],
+  womenCotton: ['Deep Orange', 'White', 'Deep Pink', 'Black', 'Grey'],
+  cm30: ['Olive Green', 'Cream White', 'Silver Sage'],
+  womenA82: ['Black', 'Smoke Grey', 'Stone Grey', 'Beige'],
+  blackGrey: ['Grey', 'Black'],
+} as const;
+
+interface OfficialProductData {
+  title: string;
+  summary: string;
+  highlights: string[];
+  composition: string;
+  colorways: readonly string[];
+}
+
+const OFFICIAL_PRODUCT_DATA: Record<string, OfficialProductData> = {
+  MLPA82: {
+    title: "Men's Straight-Leg Trouser Pants",
+    summary: 'Classic straight-leg trousers for work and formal occasions.',
+    highlights: ['Medium-width belted waist with button-and-zip fly.', 'Four functional pockets.'],
+    composition: '95% Rayon Polyester, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.a82,
+  },
+  MLPA28: {
+    title: "Men's Straight-Leg Trouser Pants",
+    summary: 'Relaxed straight-leg trousers designed for everyday office wear.',
+    highlights: ['Belt-loop waistband with button-and-zip closure.', 'Side slant pockets and buttoned back pockets.'],
+    composition: '75% Polyester, 20% Rayon, 5% Spandex',
+    colorways: ['Black', 'Khaki', 'Navy', 'Grey'],
+  },
+  MLPA29: {
+    title: "Men's Straight-Leg Trouser Pants",
+    summary: 'Full-length straight-leg trousers with curved front pocket openings.',
+    highlights: ['Medium-width belted waistband with button-and-zip fly.', 'Four pockets, including curved front pockets.'],
+    composition: '75% Polyester, 20% Rayon, 5% Spandex',
+    colorways: ['Black', 'Khaki', 'Navy', 'Grey'],
+  },
+  WBL0001: {
+    title: "Women's Slightly Flared Trouser Pants",
+    summary: 'Full-length straight silhouette with a subtle lower flare.',
+    highlights: ['Wide cuffed hems.', 'Two side pockets and one right back pocket.'],
+    composition: '76% Polyester, 18% Rayon, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.blackGrey,
+  },
+  MSPA28: {
+    title: "Men's Straight-Leg Shorts Pant",
+    summary: 'A straight-leg short with a neat, polished profile.',
+    highlights: ['Belt loops with button-and-zip fly.', 'Four pockets: two side and two back.'],
+    composition: '75% Polyester, 20% Rayon, 5% Spandex',
+    colorways: ['Black', 'Khaki', 'Navy', 'Grey'],
+  },
+  MSPK03: {
+    title: "Men's Straight-Leg Khaki Shorts Pant",
+    summary: 'Breathable straight-leg shorts for daily wear.',
+    highlights: ['Belted waist with button-and-zip fly.', 'Four roomy pockets: two side and two back.'],
+    composition: '95% Cotton, 5% Spandex',
+    colorways: ['Black', 'Olive Green', 'Navy', 'Khaki'],
+  },
+  'WBS0001-A82': {
+    title: "Women's High-Waisted Cuffed Shorts",
+    summary: 'High-waisted straight shorts with a clean, elevated look.',
+    highlights: ['Concealed back zip and front pintuck seams.', 'Medium cuffed hems.'],
+    composition: '95% Rayon Polyester, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenA82,
+  },
+  'WBS0002-A82': {
+    title: "Women's A-Line Shorts",
+    summary: 'High-rise A-line shorts with slightly flared leg openings.',
+    highlights: ['Wide waistband with concealed back zip.', 'Short side hem slits.'],
+    composition: '95% Rayon Polyester, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenA82,
+  },
+  'WBS0003-A82': {
+    title: "Women's Elastic-Back A-Line Shorts",
+    summary: 'Tailored front meets a flexible elastic-back waistband.',
+    highlights: ['High-waisted A-line silhouette.', 'Button-and-zip fly with stretchy back waist.'],
+    composition: '95% Rayon Polyester, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenA82,
+  },
+  'MPOLO-MD1': {
+    title: "Men's 3-Button Polo Shirt",
+    summary: 'A smart-casual polo with a classic three-button collar.',
+    highlights: ['13 cm placket with elasticized sleeve cuffs.', 'Straight body with 3 cm side vents.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menModal,
+  },
+  'MPOLO-MD2': {
+    title: "Men's Faux-Pocket Polo Shirt",
+    summary: 'A classic polo accented with a faux welt chest pocket.',
+    highlights: ['13 cm, two-button polo collar.', 'Elasticized sleeves and 3 cm side vents.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menModal,
+  },
+  'MPOLO-MD3': {
+    title: "Men's Shiny Zip Polo Shirt",
+    summary: 'A modern polo with a polished metallic zipper.',
+    highlights: ['13 cm mirror-finish zipper and elasticized cuffs.', 'Straight fit with 3 cm side vents.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menModal,
+  },
+  'MPOLO-MD4': {
+    title: "Men's Concealed-Zip Polo Shirt",
+    summary: 'Minimalist polo styling with a concealed zipper placket.',
+    highlights: ['13 cm fabric-covered zipper and elasticized cuffs.', 'Straight fit with 3 cm side vents.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menModal,
+  },
+  'MPOLO-PQ1': {
+    title: "Men's 2-Button Polo Shirt",
+    summary: 'Structured, breathable piqué with a two-button collar.',
+    highlights: ['13 cm placket with elasticized short sleeves.', 'Straight hem with 3 cm side vents.'],
+    composition: '95% Cotton, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menPique,
+  },
+  'MPOLO-PQ2': {
+    title: "Men's 3-Button Polo Shirt",
+    summary: 'A relaxed straight-fit polo with an elongated placket.',
+    highlights: ['15 cm, three-button collar with ribbed sleeves.', 'Subtle 2 cm side vents.'],
+    composition: '95% Cotton, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menPique,
+  },
+  'MPOLO-PQ3': {
+    title: "Men's Mirror-Zip Polo Shirt",
+    summary: 'A classic polo collar updated with a mirror-finish zipper.',
+    highlights: ['13 cm zipper with ribbed sleeve cuffs.', 'Straight fit with 2 cm side vents.'],
+    composition: '95% Cotton, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menPique,
+  },
+  'MPOLO-PQ4': {
+    title: "Men's Concealed-Zip Polo Shirt",
+    summary: 'A structured polo with a modern hidden-zip placket.',
+    highlights: ['13 cm concealed zip and ribbed short sleeves.', 'Straight silhouette with 2 cm side vents.'],
+    composition: '95% Cotton, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menPique,
+  },
+  'MPOLO-SL201': {
+    title: "Men's 100% Cotton Polo Shirt",
+    summary: 'A breathable cotton polo with a crisp, smooth texture.',
+    highlights: ['13 cm, three-button collar.', 'Unbanded sleeves and 2 cm side vents.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.slub,
+  },
+  'MPOLO-SL203': {
+    title: "Men's 100% Cotton Zip Polo Shirt",
+    summary: 'A cotton polo with a polished zipper accent.',
+    highlights: ['13 cm mirror-finish zipper and unbanded sleeves.', 'Straight body with 3 cm side vents.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.slub,
+  },
+  'WPOLO-MD1': {
+    title: "Women's Slim-Fit Zip Polo Shirt",
+    summary: 'A slim-fit polo with a polished metal zip neckline.',
+    highlights: ['21 cm zipper with short sleeves.', 'Contoured fit.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenModal,
+  },
+  'WPOLO-MD2': {
+    title: "Women's 5-Button Polo Shirt",
+    summary: 'A soft, feminine polo with a vertical button placket.',
+    highlights: ['16 cm, five-button placket.', 'Waist-cinched fit with 5 cm side vents.'],
+    composition: '94% Cotton Modal, 6% Spandex',
+    colorways: ['Purple', 'Pink', 'Yellow'],
+  },
+  'WPOLO-YD1': {
+    title: "Women's Slim-Fit 5-Button Polo Shirt",
+    summary: 'A contoured polo with an elongated five-button placket.',
+    highlights: ['20 cm placket with short sleeves.', 'Slim fit with 5 cm side vents.'],
+    composition: '50% Polyester, 45% Cotton, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenYody,
+  },
+  'WPOLO-YD2': {
+    title: "Women's Contrast-Trim Polo Shirt",
+    summary: 'A tailored polo with subtle inner-placket contrast trim.',
+    highlights: ['18 cm placket with three decorative buttons.', 'Waist-cinched fit with 5 cm side vents.'],
+    composition: '50% Polyester, 45% Cotton, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenYody,
+  },
+  'MTSHIRT-MD1': {
+    title: "Men's Straight-Fit Crew Neck T-Shirt",
+    summary: 'A clean, minimalist crew tee for everyday wear.',
+    highlights: ['Straight fit with short sleeves.', 'Smooth stretch cotton jersey.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menModal,
+  },
+  'MTSHIRT-MD2': {
+    title: "Men's Button-Placket Crew Neck T-Shirt",
+    summary: 'A straight-fit crew tee with a button-placket accent.',
+    highlights: ['13 cm, three-button front placket.', 'Roomy straight fit with short sleeves.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menModal,
+  },
+  'MTSHIRT-MD3': {
+    title: "Men's Button-Neck Pocket T-Shirt",
+    summary: 'A relaxed crew tee with a practical chest pocket.',
+    highlights: ['13 cm, three-button placket.', 'Straight fit with a front patch pocket.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.menModal,
+  },
+  'MTSHIRT-CM26': {
+    title: "Men's 100% Cotton Crew Neck T-Shirt",
+    summary: 'A durable cotton crew tee for everyday use.',
+    highlights: ['Classic crew neck with short sleeves.', 'Straight-fit body.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.cottonMen,
+  },
+  'MVNECK-CM26': {
+    title: "Men's V-Neck T-Shirt",
+    summary: 'A clean V-neck profile with a straight-fit body.',
+    highlights: ['Modest V-neck and short sleeves.', '100% cotton jersey.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.cottonMen,
+  },
+  'MTSHIRT-CM36': {
+    title: "Men's Crew Neck T-Shirt",
+    summary: 'A mid-weight cotton-stretch tee with a structured feel.',
+    highlights: ['Ribbed crew neck with short sleeves.', 'Straight silhouette.'],
+    composition: '95% Cotton, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.cm36,
+  },
+  'MTSHIRT-CM40': {
+    title: "Men's Crew Neck T-Shirt",
+    summary: 'A lightweight cotton crew tee for warm-weather wear.',
+    highlights: ['Classic ribbed crew neck and short sleeves.', 'Roomy straight fit.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.cm40,
+  },
+  'WVNECK-MD': {
+    title: "Women's Cinched-Waist V-Neck T-Shirt",
+    summary: 'A V-neck tee with subtle waist shaping.',
+    highlights: ['Fitted short sleeves.', 'Contoured waist.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenModal,
+  },
+  'WTSHIRT-MD1': {
+    title: "Women's Cropped Slim-Fit T-Shirt",
+    summary: 'A cropped slim-fit tee with a youthful silhouette.',
+    highlights: ['Classic crew neck and short sleeves.', 'Cropped length.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenModal,
+  },
+  'WTSHIRT-MD2': {
+    title: "Women's Trimmed Straight-Fit T-Shirt",
+    summary: 'A straight-fit tee with coordinated hem and sleeve trim.',
+    highlights: ['Modest crew neck with short sleeves.', 'Binding at cuffs and lower hem.'],
+    composition: '94% Cotton, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenModal,
+  },
+  'WTSHIRT-CM261': {
+    title: "Women's T-Shirt",
+    summary: '',
+    highlights: [],
+    composition: '',
+    colorways: [],
+  },
+  'WTSHIRT-CM262': {
+    title: "Women's Cinched-Waist Crew Neck T-Shirt",
+    summary: 'A cotton crew tee with subtle waist shaping.',
+    highlights: ['Classic crew neck and short sleeves.', 'Regular fit with a contoured waist.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.womenCotton,
+  },
+  'WVNECK-CM26': {
+    title: "Women's Cinched-Waist V-Neck T-Shirt",
+    summary: 'A contoured V-neck tee for everyday wear.',
+    highlights: ['Open V-neckline with short sleeves.', 'Regular fit with a shaped waist.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.womenCotton,
+  },
+  'WTSHIRT-CM402': {
+    title: "Women's Oversized T-Shirt",
+    summary: 'A relaxed longline tee with an oversized silhouette.',
+    highlights: ['Raised crew neckband and short sleeves.', 'Roomy straight cut.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.cm40,
+  },
+  'WTSHIRT-L': {
+    title: "Women's Cinched-Waist Long-Sleeve T-Shirt",
+    summary: 'A breathable long-sleeve layer with a contoured waist.',
+    highlights: ['Classic crew neck and fitted long sleeves.', 'Soft stretch knit; composition not specified.'],
+    composition: '',
+    colorways: OFFICIAL_COLORWAYS.cm30,
+  },
+  WTSHIRT1: {
+    title: "Women's Regular Straight-Fit T-Shirt",
+    summary: 'A versatile straight-fit tee with a clean profile.',
+    highlights: ['Crew neck with short sleeves.', 'Balanced fit, neither loose nor tight.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.cm30,
+  },
+  WTSHIRT2: {
+    title: "Women's Relaxed Crop Top",
+    summary: 'A relaxed cropped tee with an easy, modern fit.',
+    highlights: ['Crew neck and short sleeves.', 'Airy cropped body.'],
+    composition: '100% Cotton',
+    colorways: OFFICIAL_COLORWAYS.cm30,
+  },
+  'WBSK001-A82': {
+    title: "Women's A-Line Skort",
+    summary: 'An A-line skort with a wrap-front skirt and built-in shorts.',
+    highlights: ['Asymmetrical wrap front with wide cuffed hems.', 'Concealed back zip and faux back pockets.'],
+    composition: '95% Rayon Polyester, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenA82,
+  },
+  'WBSK002-A82': {
+    title: "Women's Low-Rise Skort",
+    summary: 'Low-rise shorts with a skirt-front overlay.',
+    highlights: ['Wide cuffed hems and concealed side zip.', 'Right faux back pocket.'],
+    composition: '95% Rayon Polyester, 5% Spandex',
+    colorways: OFFICIAL_COLORWAYS.womenA82,
+  },
+  WSP0001: {
+    title: "Women's A-Line Pleated Skirt",
+    summary: 'A gently flared A-line skirt with uniform pleats.',
+    highlights: ['Wide high-rise waistband and concealed side zip.', 'Built-in inner shorts.'],
+    composition: '76% Polyester, 18% Rayon, 6% Spandex',
+    colorways: OFFICIAL_COLORWAYS.blackGrey,
+  },
+};
+
 interface SkuCraftOverride {
   stitchDensity?: string;
   seamFinish?: string;
@@ -1688,7 +2061,10 @@ export function createInitialGarments(): GarmentItem[] {
   return RAW_PRODUCTS.map((row, idx) => {
     const num = idx + 1;
     const craft = getCraftDetails(row);
-    const slug = row.sku.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    const official = OFFICIAL_PRODUCT_DATA[row.sku];
+    if (!official) {
+      throw new Error(`Missing official product data for ${row.sku}`);
+    }
     const assetMapping = PRODUCT_ASSETS[row.sku];
     const studioMapping = PRODUCT_STUDIO_ASSETS[row.sku];
     const expectedHeroFile = assetMapping
@@ -1752,26 +2128,26 @@ export function createInitialGarments(): GarmentItem[] {
       id: `garment-${String(num).padStart(2, '0')}`,
       index: num,
       sku: row.sku,
-      title: assetMapping?.title ?? `${row.title}*`,
+      title: official.title,
       gender: row.gender,
       genderCode: row.genderCode,
       productGroupVi: row.productGroupVi,
       category: row.category,
       chapterNumeral: row.chapterNumeral,
-      summary: `${row.fitNote}. Cut from swatchbook fabric ${row.fabricCode} (${row.weightGsm}, ${row.fabricWidth} width).`,
-      descriptionBullets: craft.bullets,
+      summary: official.summary,
+      descriptionBullets: official.highlights,
       keyFeatures: craft.features,
-      colorCount: row.colorways.length,
-      colorways: row.colorways,
+      colorCount: official.colorways.length,
+      colorways: [...official.colorways],
       dataFlags: row.dataFlags,
       productUrl:
         assetMapping?.productUrl ??
-        `https://dreamtomorrow.studio/b2b/line-sheet/${slug}`,
+        '',
       videoUrl: '',
       videoTitle: `${row.sku} Drape & Movement Study`,
       specs: {
         fabricRollRef: row.fabricCode,
-        composition: row.composition,
+        composition: official.composition,
         weightGsm: row.weightGsm,
         fabricWidth: row.fabricWidth,
         stretchFeelNote: row.stretchFeelNote,
@@ -1818,6 +2194,11 @@ export function buildFabricSwatchPrograms(garments: GarmentItem[]): FabricSwatch
     } else {
       existing.linkedSkus.push(g.sku);
       existing.linkedIndices.push(g.index);
+      for (const colorway of g.colorways) {
+        if (!existing.colorways.includes(colorway)) {
+          existing.colorways.push(colorway);
+        }
+      }
       if (!existing.genders.includes(g.gender)) {
         existing.genders.push(g.gender);
       }

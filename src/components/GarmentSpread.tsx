@@ -102,7 +102,6 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
       item.specs.fabricRollRef.toLowerCase() === garment.specs.fabricRollRef.toLowerCase()
   );
   const sourceNote = conciseSourceNote(garment.dataFlags);
-  const buyerMoq = getBuyerVisibleValue(garment.specs.moq);
   const [unavailableSlots, setUnavailableSlots] = useState<Partial<Record<MediaSlotKey, boolean>>>({});
 
   useEffect(() => {
@@ -496,6 +495,7 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
             </section>
             )}
 
+            {(classicMode ? buyerColorwayCount > 0 : garment.colorways.length > 0) && (
             <section className="border-b border-[#E8E6E0] pb-3.5">
               <div className="mb-2 flex items-baseline justify-between gap-2">
                 <h3 className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
@@ -513,18 +513,22 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
                 showPendingColorways={!classicMode}
               />
             </section>
+            )}
 
             {/* Silhouette Summary, Craft Notes & Production Specs */}
             <section className="flex flex-1 flex-col justify-between gap-3">
+              {(garment.summary || garment.descriptionBullets.length > 0) && (
               <div>
                 <h3 className="font-mono text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
-                  Silhouette &amp; Production Notes
+                  Design highlights
                 </h3>
+                {garment.summary && (
                 <p className="mt-1.5 font-serif text-[15px] italic leading-snug text-[#1F1E1B]">
                   {garment.summary}
                 </p>
-                <ul className="mt-2.5 space-y-1.5 text-[10.5px] leading-relaxed text-[#404040]">
-                  {garment.descriptionBullets.slice(0, 3).map((bullet, idx) => (
+                )}
+                <ul className="mt-2.5 grid grid-cols-1 gap-1.5 text-[10.5px] leading-relaxed text-[#404040] sm:grid-cols-2">
+                  {garment.descriptionBullets.slice(0, 2).map((bullet, idx) => (
                     <li key={idx} className="flex items-baseline gap-2">
                       <span className="font-mono text-[8.5px] text-[var(--metallic-strong)] tabular-nums">
                         {String(idx + 1).padStart(2, '0')}
@@ -534,37 +538,7 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
                   ))}
                 </ul>
               </div>
-
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-2 border-t border-[#E8E6E0] pt-3 text-[10px]">
-                {[
-                  ['Stitch Density', garment.specs.stitchDensity],
-                  ['Seam Finish', garment.specs.seamFinish],
-                  ['Pocket & Trim', garment.specs.pocketConstruction],
-                ].map(([label, rawValue]) => {
-                  const value = getBuyerVisibleValue(rawValue);
-                  return value ? (
-                    <div key={label}>
-                      <dt className="font-mono text-[8px] uppercase tracking-wider text-[#77756F]">
-                        {label}
-                      </dt>
-                      <dd className="mt-0.5 font-medium text-[#111111]">{value}</dd>
-                    </div>
-                  ) : null;
-                })}
-                <div>
-                  <dt className="font-mono text-[8px] uppercase tracking-wider text-[#77756F]">
-                    Size Run{buyerMoq ? ' · MOQ' : ''}
-                  </dt>
-                  <dd className="mt-1 flex flex-col gap-1">
-                    <SizeRunChips sizeRun={garment.specs.sizeRun} size="xs" />
-                    {buyerMoq && (
-                      <span className="font-mono text-[8.5px] font-medium text-[#55534E] tabular-nums">
-                        MOQ {buyerMoq}
-                      </span>
-                    )}
-                  </dd>
-                </div>
-              </dl>
+              )}
 
               {/* Cross-Reference Bar: Fabric Library Path + Shared Styles */}
               <div className="space-y-1.5 border-t border-[#E8E6E0] pt-2 text-[9.5px] text-[#66645F]">
@@ -581,7 +555,6 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
                     >
                       {garment.specs.fabricRollRef}
                     </button>
-                    <span className="text-[#55534E]"> · {fabricFamilyName}</span>
                   </span>
                   {fabricPageLabel && (
                     <button
@@ -642,6 +615,7 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
               </div>
             </div>
 
+            {garment.colorways.length > 0 && (
             <div className="border-t border-[#E8E6E0] pt-2.5">
               <div className="mb-2 flex items-baseline justify-between gap-2">
                 <h3 className="font-mono text-[9px] tracking-[0.12em] text-[#77756F]">
@@ -659,6 +633,7 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
                 showPendingColorways={!classicMode}
               />
             </div>
+            )}
 
             <div className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-start gap-3.5 border-t border-[#E8E6E0] pt-2.5">
               <div>
