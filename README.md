@@ -1,11 +1,23 @@
-<div align="center">
+# DT B2B Catalogue
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+## Local development
 
-  <h1>Built with AI Studio</h2>
+Requires Node.js 22 and npm.
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+```sh
+npm ci
+npm run dev -- --host
+```
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## GitHub Pages
 
-</div>
+The `Deploy to GitHub Pages` workflow builds and deploys the site when changes
+are pushed to `main`. In the repository settings, open **Pages** and set
+**Build and deployment** → **Source** to **GitHub Actions**. The first
+deployment will then publish the site at:
+
+`https://jamesvo7411-cyber.github.io/DT-B2B-Catalogue/`
+
+The build automatically uses the repository subpath on GitHub Pages. Images in
+`public/` are included in the deployment; `DT_CATALOGUE_IMAGE_DIR` is only a
+local development override.
