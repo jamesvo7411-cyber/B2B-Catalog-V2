@@ -153,13 +153,13 @@ export const SizeChartLeafBody: React.FC<{
 
       <div className={compact ? 'my-3 space-y-3.5' : 'my-2.5 space-y-4'}>
         <SizeTableBlock
-          title="Scrubs Top"
+          title="Tops, Polos & Tees"
           headers={['Size', 'Shoulder (cm)', 'Chest (cm)', 'Length (cm)', 'Weight (kg)', 'Height (cm)']}
           rows={topRows}
           compact={compact}
         />
         <SizeTableBlock
-          title="Scrubs Pants"
+          title="Trousers, Shorts & Skirts"
           headers={['Size', 'Waist (cm)', 'Hip (cm)', 'Length (cm)', 'Weight (kg)', 'Height (cm)']}
           rows={pantsRows}
           compact={compact}
@@ -167,7 +167,7 @@ export const SizeChartLeafBody: React.FC<{
       </div>
 
       <p className="pt-1 text-[9.5px] font-medium text-[#3F3E3A]">
-        Measurement Tolerance: ±3 cm
+        Measurement Tolerance: ±3 cm · Graded on regular casualwear blocks
       </p>
     </div>
   );
@@ -179,71 +179,134 @@ export const ThankYouLeafBody: React.FC<{
 }> = ({ meta, canInteract }) => {
   const phone = meta.contactPhone ?? '0392 52 68 52';
   const email = meta.contactEmail || 'contact@dtuniforms.com';
-  const websiteLabel = meta.showroomUrl.replace(/^https?:\/\//i, '').replace(/\/+$/, '') || 'www.dtuniforms.com';
+  const websiteLabel =
+    meta.showroomUrl.replace(/^https?:\/\//i, '').replace(/\/+$/, '') || 'www.dtuniforms.com';
+
+  const nextSteps = [
+    {
+      num: '01',
+      title: 'Strike-Offs & Samples',
+      detail: 'Proto fits, fabric lab dips & trim approvals',
+    },
+    {
+      num: '02',
+      title: '15 Textile Programs',
+      detail: 'Piqué knits, cotton jersey & suiting twills',
+    },
+    {
+      num: '03',
+      title: 'CM / OEM / ODM Runs',
+      detail: 'Flexible 50–100 pc MOQ & custom relabeling',
+    },
+  ];
 
   return (
-    <div className="flex flex-1 flex-col justify-between py-4">
-      <div />
-
-      <div className="my-auto text-center">
-        <h2 className="font-sans text-[54px] font-black uppercase leading-[0.88] tracking-[-0.04em] text-[#141413] sm:text-[72px]">
-          THANK YOU
-        </h2>
-        <p className="mt-3 font-sans text-[11px] font-bold uppercase tracking-[0.55em] text-[#1D1C1A] sm:text-xs">
-          D . T &nbsp; A P P A R E L
-        </p>
+    <div className="flex flex-1 flex-col justify-between py-2">
+      {/* Top Atelier Signature Bar */}
+      <div className="flex items-center justify-between border-b border-[#E7E4DC] pb-3">
+        <div className="flex items-center gap-2.5">
+          <img
+            src={BRAND_LOGO_PATH}
+            alt="DT"
+            className="h-5 w-auto object-contain"
+          />
+          <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-[#5F5D57]">
+            D.T Apparel · Series 01
+          </span>
+        </div>
+        <span className="font-mono text-[9px] uppercase tracking-[0.16em] text-[#7B7870]">
+          Closing Folio
+        </span>
       </div>
 
-      <div className="mt-8 space-y-2.5 text-left text-[#232220]">
-        <p className="font-sans text-sm font-bold tracking-tight text-[#141413]">
-          Contact Us
+      {/* Asymmetric Editorial Closing Statement */}
+      <div className="my-auto py-4">
+        <p className="font-mono text-[9px] uppercase tracking-[0.2em] text-[#7A776F]">
+          Dream Tomorrow · Manufacturing Partner
         </p>
-        <div className="space-y-1.5 text-[11.5px] text-[#353430]">
-          <div className="flex items-center gap-2.5">
-            <Phone className="h-3.5 w-3.5 shrink-0 text-[#45433F]" />
-            {canInteract ? (
-              <a
-                href={`tel:${phone.replace(/\s+/g, '')}`}
-                className="tabular-nums underline decoration-transparent underline-offset-4 transition-colors hover:text-[#0A0A0A] hover:decoration-[#0A0A0A]"
-              >
-                {phone}
-              </a>
-            ) : (
-              <span className="tabular-nums">{phone}</span>
-            )}
-          </div>
-          <div className="flex items-center gap-2.5">
-            <Mail className="h-3.5 w-3.5 shrink-0 text-[#45433F]" />
-            {canInteract ? (
-              <a
-                href={`mailto:${email}`}
-                className="underline decoration-transparent underline-offset-4 transition-colors hover:text-[#0A0A0A] hover:decoration-[#0A0A0A]"
-              >
-                {email}
-              </a>
-            ) : (
-              <span>{email}</span>
-            )}
-          </div>
-          <div className="flex items-center gap-2.5">
-            <Globe className="h-3.5 w-3.5 shrink-0 text-[#45433F]" />
-            {canInteract ? (
-              <a
-                href={meta.showroomUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline decoration-transparent underline-offset-4 transition-colors hover:text-[#0A0A0A] hover:decoration-[#0A0A0A]"
-              >
-                {websiteLabel}
-              </a>
-            ) : (
-              <span>{websiteLabel}</span>
-            )}
-          </div>
+        <h2 className="mt-2.5 max-w-[14ch] font-serif text-[34px] font-normal leading-[1.03] tracking-tight text-[#141413] sm:text-[40px]">
+          Tailored for Every Day, Built to Your Line.
+        </h2>
+        <p className="mt-3 max-w-[44ch] text-[11px] leading-relaxed text-[#4F4D47]">
+          Thank you for reviewing our 43-style casualwear and textile catalogue. Share a style code or fabric reference to initiate sample yardage, custom colorways, or tech-pack costing.
+        </p>
+
+        {/* Three-Column Next-Step Ledger */}
+        <div className="mt-6 grid grid-cols-3 gap-3 border-y border-[#E7E4DC] py-3.5">
+          {nextSteps.map((step) => (
+            <div key={step.num} className="min-w-0">
+              <p className="font-mono text-[8.5px] font-semibold tracking-[0.14em] text-[#8B8880] tabular-nums">
+                {step.num}
+              </p>
+              <p className="mt-1 text-[10.5px] font-semibold leading-snug text-[#141413]">
+                {step.title}
+              </p>
+              <p className="mt-0.5 text-[9px] leading-snug text-[#63605A]">
+                {step.detail}
+              </p>
+            </div>
+          ))}
         </div>
-        <p className="pt-2 font-sans text-xs font-bold tracking-tight text-[#141413]">
-          “Work your shift, Own your style!”
-        </p>
+      </div>
+
+      {/* Bottom Direct Inquiry Ledger */}
+      <div className="border-t border-[#141413]/15 pt-3.5">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div className="space-y-1.5 text-[10.5px] text-[#2B2A27]">
+            <p className="font-mono text-[8.5px] uppercase tracking-[0.16em] text-[#7B7870]">
+              Direct Merchandising Desk
+            </p>
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+              <span className="inline-flex items-center gap-1.5">
+                <Phone className="h-3 w-3 shrink-0 text-[#595751]" />
+                {canInteract ? (
+                  <a
+                    href={`tel:${phone.replace(/\s+/g, '')}`}
+                    className="tabular-nums underline decoration-transparent underline-offset-4 transition-colors hover:text-[#0A0A0A] hover:decoration-[#0A0A0A]"
+                  >
+                    {phone}
+                  </a>
+                ) : (
+                  <span className="tabular-nums">{phone}</span>
+                )}
+              </span>
+
+              <span className="inline-flex items-center gap-1.5">
+                <Mail className="h-3 w-3 shrink-0 text-[#595751]" />
+                {canInteract ? (
+                  <a
+                    href={`mailto:${email}`}
+                    className="underline decoration-transparent underline-offset-4 transition-colors hover:text-[#0A0A0A] hover:decoration-[#0A0A0A]"
+                  >
+                    {email}
+                  </a>
+                ) : (
+                  <span>{email}</span>
+                )}
+              </span>
+
+              <span className="inline-flex items-center gap-1.5">
+                <Globe className="h-3 w-3 shrink-0 text-[#595751]" />
+                {canInteract ? (
+                  <a
+                    href={meta.showroomUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline decoration-transparent underline-offset-4 transition-colors hover:text-[#0A0A0A] hover:decoration-[#0A0A0A]"
+                  >
+                    {websiteLabel}
+                  </a>
+                ) : (
+                  <span>{websiteLabel}</span>
+                )}
+              </span>
+            </div>
+          </div>
+
+          <p className="font-serif text-[12px] italic text-[#1D1C1A]">
+            “Work your shift, own your style.”
+          </p>
+        </div>
       </div>
     </div>
   );

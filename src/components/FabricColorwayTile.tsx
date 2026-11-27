@@ -18,7 +18,7 @@ interface FabricColorwayTileProps {
   onError?: (message: string) => void;
 }
 
-export const FabricColorwayTile: React.FC<FabricColorwayTileProps> = ({
+export const FabricColorwayTile: React.FC<FabricColorwayTileProps> = React.memo(({
   color,
   imageUrl,
   interactive,
@@ -100,4 +100,4 @@ export const FabricColorwayTile: React.FC<FabricColorwayTileProps> = ({
       </div>
     </article>
   );
-};
+});

@@ -21,6 +21,7 @@ interface PageCurlBookProps {
   turnRequest: TurnRequest | null;
   onCommitPage: (nextPage: number) => void;
   onBookSizeChange?: (size: { w: number; h: number }) => void;
+  onBookElementChange?: (el: HTMLDivElement | null) => void;
   renderSpread: (
     pageIndex: number,
     side: SpreadLeafSide,
@@ -131,10 +132,16 @@ export const PageCurlBook: React.FC<PageCurlBookProps> = ({
   turnRequest,
   onCommitPage,
   onBookSizeChange,
+  onBookElementChange,
   renderSpread,
 }) => {
   const outerViewportRef = useRef<HTMLDivElement | null>(null);
   const bookRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    onBookElementChange?.(bookRef.current);
+    return () => onBookElementChange?.(null);
+  }, [onBookElementChange]);
 
   const [bookSize, setBookSize] = useState<{ w: number; h: number }>({ w: 1190, h: 842 });
   const [curl, setCurl] = useState<CurlSession | null>(null);

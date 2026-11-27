@@ -36,6 +36,7 @@ interface PrintSheetPreviewProps {
   config: PrintConfig;
   coverCustomImage?: string;
   isPrintOnlyPortal?: boolean;
+  captureOnly?: boolean;
   onUpdateConfig?: (next: Partial<PrintConfig>) => void;
   onTriggerPrint?: () => void;
 }
@@ -75,6 +76,7 @@ const PrintPlateBox: React.FC<{
   topOverlay?: React.ReactNode;
   imageOverlay?: React.ReactNode;
   overlayMode?: 'gradient' | 'card';
+  lazyLoad?: boolean;
 }> = ({
   slot,
   label,
@@ -86,6 +88,7 @@ const PrintPlateBox: React.FC<{
   topOverlay,
   imageOverlay,
   overlayMode = 'gradient',
+  lazyLoad = false,
 }) => {
   const [useFallback, setUseFallback] = React.useState(false);
   const [imgError, setImgError] = React.useState(false);
@@ -114,6 +117,8 @@ const PrintPlateBox: React.FC<{
             <img
               src={imageSrc}
               alt={`${label} — ${slot.caption}`}
+              loading={lazyLoad ? 'lazy' : 'eager'}
+              decoding="async"
               referrerPolicy="no-referrer"
               onError={() => {
                 if (!useFallback && slot.fallbackUrl) {
@@ -190,6 +195,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
   config,
   coverCustomImage = '',
   isPrintOnlyPortal = false,
+  captureOnly = false,
   onUpdateConfig,
   onTriggerPrint,
 }) => {
@@ -222,11 +228,14 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
     garments.length +
     (showClosingPages ? 2 : 0);
 
-  const sheetBaseClass = isPrintOnlyPortal
-    ? 'print-sheet relative flex flex-col justify-between bg-white px-6 py-5 text-[#0A0A0A]'
-    : `print-sheet relative mx-auto mb-10 flex flex-col justify-between border border-[#E0E0E0] bg-white px-6 py-6 text-[#0A0A0A] shadow-[0_1px_4px_rgba(0,0,0,0.04)] ${
-        isLandscape ? 'max-w-[1190px] min-h-[842px]' : 'max-w-[794px] min-h-[1123px]'
-      }`;
+  const sheetBaseClass =
+    isPrintOnlyPortal || captureOnly
+      ? `print-sheet relative flex flex-col justify-between bg-white px-6 py-5 text-[#0A0A0A] ${
+          isLandscape ? 'w-[1190px] min-h-[842px]' : 'w-[794px] min-h-[1123px]'
+        }`
+      : `print-sheet relative mx-auto mb-10 flex flex-col justify-between border border-[#E0E0E0] bg-white px-6 py-6 text-[#0A0A0A] shadow-[0_1px_4px_rgba(0,0,0,0.04)] ${
+          isLandscape ? 'max-w-[1190px] min-h-[842px]' : 'max-w-[794px] min-h-[1123px]'
+        }`;
 
   // Asymmetric left-page / right-page spread gutter helpers for physical binding safety
   const versoSafeCls = isLandscape
@@ -243,11 +252,13 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
       className={
         isPrintOnlyPortal
           ? 'print-only-root hidden'
-          : 'mx-auto max-w-[1360px] px-6 py-10 lg:px-10 lg:py-14'
+          : captureOnly
+            ? 'bg-white'
+            : 'mx-auto max-w-[1360px] px-6 py-10 lg:px-10 lg:py-14'
       }
     >
       {/* Interactive Preview Toolbar (Screen Only) */}
-      {!isPrintOnlyPortal && onUpdateConfig && onTriggerPrint && (
+      {!isPrintOnlyPortal && !captureOnly && onUpdateConfig && onTriggerPrint && (
         <div className="no-print mb-10 flex flex-col justify-between gap-6 border-b border-[#E5E5E5] pb-8 lg:flex-row lg:items-end">
           <div>
             <p className="font-mono text-xs tracking-wider text-[var(--metallic-strong)]">
@@ -628,6 +639,8 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                     <img
                       src={prog.swatchImageUrl}
                       alt={prog.fabricCode}
+                      loading={!isPrintOnlyPortal && !captureOnly ? 'lazy' : 'eager'}
+                      decoding="async"
                       className="h-full w-full scale-[1.65] object-cover"
                     />
                   ) : (
@@ -871,6 +884,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                       topOverlay={heroTopLockup}
                       imageOverlay={heroBottomCard}
                       overlayMode="card"
+                      lazyLoad={!isPrintOnlyPortal && !captureOnly}
                     />
                     {!hasHero && (
                       <div className="mt-2 border-t border-[#E8E6E0] pt-2">
@@ -949,6 +963,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                               aspectClass={plateAspect}
                               displayScale={key === 'swatch' ? 1.65 : 1}
                               showBlankGuides={config.showBlankGuides}
+                              lazyLoad={!isPrintOnlyPortal && !captureOnly}
                             />
                           ))}
                         </div>
@@ -1075,13 +1090,13 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                   sectionId="technical"
                   categoryLabel="WOMEN'S SIZE CHART"
                   pageLabel={`P.${sizeChartPagePadded}A`}
-                  rightContext="SCRUBS TOP & PANTS"
+                  rightContext="TOPS & BOTTOMS FIT"
                 />
                 <div className="my-3 flex flex-1 flex-col">
                   <SizeChartLeafBody gender="Women" />
                 </div>
                 <div className="flex items-center justify-between border-t border-[#E8E6E0] pt-2 font-mono text-[8.5px] text-[#77756F] tabular-nums">
-                  <span>STANDARD BODY FIT GUIDE</span>
+                  <span>CASUALWEAR FIT GUIDE</span>
                   <span>P.{sizeChartPagePadded}A</span>
                 </div>
               </div>
@@ -1091,7 +1106,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                   sectionId="technical"
                   categoryLabel="MEN'S SIZE CHART"
                   pageLabel={`P.${sizeChartPagePadded}B`}
-                  rightContext="SCRUBS TOP & PANTS"
+                  rightContext="TOPS & BOTTOMS FIT"
                 />
                 <div className="my-3 flex flex-1 flex-col">
                   <SizeChartLeafBody gender="Men" />
@@ -1132,7 +1147,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
                     CM · OEM · ODM
                   </p>
                   <p className="mt-4 max-w-[38ch] text-xs leading-relaxed text-[#55534E]">
-                    Full-package uniform manufacturing across 15 verified knit &amp; suiting fabric families, tailored for healthcare, hospitality, and corporate workwear programs.
+                    Full-package apparel manufacturing across 15 verified knit &amp; suiting fabric families, tailored for casualwear essentials, retail capsules, and corporate programs.
                   </p>
                 </div>
                 <div className="flex items-center justify-between border-t border-[#E8E6E0] pt-2 font-mono text-[8.5px] text-[#77756F] tabular-nums">
@@ -1144,7 +1159,7 @@ export const PrintSheetPreview: React.FC<PrintSheetPreviewProps> = ({
               <div className={rectoSafeCls}>
                 <RunningHeader
                   sectionId="technical"
-                  categoryLabel="THANK YOU & CONTACT"
+                  categoryLabel="CLOSING FOLIO & CONTACT"
                   pageLabel={`P.${closingPagePadded}B`}
                   rightContext="D.T APPAREL"
                 />

@@ -3,15 +3,18 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import {
   ChevronDown,
   Crop,
   Download,
+  Loader2,
   Printer,
   RotateCcw,
   Sparkles,
   Upload,
+  X,
 } from 'lucide-react';
 import type {
   CatalogueSection,
@@ -40,6 +43,13 @@ import { buildCatalogueNavigationMap } from './utils/catalogueOrder';
 import { exportGarmentsToCsv, importGarmentsFromCsv } from './utils/dataTransfer';
 import { countCustomFramingEdits, applyFramingBundle, type CatalogueFramingBundle } from './utils/cropPresetIo';
 import { publicAssetUrl } from './utils/publicAssetUrl';
+import {
+  buildCatalogueShareUrl,
+  parseCatalogueUrl,
+  parseDemoFlagFromLocation,
+  type AppViewMode,
+} from './utils/urlSync';
+import { generateCataloguePdfFromContainer, type PdfExportProgress } from './utils/pdfExport';
 import { FlipbookStage } from './components/FlipbookStage';
 import { FabricSwatchBoard } from './components/FabricSwatchBoard';
 import { CatalogueIndex } from './components/CatalogueIndex';
@@ -56,7 +66,7 @@ import {
 
 const STORAGE_KEY = 'dream-tomorrow-catalogue-v3';
 const FACTORY_DATA_VERSION = 4;
-type CatalogueViewMode = 'workbench' | 'buyer' | 'paperback';
+type CatalogueViewMode = AppViewMode;
 
 interface SavedState {
   garments: GarmentItem[];
@@ -222,7 +232,7 @@ export default function App() {
     () => initialSaved?.fabricColorImages ?? {}
   );
   const [demoMode, setDemoMode] = useState<boolean>(
-    () => initialSaved?.demoMode ?? true
+    () => parseDemoFlagFromLocation() ?? initialSaved?.demoMode ?? true
   );
   const presentationGarments = useMemo(
     () =>
@@ -281,10 +291,28 @@ export default function App() {
     [presentationGarments]
   );
 
-  const [section, setSection] = useState<CatalogueSection>('flipbook');
-  const [viewMode, setViewMode] = useState<CatalogueViewMode>('buyer');
-  const [buyerViewStyle, setBuyerViewStyle] = useState<'book' | 'card'>('book');
-  const [bookPage, setBookPage] = useState<number>(0);
+  const initialUrlState = useMemo(
+    () => parseCatalogueUrl(orderedGarments, navMap),
+    // Resolve deep link once on initial mount so shared URLs open straight to target SKU/page
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
+
+  const [section, setSection] = useState<CatalogueSection>(
+    () => initialUrlState.section ?? 'flipbook'
+  );
+  const [viewMode, setViewMode] = useState<CatalogueViewMode>(
+    () => initialUrlState.viewMode ?? 'buyer'
+  );
+  const [buyerViewStyle, setBuyerViewStyle] = useState<'book' | 'card'>(
+    () => initialUrlState.buyerViewStyle ?? 'book'
+  );
+  const [bookPage, setBookPage] = useState<number>(
+    () => initialUrlState.bookPage ?? 0
+  );
+  const [mobileSide, setMobileSide] = useState<'verso' | 'recto'>(
+    () => initialUrlState.mobileSide ?? 'verso'
+  );
   const [turnRequest, setTurnRequest] = useState<{ dir: 'next' | 'prev'; nonce: number } | null>(null);
   const [activeCategory, setActiveCategory] = useState<GarmentCategory | 'All'>('All');
   const [editMode, setEditMode] = useState<boolean>(false);
@@ -303,6 +331,12 @@ export default function App() {
   const [cropPresetModalOpen, setCropPresetModalOpen] = useState<boolean>(false);
   const [exportModalOpen, setExportModalOpen] = useState<boolean>(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [pdfExportJob, setPdfExportJob] = useState<{
+    fileName: string;
+    orientation: PrintConfig['orientation'];
+  } | null>(null);
+  const [pdfProgress, setPdfProgress] = useState<PdfExportProgress | null>(null);
+  const [printPortalArmed, setPrintPortalArmed] = useState<boolean>(false);
 
   const [printConfig, setPrintConfig] = useState<PrintConfig>({
     scope: 'all',
@@ -317,10 +351,12 @@ export default function App() {
 
   const jsonInputRef = useRef<HTMLInputElement | null>(null);
   const csvInputRef = useRef<HTMLInputElement | null>(null);
+  const pdfCaptureRef = useRef<HTMLDivElement | null>(null);
+  const pdfCancelRef = useRef<boolean>(false);
 
-  const showToast = (msg: string) => {
+  const showToast = useCallback((msg: string) => {
     setToastMessage(msg);
-  };
+  }, []);
 
   useEffect(() => {
     if (!toastMessage) return;
@@ -355,6 +391,119 @@ export default function App() {
       setToastMessage(message);
     }
   }, [garments, metallicTheme, shortlist, coverCustomImage, fabricColorImages, demoMode]);
+
+  // Keep document title crisp and debounce shallow history.replaceState (~260ms) during fast swiping
+  const pendingShareUrlRef = useRef<string>('');
+  const urlSyncTimerRef = useRef<number | null>(null);
+
+  const flushShareUrl = useCallback((urlOverride?: string) => {
+    if (urlSyncTimerRef.current !== null) {
+      window.clearTimeout(urlSyncTimerRef.current);
+      urlSyncTimerRef.current = null;
+    }
+    const targetUrl = urlOverride ?? pendingShareUrlRef.current;
+    if (!targetUrl) return;
+    const currentUrl = `${window.location.pathname}${window.location.search}${window.location.hash}`;
+    if (targetUrl !== currentUrl) {
+      window.history.replaceState(null, '', targetUrl);
+    }
+  }, []);
+
+  useEffect(() => {
+    const nextUrl = buildCatalogueShareUrl({
+      section,
+      viewMode,
+      buyerViewStyle,
+      bookPage,
+      navMap,
+      mobileSide,
+      isMobile,
+    });
+    pendingShareUrlRef.current = nextUrl;
+
+    if (urlSyncTimerRef.current !== null) {
+      window.clearTimeout(urlSyncTimerRef.current);
+    }
+    urlSyncTimerRef.current = window.setTimeout(() => {
+      flushShareUrl(nextUrl);
+    }, 260);
+
+    if (section === 'flipbook') {
+      if (
+        bookPage >= productSpreadOffset &&
+        bookPage < productSpreadOffset + orderedGarments.length
+      ) {
+        const g = orderedGarments[bookPage - productSpreadOffset];
+        if (g) {
+          document.title = `${g.sku} — ${g.title} | Dream Tomorrow`;
+          return () => {
+            if (urlSyncTimerRef.current !== null) {
+              window.clearTimeout(urlSyncTimerRef.current);
+            }
+          };
+        }
+      }
+      if (bookPage >= 2 && bookPage < productSpreadOffset) {
+        const f = navMap.orderedFabrics[bookPage - 2];
+        if (f) {
+          document.title = `Fabric ${f.fabricCode} | Dream Tomorrow`;
+          return () => {
+            if (urlSyncTimerRef.current !== null) {
+              window.clearTimeout(urlSyncTimerRef.current);
+            }
+          };
+        }
+      }
+    }
+    document.title = 'Dream Tomorrow — B2B Apparel & Textile Portfolio';
+
+    return () => {
+      if (urlSyncTimerRef.current !== null) {
+        window.clearTimeout(urlSyncTimerRef.current);
+      }
+    };
+  }, [
+    bookPage,
+    buyerViewStyle,
+    flushShareUrl,
+    isMobile,
+    mobileSide,
+    navMap,
+    orderedGarments,
+    productSpreadOffset,
+    section,
+    viewMode,
+  ]);
+
+  // Mount hidden print portal only on native print dialog so mobile memory stays clean while browsing
+  useEffect(() => {
+    const onBeforePrint = () => {
+      flushSync(() => setPrintPortalArmed(true));
+    };
+    const onAfterPrint = () => {
+      setPrintPortalArmed(false);
+    };
+    window.addEventListener('beforeprint', onBeforePrint);
+    window.addEventListener('afterprint', onAfterPrint);
+    return () => {
+      window.removeEventListener('beforeprint', onBeforePrint);
+      window.removeEventListener('afterprint', onAfterPrint);
+    };
+  }, []);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const parsed = parseCatalogueUrl(orderedGarments, navMap);
+      if (parsed.demoMode !== undefined) setDemoMode(parsed.demoMode);
+      if (parsed.viewMode) setViewMode(parsed.viewMode);
+      if (parsed.buyerViewStyle) setBuyerViewStyle(parsed.buyerViewStyle);
+      if (parsed.section) setSection(parsed.section);
+      if (parsed.bookPage !== undefined) setBookPage(parsed.bookPage);
+      if (parsed.mobileSide) setMobileSide(parsed.mobileSide);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, [navMap, orderedGarments]);
 
   const triggerTurn = (dir: 'next' | 'prev') => {
     setTurnRequest((prev) => ({ dir, nonce: (prev?.nonce ?? 0) + 1 }));
@@ -723,14 +872,98 @@ export default function App() {
     showToast('Catalogue reset to clean 43-style DT template.');
   };
 
+  const startPdfExport = useCallback(
+    (fileName: string, orientation: PrintConfig['orientation']) => {
+      if (pdfExportJob) return;
+      pdfCancelRef.current = false;
+      setPdfProgress({
+        current: 0,
+        total: 1,
+        statusText: 'Preparing A4 catalogue sheets…',
+      });
+      setPdfExportJob({ fileName, orientation });
+    },
+    [pdfExportJob]
+  );
+
+  useEffect(() => {
+    if (!pdfExportJob) return;
+    let active = true;
+
+    const run = async () => {
+      // Allow two frames for the offscreen PrintSheetPreview capture tree to mount & size
+      await new Promise((r) => window.requestAnimationFrame(() => r(undefined)));
+      await new Promise((r) => window.requestAnimationFrame(() => r(undefined)));
+      if (!active || !pdfCaptureRef.current) {
+        setPdfExportJob(null);
+        setPdfProgress(null);
+        return;
+      }
+
+      try {
+        const res = await generateCataloguePdfFromContainer({
+          container: pdfCaptureRef.current,
+          orientation: pdfExportJob.orientation,
+          fileName: pdfExportJob.fileName,
+          onProgress: (p) => {
+            if (active) setPdfProgress(p);
+          },
+          shouldCancel: () => pdfCancelRef.current || !active,
+        });
+        if (!active) return;
+        if (res.saved) {
+          showToast(
+            `Downloaded PDF (${res.pageCount} A4 page${res.pageCount === 1 ? '' : 's'}).`
+          );
+        } else {
+          showToast('PDF export cancelled.');
+        }
+      } catch (err) {
+        if (active) {
+          showToast(
+            `Could not generate PDF: ${
+              err instanceof Error ? err.message : 'unexpected error'
+            }`
+          );
+        }
+      } finally {
+        if (active) {
+          setPdfExportJob(null);
+          setPdfProgress(null);
+        }
+      }
+    };
+
+    void run();
+    return () => {
+      active = false;
+    };
+  }, [pdfExportJob, showToast]);
+
   const handleExecutePrint = () => {
     setExportModalOpen(false);
-    window.setTimeout(() => {
-      window.print();
-    }, 120);
+    const slugCategory = activeCategory.replace(/[^a-z0-9]+/gi, '-');
+    const fileName =
+      printConfig.scope === 'current'
+        ? `Dream-Tomorrow-${currentGarment.sku}.pdf`
+        : printConfig.scope === 'category'
+          ? `Dream-Tomorrow-${slugCategory}.pdf`
+          : printConfig.scope === 'shortlist'
+            ? 'Dream-Tomorrow-Shortlist.pdf'
+            : 'Dream-Tomorrow-Catalogue.pdf';
+    startPdfExport(fileName, printConfig.orientation);
+  };
+
+  const handleSystemPrint = () => {
+    flushSync(() => {
+      setExportModalOpen(false);
+      setPrintPortalArmed(true);
+    });
+    window.print();
   };
 
   const handleDownloadPaperbackPdf = () => {
+    if (pdfExportJob) return;
     setPrintConfig({
       scope: 'all',
       orientation: 'landscape',
@@ -741,10 +974,21 @@ export default function App() {
       includeIndex: true,
       includeFabrics: true,
     });
-    window.setTimeout(() => {
-      window.print();
-    }, 180);
+    startPdfExport('Dream-Tomorrow-Print-Catalogue.pdf', 'landscape');
   };
+
+  const handleCopyShareLink = useCallback(() => {
+    flushShareUrl();
+    const shareUrl = window.location.href;
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard
+        .writeText(shareUrl)
+        .then(() => showToast('Direct style/page link copied to clipboard.'))
+        .catch(() => showToast('URL updated — copy from your browser address bar.'));
+    } else {
+      showToast('URL updated — copy from your browser address bar.');
+    }
+  }, [flushShareUrl, showToast]);
 
   const handleExportCurrentProductPdf = (garmentIndex: number) => {
     const match = orderedGarments.find((g) => g.index === garmentIndex);
@@ -876,22 +1120,32 @@ export default function App() {
     </div>
   );
 
+  const lockMobileFlipbookViewport = isMobile && section === 'flipbook';
+
   return (
-    <div className="min-h-screen bg-white text-[#0A0A0A]">
+    <div
+      className={`bg-white text-[#0A0A0A] ${
+        lockMobileFlipbookViewport ? 'h-dvh overflow-hidden' : 'min-h-screen'
+      }`}
+    >
       {/* Dynamic @page print orientation rule */}
       <style>{`@page { size: A4 ${printConfig.orientation}; margin: 8mm; }`}</style>
 
       {/* ====================================================================
           INTERACTIVE WEB SHELL (Hidden during high-resolution PDF print)
           ==================================================================== */}
-      <div className="no-print flex min-h-screen flex-col">
+      <div
+        className={`no-print flex flex-col ${
+          lockMobileFlipbookViewport ? 'h-dvh overflow-hidden' : 'min-h-screen'
+        }`}
+      >
         {/* TOP BAR CONTRACT: Strictly 1 row, 3 zones separated by gap-8 */}
         <header
-          className={`border-b border-[#E5E5E5] bg-white/95 backdrop-blur-xs ${
+          className={`shrink-0 border-b border-[#E5E5E5] bg-white/95 backdrop-blur-xs ${
             section === 'fabrics' ? 'sticky top-0 z-30' : 'md:sticky md:top-0 md:z-30'
           }`}
         >
-          <div className="mx-auto flex h-16 max-w-[1380px] items-center justify-between gap-3 px-4 sm:px-6 lg:gap-8 lg:px-10">
+          <div className="mx-auto flex h-14 max-w-[1620px] items-center justify-between gap-3 px-4 sm:px-6 md:h-[52px] lg:gap-8 lg:px-8">
             {/* Zone 1: Single-line Brand Wordmark */}
             <button
               type="button"
@@ -905,7 +1159,7 @@ export default function App() {
               <img
                 src={BRAND_LOGO_PATH}
                 alt="DT"
-                className="h-6 w-auto object-contain"
+                className="h-5 w-auto object-contain sm:h-6"
               />
               <span className="font-sans text-sm font-semibold tracking-tight text-[#0A0A0A] whitespace-nowrap shrink-0 sm:text-base">
                 Dream Tomorrow
@@ -943,20 +1197,26 @@ export default function App() {
               {viewMode === 'workbench' && section === 'flipbook' && (
                 <button
                   type="button"
+                  disabled={Boolean(pdfExportJob)}
                   onClick={() => setExportModalOpen(true)}
-                  className="hidden bg-[#0A0A0A] px-4 py-2 text-xs font-medium text-white transition-colors duration-200 hover:bg-[#262626] whitespace-nowrap shrink-0 cursor-pointer xl:block"
+                  className="hidden bg-[#0A0A0A] px-3.5 py-1.5 text-xs font-medium text-white transition-colors duration-200 hover:bg-[#262626] disabled:opacity-50 whitespace-nowrap shrink-0 cursor-pointer xl:block"
                 >
-                  Print / Export PDF
+                  {pdfExportJob ? 'Exporting PDF…' : 'Print / Export PDF'}
                 </button>
               )}
               {viewMode === 'paperback' && (
                 <button
                   type="button"
+                  disabled={Boolean(pdfExportJob)}
                   onClick={handleDownloadPaperbackPdf}
-                  className="inline-flex items-center gap-1.5 bg-[#0A0A0A] px-2.5 py-1.5 text-[11px] font-medium text-white transition-colors duration-200 hover:bg-[#262626] whitespace-nowrap shrink-0 cursor-pointer sm:px-3.5 sm:py-2 sm:text-xs"
+                  className="inline-flex items-center gap-1.5 bg-[#0A0A0A] px-2.5 py-1.5 text-[11px] font-medium text-white transition-colors duration-200 hover:bg-[#262626] disabled:opacity-55 whitespace-nowrap shrink-0 cursor-pointer sm:px-3.5 sm:py-1.5 sm:text-xs"
                 >
-                  <Printer className="h-3.5 w-3.5" />
-                  <span>Download PDF</span>
+                  {pdfExportJob ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <Printer className="h-3.5 w-3.5" />
+                  )}
+                  <span>{pdfExportJob ? 'Exporting…' : 'Download PDF'}</span>
                 </button>
               )}
             </div>
@@ -986,15 +1246,15 @@ export default function App() {
           </nav>
         </header>
 
-        <details className={`${viewMode !== 'workbench' ? 'hidden ' : ''}group border-b border-[#F0F0F0] bg-[#FCFCFC]`}>
-          <summary className="mx-auto flex max-w-[1380px] cursor-pointer list-none items-center justify-between gap-4 px-6 py-2.5 text-xs text-[#66645F] lg:px-10">
+        <details className={`${viewMode !== 'workbench' ? 'hidden ' : ''}group shrink-0 border-b border-[#F0F0F0] bg-[#FCFCFC]`}>
+          <summary className="mx-auto flex max-w-[1620px] cursor-pointer list-none items-center justify-between gap-4 px-4 py-1.5 text-xs text-[#66645F] sm:px-6 lg:px-8">
             <span className="font-semibold uppercase tracking-wide text-[#111111]">Studio tools</span>
             <span className="inline-flex items-center gap-2">
               <span>Team editor · drag-drop images, crops &amp; JSON settings export</span>
               <ChevronDown className="h-3.5 w-3.5 transition-transform group-open:rotate-180" />
             </span>
           </summary>
-          <div className="mx-auto flex max-w-[1380px] flex-wrap items-center justify-between gap-4 px-6 py-2 text-[11px] group-open:border-t group-open:border-[#F0F0F0] lg:px-10">
+          <div className="mx-auto flex max-w-[1620px] flex-wrap items-center justify-between gap-4 px-4 py-2 text-[11px] group-open:border-t group-open:border-[#F0F0F0] sm:px-6 lg:px-8">
             <div className="flex flex-wrap items-center gap-4 text-[#525252]">
               <span className="text-[#737373]">Finish:</span>
               <div className="flex items-center gap-3">
@@ -1126,7 +1386,13 @@ export default function App() {
         </details>
 
         {/* MAIN VIEWPORT CONTENT */}
-        <main className="flex-1">
+        <main
+          className={
+            lockMobileFlipbookViewport
+              ? 'flex min-h-0 flex-1 flex-col overflow-hidden'
+              : 'flex-1'
+          }
+        >
           {section === 'flipbook' && (
             <FlipbookStage
               isMobile={isMobile}
@@ -1190,6 +1456,9 @@ export default function App() {
               customFramingCount={framingStats.cropCount}
               onOpenFabricColorPicker={(garment) => setFabricPickerGarmentId(garment.id)}
               onOpenCropPresetModal={() => setCropPresetModalOpen(true)}
+              mobileSide={mobileSide}
+              onMobileSideChange={setMobileSide}
+              onCopyShareLink={handleCopyShareLink}
             />
           )}
 
@@ -1198,7 +1467,7 @@ export default function App() {
               garments={orderedGarments}
               navMap={navMap}
               demoMode={demoMode}
-              onToggleDemoMode={viewMode === 'workbench' ? handleToggleDemoMode : undefined}
+              onToggleDemoMode={viewMode !== 'paperback' ? handleToggleDemoMode : undefined}
               fabricColorImages={fabricColorImages}
               onReplaceFabricSwatch={handleReplaceFabricSwatch}
               onReplaceFabricColorImage={handleReplaceFabricColorImage}
@@ -1258,11 +1527,11 @@ export default function App() {
           )}
         </main>
 
-        {/* QUIET MONOCHROME EDITORIAL FOOTER (Hidden in Print Edition & Desktop 2-Page Fit Flipbook) */}
+        {/* QUIET MONOCHROME EDITORIAL FOOTER (Hidden in Print Edition, Mobile Flipbook, & Desktop 2-Page Fit Flipbook) */}
         <footer
           className={
             viewMode !== 'paperback' &&
-            !(section === 'flipbook' && !isMobile && !(viewMode === 'buyer' && buyerViewStyle === 'card'))
+            !(section === 'flipbook' && (isMobile || !(viewMode === 'buyer' && buyerViewStyle === 'card')))
               ? 'border-t border-[#E5E5E5] bg-white'
               : 'hidden'
           }
@@ -1299,17 +1568,19 @@ export default function App() {
       </div>
 
       {/* ====================================================================
-          DEDICATED HIGH-RESOLUTION PRINT / PDF DOCUMENT TREE (ZERO 3D CSS)
+          DEDICATED HIGH-RESOLUTION PRINT / PDF DOCUMENT TREE (ARMED LAZILY ON PRINT)
           ==================================================================== */}
-      <PrintSheetPreview
-        garments={printGarments}
-        allGarments={orderedGarments}
-        navMap={navMap}
-        meta={DEFAULT_CATALOGUE_META}
-        config={printConfig}
-        coverCustomImage={coverCustomImage}
-        isPrintOnlyPortal
-      />
+      {printPortalArmed && (
+        <PrintSheetPreview
+          garments={printGarments}
+          allGarments={orderedGarments}
+          navMap={navMap}
+          meta={DEFAULT_CATALOGUE_META}
+          config={printConfig}
+          coverCustomImage={coverCustomImage}
+          isPrintOnlyPortal
+        />
+      )}
 
       {/* ====================================================================
           SLIDE-OVER EDITOR & INTERACTIVE MODALS
@@ -1362,6 +1633,7 @@ export default function App() {
         categoryCount={categoryGarments.length}
         shortlistCount={shortlist.length}
         currentGarmentSku={currentGarment.sku}
+        isExporting={Boolean(pdfExportJob)}
         onUpdateConfig={(patch) =>
           setPrintConfig((prev) => ({ ...prev, ...patch }))
         }
@@ -1371,10 +1643,66 @@ export default function App() {
           navigateSection('print');
         }}
         onExecutePrint={handleExecutePrint}
+        onSystemPrint={handleSystemPrint}
       />
 
+      {/* Offscreen DOM Capture Tree for Reliable Cross-Browser PDF Export */}
+      {pdfExportJob && (
+        <div
+          ref={pdfCaptureRef}
+          aria-hidden="true"
+          className="no-print pointer-events-none fixed -left-[99999px] top-0 z-[-1] bg-white"
+        >
+          <PrintSheetPreview
+            garments={printGarments}
+            allGarments={orderedGarments}
+            navMap={navMap}
+            meta={DEFAULT_CATALOGUE_META}
+            config={printConfig}
+            coverCustomImage={coverCustomImage}
+            captureOnly
+          />
+        </div>
+      )}
+
+      {/* Live PDF Export Progress Banner */}
+      {pdfProgress && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="no-print fixed right-6 bottom-6 z-50 flex items-center gap-3 border border-[#0A0A0A] bg-white px-4 py-3 text-xs text-[#0A0A0A] shadow-xl"
+        >
+          <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+          <div className="min-w-[190px]">
+            <p className="font-medium">{pdfProgress.statusText}</p>
+            <div className="mt-1.5 h-1.5 w-full overflow-hidden bg-[#ECEAE3]">
+              <div
+                className="h-full bg-[#0A0A0A] transition-[width] duration-150"
+                style={{
+                  width: `${
+                    pdfProgress.total > 0
+                      ? Math.round((pdfProgress.current / pdfProgress.total) * 100)
+                      : 10
+                  }%`,
+                }}
+              />
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              pdfCancelRef.current = true;
+            }}
+            aria-label="Cancel PDF export"
+            className="border border-[#DCDAD3] p-1 text-[#525252] hover:border-[#0A0A0A] hover:text-[#0A0A0A] cursor-pointer"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Subtle Monochrome Feedback Toast */}
-      {toastMessage && viewMode !== 'paperback' && (
+      {toastMessage && !pdfProgress && (
         <div
           role="status"
           aria-live="polite"

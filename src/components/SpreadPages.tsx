@@ -27,6 +27,7 @@ import {
   getPreferredFactoryFabricImage,
 } from '../data/factoryFabricColors';
 import { readImageFileAsDataUrl } from '../utils/media';
+import { resolveMobileDisplayUrl, useMobileDisplayMode } from '../utils/mobileMedia';
 import {
   buildCatalogueNavigationMap,
   getFabricFamilyName,
@@ -154,7 +155,7 @@ const LeafShell: React.FC<{
   );
 };
 
-export const SpreadPages: React.FC<SpreadPagesProps> = ({
+export const SpreadPages: React.FC<SpreadPagesProps> = React.memo(({
   pageIndex,
   totalSpreads,
   garments,
@@ -192,6 +193,7 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
 }) => {
   const coverInputRef = useRef<HTMLInputElement | null>(null);
   const [coverDragging, setCoverDragging] = useState(false);
+  const isMobileDisplay = useMobileDisplayMode();
   const showGuides = Boolean(showSafeZones && isWorkbench);
   const canInteract = !paperbackMode && !isPreviewLayer;
 
@@ -290,8 +292,9 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                   <article key={p.code} className="flex flex-col">
                     <div className="aspect-[4/3] w-full overflow-hidden border border-[#E6E4DE] bg-[#FAF9F5]">
                       <img
-                        src={p.illustration}
+                        src={resolveMobileDisplayUrl(p.illustration, isMobileDisplay)}
                         alt={`${p.code} — ${p.title} editorial illustration`}
+                        decoding="async"
                         referrerPolicy="no-referrer"
                         className={`h-full w-full object-cover ${p.cropScaleClass}`}
                       />
@@ -463,8 +466,8 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
               coverDragging
                 ? 'border-[#0A0A0A] bg-[#F0EFEA]'
                 : isWorkbench
-                  ? 'border-[#E6E4DE] bg-[#FAF9F5] hover:border-[var(--metallic)]'
-                  : 'border-[#E6E4DE] bg-[#FAF9F5]'
+                  ? 'border-[#E6E4DE] bg-[#F7F6F1] hover:border-[var(--metallic)]'
+                  : 'border-[#E6E4DE] bg-[#F7F6F1]'
             }`}
           >
             {!isPreviewLayer && isWorkbench && (
@@ -480,39 +483,29 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
               />
             )}
 
-            {/* Subtle Ghost Monogram Watermark Backdrop */}
-            {!coverCustomImage && (
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-x-0 top-12 flex select-none items-start justify-between px-6 font-serif text-[112px] font-light leading-none tracking-[-0.06em] text-[#141413]/[0.045]"
-              >
-                <span>D</span>
-                <span>T</span>
-              </div>
-            )}
-
             <img
-              src={activeCoverSrc}
+              src={resolveMobileDisplayUrl(activeCoverSrc, isMobileDisplay)}
               alt={
                 coverCustomImage
                   ? 'Dream Tomorrow Custom Cover'
                   : 'Dream Tomorrow Knitwear & Woven Atelier Monograph Illustration'
               }
+              decoding="async"
               referrerPolicy="no-referrer"
-              className={`relative z-[1] h-full w-full ${
-                coverCustomImage ? 'object-cover' : 'object-contain px-6 py-11'
+              className={`relative z-[1] h-full w-full object-cover object-center ${
+                coverCustomImage ? '' : 'scale-[1.12]'
               }`}
             />
 
             {/* Architectural Corner Framing Ticks Inside Illustration Plate */}
-            <span aria-hidden="true" className="pointer-events-none absolute top-2.5 left-2.5 z-10 h-2.5 w-2.5 border-t border-l border-[#141413]/30" />
-            <span aria-hidden="true" className="pointer-events-none absolute top-2.5 right-2.5 z-10 h-2.5 w-2.5 border-t border-r border-[#141413]/30" />
-            <span aria-hidden="true" className="pointer-events-none absolute bottom-2.5 left-2.5 z-10 h-2.5 w-2.5 border-b border-l border-[#141413]/30" />
-            <span aria-hidden="true" className="pointer-events-none absolute bottom-2.5 right-2.5 z-10 h-2.5 w-2.5 border-b border-r border-[#141413]/30" />
+            <span aria-hidden="true" className="pointer-events-none absolute top-2.5 left-2.5 z-10 h-2.5 w-2.5 border-t border-l border-[#141413]/35" />
+            <span aria-hidden="true" className="pointer-events-none absolute top-2.5 right-2.5 z-10 h-2.5 w-2.5 border-t border-r border-[#141413]/35" />
+            <span aria-hidden="true" className="pointer-events-none absolute bottom-2.5 left-2.5 z-10 h-2.5 w-2.5 border-b border-l border-[#141413]/35" />
+            <span aria-hidden="true" className="pointer-events-none absolute bottom-2.5 right-2.5 z-10 h-2.5 w-2.5 border-b border-r border-[#141413]/35" />
 
-            {/* Top Brand Masthead Overlay */}
+            {/* Top Brand Masthead Overlay Overlapping Upper Corners */}
             <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-3 px-4 pt-3.5">
-              <div className="flex items-center gap-2.5 bg-[#FAF9F5]/85 px-1.5 py-0.5 backdrop-blur-[1px]">
+              <div className="flex items-center gap-2.5 bg-[#FAF9F5]/82 px-2 py-1 backdrop-blur-[2px]">
                 <img
                   src={BRAND_LOGO_PATH}
                   alt="DT"
@@ -520,17 +513,17 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                 />
                 <span aria-hidden="true" className="h-4 w-px bg-[#141413]/25" />
                 <div className="leading-none">
-                  <span className="block font-sans text-[9px] font-extrabold uppercase tracking-[0.28em] text-[#141413]">
+                  <span className="block font-sans text-[9.5px] font-extrabold uppercase tracking-[0.28em] text-[#141413]">
                     D . T &nbsp; A P P A R E L
                   </span>
-                  <span className="mt-1 block font-mono text-[7.5px] uppercase tracking-[0.16em] text-[#6B6860]">
+                  <span className="mt-1 block font-mono text-[7.5px] uppercase tracking-[0.16em] text-[#5F5C55]">
                     Atelier Monograph
                   </span>
                 </div>
               </div>
 
-              <div className="bg-[#FAF9F5]/85 px-1.5 py-0.5 text-right font-mono leading-none backdrop-blur-[1px]">
-                <span className="block text-[8px] font-semibold uppercase tracking-[0.18em] text-[#141413]">
+              <div className="bg-[#FAF9F5]/82 px-2 py-1 text-right font-mono leading-none backdrop-blur-[2px]">
+                <span className="block text-[8.5px] font-semibold uppercase tracking-[0.18em] text-[#141413]">
                   SERIES 01
                 </span>
                 <span className="mt-1 block text-[7.5px] uppercase tracking-[0.14em] text-[var(--metallic-strong)]">
@@ -545,14 +538,14 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                 aria-hidden="true"
                 className="pointer-events-none absolute top-1/2 left-3 z-10 flex -translate-y-1/2 select-none flex-col items-center gap-2"
               >
-                <span className="h-8 w-px bg-[#141413]/20" />
+                <span className="h-8 w-px bg-[#141413]/25" />
                 <span
-                  className="font-mono text-[7px] uppercase tracking-[0.24em] text-[#6E6B63]"
+                  className="bg-[#FAF9F5]/75 px-0.5 py-1 font-mono text-[7px] uppercase tracking-[0.24em] text-[#57544D]"
                   style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}
                 >
                   TAILORED UNIFORM SYSTEMS
                 </span>
-                <span className="h-8 w-px bg-[#141413]/20" />
+                <span className="h-8 w-px bg-[#141413]/25" />
               </div>
             )}
 
@@ -562,8 +555,8 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                 aria-hidden="true"
                 className="pointer-events-none absolute top-[44%] right-3.5 z-10 flex -translate-y-1/2 select-none flex-col items-end text-right"
               >
-                <div className="border-r-2 border-[var(--metallic-strong)] pr-2">
-                  <span className="block font-serif text-lg italic leading-none text-[#141413]/85">
+                <div className="border-r-2 border-[var(--metallic-strong)] bg-[#FAF9F5]/80 py-1 pl-2 pr-2 backdrop-blur-[1px]">
+                  <span className="block font-serif text-xl italic leading-none text-[#141413]">
                     DT
                   </span>
                   <span className="mt-1 block font-mono text-[6.5px] font-semibold uppercase tracking-[0.2em] text-[#55534E]">
@@ -576,21 +569,21 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
               </div>
             )}
 
-            {/* Bottom Editorial Typography Display Lockup */}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 px-4 pb-3">
-              <div className="bg-[#FAF9F5]/85 px-1.5 py-0.5 backdrop-blur-[1px]">
-                <p className="font-serif text-[23px] italic leading-[0.95] tracking-tight text-[#141413] sm:text-[26px]">
+            {/* Bottom Editorial Typography Display Lockup Overlapping Lower Corners */}
+            <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex items-end justify-between gap-4 px-4 pb-3.5">
+              <div className="bg-[#FAF9F5]/84 px-2.5 py-1 backdrop-blur-[2px]">
+                <p className="font-serif text-[27px] italic leading-[0.95] tracking-tight text-[#141413]">
                   Dream Tomorrow
                 </p>
-                <p className="mt-1 font-sans text-[8px] font-bold uppercase tracking-[0.34em] text-[#353430]">
+                <p className="mt-1 font-sans text-[8.5px] font-bold uppercase tracking-[0.34em] text-[#2F2E2A]">
                   KNITWEAR &amp; WOVEN ARCHIVE
                 </p>
               </div>
-              <div className="bg-[#FAF9F5]/85 px-1.5 py-0.5 text-right font-mono leading-tight backdrop-blur-[1px]">
-                <span className="block text-[8px] font-semibold uppercase tracking-[0.16em] text-[#141413] tabular-nums">
+              <div className="bg-[#FAF9F5]/84 px-2 py-1 text-right font-mono leading-tight backdrop-blur-[2px]">
+                <span className="block text-[8.5px] font-semibold uppercase tracking-[0.16em] text-[#141413] tabular-nums">
                   {orderedGarments.length} STYLES · {swatchPrograms.length} FABRICS
                 </span>
-                <span className="block text-[7.5px] uppercase tracking-[0.14em] text-[#77756F]">
+                <span className="block text-[7.5px] uppercase tracking-[0.14em] text-[#5F5C55]">
                   B2B PORTFOLIO
                 </span>
               </div>
@@ -658,108 +651,112 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
         footerLeft="P. 02A"
         footerRight="DREAM TOMORROW"
       >
-        <div>
-          <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
-            <div>
-              <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-[var(--metallic-strong)]">
-                Style &amp; fabric index
-              </p>
-              <h2 className="mt-1 font-serif text-3xl font-normal leading-none tracking-tight text-[#171715]">
-                Table of Contents
-              </h2>
+        <div className="flex min-h-0 flex-1 flex-col justify-between">
+          <div>
+            <div className="mb-3 flex flex-wrap items-end justify-between gap-2">
+              <div>
+                <p className="text-[9.5px] font-medium uppercase tracking-[0.2em] text-[var(--metallic-strong)]">
+                  Style &amp; fabric index
+                </p>
+                <h2 className="mt-1 font-serif text-[34px] font-normal leading-none tracking-tight text-[#171715]">
+                  Table of Contents
+                </h2>
+              </div>
+              {demoMode && isWorkbench && (
+                <span className="font-mono text-[8.5px] uppercase tracking-[0.12em] text-[#4C5D68]">
+                  Demo Order · Showcase First
+                </span>
+              )}
             </div>
-            {demoMode && isWorkbench && (
-              <span className="font-mono text-[8.5px] uppercase tracking-[0.12em] text-[#4C5D68]">
-                Demo Order · Showcase First
+
+            {/* 5 Color-Coded Catalogue Sections */}
+            <div className="mb-3 grid grid-cols-3 gap-x-3.5 gap-y-2 border-y border-[#EAE8E3] py-2.5">
+              {effectiveNavMap.sections.map((sec) =>
+                canInteract ? (
+                  <button
+                    key={sec.id}
+                    type="button"
+                    onClick={() => onGoToPage(sec.startSpreadPage)}
+                    className="flex items-center justify-between gap-2 text-left text-[10.5px] text-[#4A4843] transition-colors hover:text-[#111111] cursor-pointer"
+                  >
+                    <span className="flex min-w-0 items-center gap-1.5 truncate">
+                      <span
+                        aria-hidden="true"
+                        className="h-2.5 w-[2.5px] shrink-0"
+                        style={{ backgroundColor: sec.markerColor }}
+                      />
+                      <span className="truncate font-medium">{sec.shortLabel}</span>
+                    </span>
+                    <span className="shrink-0 font-mono text-[9.5px] text-[#7A7770] tabular-nums">
+                      P.{String(sec.startSpreadPage + 1).padStart(2, '0')}
+                    </span>
+                  </button>
+                ) : (
+                  <div
+                    key={sec.id}
+                    className="flex items-center justify-between gap-2 text-left text-[10.5px] text-[#4A4843]"
+                  >
+                    <span className="flex min-w-0 items-center gap-1.5 truncate">
+                      <span
+                        aria-hidden="true"
+                        className="h-2.5 w-[2.5px] shrink-0"
+                        style={{ backgroundColor: sec.markerColor }}
+                      />
+                      <span className="truncate font-medium">{sec.shortLabel}</span>
+                    </span>
+                    <span className="shrink-0 font-mono text-[9.5px] text-[#7A7770] tabular-nums">
+                      P.{String(sec.startSpreadPage + 1).padStart(2, '0')}
+                    </span>
+                  </div>
+                )
+              )}
+            </div>
+
+            {/* Garment Categories */}
+            <div className="divide-y divide-[#EEECE7]">
+              {effectiveNavMap.categoryRanges.map((c) =>
+                canInteract ? (
+                  <button
+                    key={c.name}
+                    type="button"
+                    onClick={() => onGoToPage(c.firstPage)}
+                    className="group flex w-full items-center justify-between gap-3 py-2 text-left transition-colors hover:bg-[#F8F7F4] cursor-pointer"
+                  >
+                    <span className="flex min-w-0 items-center gap-3">
+                      <span className="font-serif text-xl italic text-[var(--metallic-strong)]">{c.numeral}</span>
+                      <span className="truncate text-[12px] font-medium text-[#22211E]">{c.name}</span>
+                      <span className="shrink-0 text-[9.5px] text-[#7E7B73]">{c.count} styles</span>
+                    </span>
+                    <span className="shrink-0 font-mono text-[9.5px] text-[#7E7B73] tabular-nums group-hover:text-[#171715]">
+                      {c.label}
+                    </span>
+                  </button>
+                ) : (
+                  <div
+                    key={c.name}
+                    className="flex w-full items-center justify-between gap-3 py-2 text-left"
+                  >
+                    <span className="flex min-w-0 items-center gap-3">
+                      <span className="font-serif text-xl italic text-[var(--metallic-strong)]">{c.numeral}</span>
+                      <span className="truncate text-[12px] font-medium text-[#22211E]">{c.name}</span>
+                      <span className="shrink-0 text-[9.5px] text-[#7E7B73]">{c.count} styles</span>
+                    </span>
+                    <span className="shrink-0 font-mono text-[9.5px] text-[#7E7B73] tabular-nums">
+                      {c.label}
+                    </span>
+                  </div>
+                )
+              )}
+            </div>
+          </div>
+
+          {/* Men's Collection Index: Scaled cleanly across bottom half */}
+          <div className="mt-3 border-t border-[#EAE8E3] pt-2.5">
+            <h3 className="mb-2 flex items-baseline justify-between gap-2">
+              <span className="font-serif text-[20px] leading-none text-[#171715]">
+                Men&apos;s Collection
               </span>
-            )}
-          </div>
-
-          {/* 5 Color-Coded Catalogue Sections */}
-          <div className="mb-3 grid grid-cols-3 gap-x-3 gap-y-1.5 border-y border-[#EAE8E3] py-2">
-            {effectiveNavMap.sections.map((sec) =>
-              canInteract ? (
-                <button
-                  key={sec.id}
-                  type="button"
-                  onClick={() => onGoToPage(sec.startSpreadPage)}
-                  className="flex items-center justify-between gap-2 text-left text-[9.5px] text-[#55534E] transition-colors hover:text-[#111111] cursor-pointer"
-                >
-                  <span className="flex min-w-0 items-center gap-1.5 truncate">
-                    <span
-                      aria-hidden="true"
-                      className="h-2 w-[2.5px] shrink-0"
-                      style={{ backgroundColor: sec.markerColor }}
-                    />
-                    <span className="truncate font-medium">{sec.shortLabel}</span>
-                  </span>
-                  <span className="shrink-0 font-mono text-[8.5px] text-[#8E8B82] tabular-nums">
-                    P.{String(sec.startSpreadPage + 1).padStart(2, '0')}
-                  </span>
-                </button>
-              ) : (
-                <div
-                  key={sec.id}
-                  className="flex items-center justify-between gap-2 text-left text-[9.5px] text-[#55534E]"
-                >
-                  <span className="flex min-w-0 items-center gap-1.5 truncate">
-                    <span
-                      aria-hidden="true"
-                      className="h-2 w-[2.5px] shrink-0"
-                      style={{ backgroundColor: sec.markerColor }}
-                    />
-                    <span className="truncate font-medium">{sec.shortLabel}</span>
-                  </span>
-                  <span className="shrink-0 font-mono text-[8.5px] text-[#8E8B82] tabular-nums">
-                    P.{String(sec.startSpreadPage + 1).padStart(2, '0')}
-                  </span>
-                </div>
-              )
-            )}
-          </div>
-
-          {/* Garment Categories */}
-          <div className="divide-y divide-[#EEECE7]">
-            {effectiveNavMap.categoryRanges.map((c) =>
-              canInteract ? (
-                <button
-                  key={c.name}
-                  type="button"
-                  onClick={() => onGoToPage(c.firstPage)}
-                  className="group flex w-full items-center justify-between gap-3 py-1.5 text-left transition-colors hover:bg-[#F8F7F4] cursor-pointer"
-                >
-                  <span className="flex min-w-0 items-center gap-2.5">
-                    <span className="font-serif text-lg italic text-[var(--metallic-strong)]">{c.numeral}</span>
-                    <span className="truncate text-[10.5px] font-medium text-[#292824]">{c.name}</span>
-                    <span className="shrink-0 text-[8.5px] text-[#8E8B82]">{c.count} styles</span>
-                  </span>
-                  <span className="shrink-0 font-mono text-[8.5px] text-[#8E8B82] tabular-nums group-hover:text-[#171715]">
-                    {c.label}
-                  </span>
-                </button>
-              ) : (
-                <div
-                  key={c.name}
-                  className="flex w-full items-center justify-between gap-3 py-1.5 text-left"
-                >
-                  <span className="flex min-w-0 items-center gap-2.5">
-                    <span className="font-serif text-lg italic text-[var(--metallic-strong)]">{c.numeral}</span>
-                    <span className="truncate text-[10.5px] font-medium text-[#292824]">{c.name}</span>
-                    <span className="shrink-0 text-[8.5px] text-[#8E8B82]">{c.count} styles</span>
-                  </span>
-                  <span className="shrink-0 font-mono text-[8.5px] text-[#8E8B82] tabular-nums">
-                    {c.label}
-                  </span>
-                </div>
-              )
-            )}
-          </div>
-
-          {/* Men's Collection Index: 2 balanced columns to fit unified 720px page */}
-          <div className="mt-3 border-t border-[#EAE8E3] pt-2">
-            <h3 className="mb-1.5 flex items-baseline justify-between gap-2">
-              <span className="font-serif text-base text-[#171715]">Men&apos;s Collection</span>
-              <span className="font-mono text-[8.5px] uppercase tracking-[0.14em] text-[#8E8B82]">
+              <span className="font-mono text-[9.5px] uppercase tracking-[0.14em] text-[#77736D]">
                 Nam · {menItems.length} styles
               </span>
             </h3>
@@ -772,30 +769,30 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                     key={item.id}
                     type="button"
                     onClick={() => onGoToPage(targetSpread)}
-                    className="group grid w-full grid-cols-[16px_minmax(0,1fr)_32px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[2.5px] text-left transition-colors hover:bg-[#F8F7F4] cursor-pointer"
+                    className="group grid w-full grid-cols-[18px_minmax(0,1fr)_34px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[4.5px] text-left transition-colors hover:bg-[#F8F7F4] cursor-pointer"
                   >
-                    <span className="font-mono text-[8px] text-[#9A968E] tabular-nums">
+                    <span className="font-mono text-[9px] text-[#8E8B82] tabular-nums">
                       {String(item.index).padStart(2, '0')}
                     </span>
-                    <span className="truncate text-[9.5px] font-medium text-[#171715]">
+                    <span className="truncate text-[10.5px] font-medium text-[#171715]">
                       {rowTitle}
                     </span>
-                    <span className="text-right font-mono text-[8.5px] text-[#55534E] tabular-nums group-hover:text-[#0A0A0A]">
+                    <span className="text-right font-mono text-[9.5px] text-[#55534E] tabular-nums group-hover:text-[#0A0A0A]">
                       p.{String(targetSpread + 1).padStart(2, '0')}
                     </span>
                   </button>
                 ) : (
                   <div
                     key={item.id}
-                    className="grid w-full grid-cols-[16px_minmax(0,1fr)_32px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[2.5px] text-left"
+                    className="grid w-full grid-cols-[18px_minmax(0,1fr)_34px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[4.5px] text-left"
                   >
-                    <span className="font-mono text-[8px] text-[#9A968E] tabular-nums">
+                    <span className="font-mono text-[9px] text-[#8E8B82] tabular-nums">
                       {String(item.index).padStart(2, '0')}
                     </span>
-                    <span className="truncate text-[9.5px] font-medium text-[#171715]">
+                    <span className="truncate text-[10.5px] font-medium text-[#171715]">
                       {rowTitle}
                     </span>
-                    <span className="text-right font-mono text-[8.5px] text-[#55534E] tabular-nums">
+                    <span className="text-right font-mono text-[9.5px] text-[#55534E] tabular-nums">
                       p.{String(targetSpread + 1).padStart(2, '0')}
                     </span>
                   </div>
@@ -818,20 +815,20 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
         footerLeft="DREAM TOMORROW · DT"
         footerRight="P. 02B"
       >
-        <div className="flex h-full flex-col justify-between">
+        <div className="flex min-h-0 flex-1 flex-col justify-between">
           <div>
             <div className="mb-3 border-b border-[#EAE8E3] pb-2.5">
-              <p className="text-[9px] font-medium uppercase tracking-[0.2em] text-[var(--metallic-strong)]">
+              <p className="text-[9.5px] font-medium uppercase tracking-[0.2em] text-[var(--metallic-strong)]">
                 Quick-reference style directory
               </p>
-              <h3 className="mt-1 font-serif text-3xl font-normal leading-none tracking-tight text-[#171715]">
+              <h3 className="mt-1 font-serif text-[34px] font-normal leading-none tracking-tight text-[#171715]">
                 Women&apos;s Collection<span className="text-[var(--metallic-strong)]">.</span>
               </h3>
-              <p className="mt-1 text-[10px] leading-relaxed text-[#77736D]">
+              <p className="mt-1.5 text-[11px] leading-relaxed text-[#6E6B64]">
                 {womenItems.length} styles indexed with factory style codes and exact folio spreads.
               </p>
             </div>
-            <div className="grid grid-cols-2 gap-x-4 border-y border-[#EAE8E3] py-1">
+            <div className="grid grid-cols-2 gap-x-4 border-b border-[#EAE8E3] pb-1">
               {womenItems.map((item) => {
                 const targetSpread = effectiveNavMap.garmentPageById.get(item.id) ?? productOffset;
                 const rowTitle = !isWorkbench ? displayBuyerProductTitle(item.title) : item.title;
@@ -840,30 +837,30 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                     key={item.id}
                     type="button"
                     onClick={() => onGoToPage(targetSpread)}
-                    className="group grid w-full grid-cols-[16px_minmax(0,1fr)_32px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[4px] text-left transition-colors hover:bg-[#F8F7F4] cursor-pointer"
+                    className="group grid w-full grid-cols-[18px_minmax(0,1fr)_34px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[6.5px] text-left transition-colors hover:bg-[#F8F7F4] cursor-pointer"
                   >
-                    <span className="font-mono text-[8px] text-[#9A968E] tabular-nums">
+                    <span className="font-mono text-[9.5px] text-[#8E8B82] tabular-nums">
                       {String(item.index).padStart(2, '0')}
                     </span>
-                    <span className="truncate font-sans text-[9.5px] font-medium text-[#171715]">
+                    <span className="truncate font-sans text-[11px] font-medium text-[#171715]">
                       {rowTitle}
                     </span>
-                    <span className="text-right font-mono text-[8.5px] text-[#55534E] tabular-nums group-hover:text-[#0A0A0A]">
+                    <span className="text-right font-mono text-[9.5px] text-[#55534E] tabular-nums group-hover:text-[#0A0A0A]">
                       p.{String(targetSpread + 1).padStart(2, '0')}
                     </span>
                   </button>
                 ) : (
                   <div
                     key={item.id}
-                    className="grid w-full grid-cols-[16px_minmax(0,1fr)_32px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[4px] text-left"
+                    className="grid w-full grid-cols-[18px_minmax(0,1fr)_34px] items-baseline gap-1.5 border-b border-[#F2F0EB] py-[6.5px] text-left"
                   >
-                    <span className="font-mono text-[8px] text-[#9A968E] tabular-nums">
+                    <span className="font-mono text-[9.5px] text-[#8E8B82] tabular-nums">
                       {String(item.index).padStart(2, '0')}
                     </span>
-                    <span className="truncate font-sans text-[9.5px] font-medium text-[#171715]">
+                    <span className="truncate font-sans text-[11px] font-medium text-[#171715]">
                       {rowTitle}
                     </span>
-                    <span className="text-right font-mono text-[8.5px] text-[#55534E] tabular-nums">
+                    <span className="text-right font-mono text-[9.5px] text-[#55534E] tabular-nums">
                       p.{String(targetSpread + 1).padStart(2, '0')}
                     </span>
                   </div>
@@ -873,15 +870,15 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
           </div>
 
           <div className="mt-4 border-t border-[#EAE8E3] pt-3">
-            <div className="mb-2 flex items-baseline justify-between gap-2">
-              <h4 className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-[#55534E]">
+            <div className="mb-2.5 flex items-baseline justify-between gap-2">
+              <h4 className="font-mono text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[#44423D]">
                 Fabric Library Directory
               </h4>
-              <span className="font-mono text-[8.5px] text-[#8E8B82] tabular-nums">
+              <span className="font-mono text-[9.5px] text-[#7A7770] tabular-nums">
                 {swatchPrograms.length} textiles
               </span>
             </div>
-            <div className="grid grid-cols-3 gap-x-3 gap-y-1">
+            <div className="grid grid-cols-3 gap-x-3.5 gap-y-1.5">
               {swatchPrograms.map((prog) => {
                 const targetPage = effectiveNavMap.fabricPageByCode.get(prog.fabricCode) ?? 2;
                 return canInteract ? (
@@ -889,24 +886,24 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                     key={prog.fabricCode}
                     type="button"
                     onClick={() => onGoToPage(targetPage)}
-                    className="group flex items-baseline justify-between gap-1.5 border-b border-[#F2F0EB] py-1 text-left transition-colors hover:border-[#111111] cursor-pointer"
+                    className="group flex items-baseline justify-between gap-1.5 border-b border-[#F2F0EB] py-[6px] text-left transition-colors hover:border-[#111111] cursor-pointer"
                   >
-                    <span className="truncate font-mono text-[8.5px] font-medium text-[#171715]">
+                    <span className="truncate font-mono text-[10px] font-semibold text-[#171715]">
                       {prog.fabricCode}
                     </span>
-                    <span className="shrink-0 font-mono text-[8px] text-[#77736D] tabular-nums group-hover:text-[#0A0A0A]">
+                    <span className="shrink-0 font-mono text-[9.5px] text-[#6E6B64] tabular-nums group-hover:text-[#0A0A0A]">
                       p.{String(targetPage + 1).padStart(2, '0')}
                     </span>
                   </button>
                 ) : (
                   <div
                     key={prog.fabricCode}
-                    className="flex items-baseline justify-between gap-1.5 border-b border-[#F2F0EB] py-1 text-left"
+                    className="flex items-baseline justify-between gap-1.5 border-b border-[#F2F0EB] py-[6px] text-left"
                   >
-                    <span className="truncate font-mono text-[8.5px] font-medium text-[#171715]">
+                    <span className="truncate font-mono text-[10px] font-semibold text-[#171715]">
                       {prog.fabricCode}
                     </span>
-                    <span className="shrink-0 font-mono text-[8px] text-[#77736D] tabular-nums">
+                    <span className="shrink-0 font-mono text-[9.5px] text-[#6E6B64] tabular-nums">
                       p.{String(targetPage + 1).padStart(2, '0')}
                     </span>
                   </div>
@@ -1070,7 +1067,7 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
                     } w-full overflow-hidden bg-[#F5F4F0]`}
                   >
                     <img
-                      src={heroImage.imageUrl}
+                      src={resolveMobileDisplayUrl(heroImage.imageUrl, isMobileDisplay)}
                       alt={`${program.fabricCode} close-up fabric texture`}
                       loading="lazy"
                       decoding="async"
@@ -1368,9 +1365,9 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
         sectionId="technical"
         categoryLabel="WOMEN'S SIZE CHART"
         pageLabel={`P.${sizeChartPadded}A`}
-        rightContext="SCRUBS TOP & PANTS"
+        rightContext="TOPS & BOTTOMS FIT"
         footerLeft={`P. ${sizeChartPadded}A`}
-        footerRight="STANDARD BODY FIT GUIDE"
+        footerRight="CASUALWEAR FIT GUIDE"
       >
         <SizeChartLeafBody gender="Women" />
       </LeafShell>
@@ -1383,7 +1380,7 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
         sectionId="technical"
         categoryLabel="MEN'S SIZE CHART"
         pageLabel={`P.${sizeChartPadded}B`}
-        rightContext="SCRUBS TOP & PANTS"
+        rightContext="TOPS & BOTTOMS FIT"
         footerLeft="SIZE SPEC · CM / KG"
         footerRight={`P. ${sizeChartPadded}B`}
       >
@@ -1420,7 +1417,7 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
             CM · OEM · ODM
           </p>
           <p className="mt-4 max-w-[38ch] text-xs leading-relaxed text-[#55534E]">
-            Full-package uniform manufacturing across 15 verified knit &amp; suiting fabric families, tailored for healthcare, hospitality, and corporate workwear programs.
+            Full-package apparel manufacturing across 15 verified knit &amp; suiting fabric families, tailored for casualwear essentials, retail capsules, and corporate programs.
           </p>
           <div className="mt-8 border-t border-[#E5E3DE] pt-4">
             <p className="font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-[#77756F]">
@@ -1532,7 +1529,7 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
       side="recto"
       showSafeZones={showGuides}
       sectionId="technical"
-      categoryLabel="THANK YOU & CONTACT"
+      categoryLabel="CLOSING FOLIO & CONTACT"
       pageLabel={`P.${techPadded}B`}
       rightContext="D.T APPAREL"
       footerLeft={meta.season}
@@ -1543,4 +1540,4 @@ export const SpreadPages: React.FC<SpreadPagesProps> = ({
   );
 
   return renderSpreadPair(backVerso, backRecto);
-};
+});

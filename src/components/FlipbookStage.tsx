@@ -3,12 +3,14 @@ import {
   ArrowLeft,
   ArrowRight,
   BookOpen,
+  Check,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
   Crop,
   Grid,
   LayoutGrid,
+  Link2,
   Maximize,
   Maximize2,
   Minimize,
@@ -93,6 +95,9 @@ interface FlipbookStageProps {
   customFramingCount?: number;
   onOpenFabricColorPicker?: (garment: GarmentItem) => void;
   onOpenCropPresetModal?: () => void;
+  mobileSide?: 'verso' | 'recto';
+  onMobileSideChange?: (side: 'verso' | 'recto') => void;
+  onCopyShareLink?: () => void;
 }
 
 const ZOOM_STEPS = [0.75, 1, 1.25, 1.5] as const;
@@ -140,6 +145,9 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
   customFramingCount = 0,
   onOpenFabricColorPicker,
   onOpenCropPresetModal,
+  mobileSide,
+  onMobileSideChange,
+  onCopyShareLink,
 }) => {
   const isWorkbench = mode === 'workbench';
   const isBuyer = mode === 'buyer';
@@ -166,6 +174,8 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
     w: 1190,
     h: 842,
   });
+  const [bookElement, setBookElement] = useState<HTMLDivElement | null>(null);
+  const [linkCopied, setLinkCopied] = useState<boolean>(false);
 
   const fullscreenContainerRef = useRef<HTMLDivElement | null>(null);
   const bookViewportRef = useRef<HTMLDivElement | null>(null);
@@ -312,22 +322,21 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
 
   const computedFitScale = useMemo(() => {
     if (!fitToScreen || zoom !== 1) return 1;
-    const hasThumbRail = !isPaperback && slotSize.w >= 1180;
-    const edgeArrowAllowance = 76;
-    const thumbRailAllowance = hasThumbRail ? 98 : 0;
+    const hasThumbRail = !isPaperback && slotSize.w >= 1220;
+    const edgeArrowAllowance = slotSize.w >= 1024 ? 60 : 12;
+    const thumbRailAllowance = hasThumbRail ? 80 : 0;
     const availW = Math.max(360, slotSize.w - edgeArrowAllowance - thumbRailAllowance);
-    const availH = Math.max(260, slotSize.h - 14);
+    const availH = Math.max(260, slotSize.h - 4);
     const scaleW = availW / Math.max(640, naturalBookSize.w);
     const scaleH = availH / Math.max(360, naturalBookSize.h);
-    const maxAllowed = isFullscreen ? 1.08 : 1.0;
+    const maxAllowed = isFullscreen ? 1.12 : 1.04;
     const raw = Math.max(0.4, Math.min(maxAllowed, Math.min(scaleW, scaleH)));
     return Math.round(raw * 1000) / 1000;
   }, [fitToScreen, zoom, isPaperback, slotSize.w, slotSize.h, naturalBookSize.w, naturalBookSize.h, isFullscreen]);
 
-  // Desktop mouse-wheel & trackpad scroll-to-turn-page (active when the spread fits cleanly without vertical overflow)
+  // Desktop mouse-wheel & trackpad scroll-to-turn-page (scoped strictly to the physical catalogue spread)
   useEffect(() => {
-    const el = bookViewportRef.current;
-    if (!el || isMobile || thumbnailView || showBuyerFocusCard) return;
+    if (!bookElement || isMobile || thumbnailView || showBuyerFocusCard) return;
 
     const handleWheel = (e: WheelEvent) => {
       if (e.ctrlKey || e.metaKey) return;
@@ -340,8 +349,11 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
         return;
       }
 
-      // If user zoomed into 100%/125%/150% and the spread overflows vertically, let them scroll naturally to read!
-      const hasVerticalOverflow = el.scrollHeight > el.clientHeight + 6;
+      // If user zoomed into 100%/125%/150% and content overflows vertically, let natural scrolling read details
+      const viewportEl = bookViewportRef.current;
+      const hasVerticalOverflow =
+        (viewportEl ? viewportEl.scrollHeight > viewportEl.clientHeight + 6 : false) ||
+        document.documentElement.scrollHeight > window.innerHeight + 8;
       if (hasVerticalOverflow || zoom !== 1 || !fitToScreen) {
         return;
       }
@@ -357,6 +369,7 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
       if (dir === 'next' && bookPage >= totalSpreads - 1) return;
 
       e.preventDefault();
+      e.stopPropagation();
 
       const now = performance.now();
       if (now < wheelCooldownUntilRef.current) return;
@@ -371,16 +384,16 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
 
       wheelAccumRef.current = { value: nextValue, dir, lastTs: now };
 
-      if (nextValue >= 38) {
+      if (nextValue >= 40) {
         wheelAccumRef.current = { value: 0, dir, lastTs: now };
         wheelCooldownUntilRef.current = now + 520;
         onRequestTurn(dir);
       }
     };
 
-    el.addEventListener('wheel', handleWheel, { passive: false });
-    return () => el.removeEventListener('wheel', handleWheel);
-  }, [bookPage, fitToScreen, isMobile, onRequestTurn, showBuyerFocusCard, thumbnailView, totalSpreads, zoom]);
+    bookElement.addEventListener('wheel', handleWheel, { passive: false });
+    return () => bookElement.removeEventListener('wheel', handleWheel);
+  }, [bookElement, bookPage, fitToScreen, isMobile, onRequestTurn, showBuyerFocusCard, thumbnailView, totalSpreads, zoom]);
 
   const getSpreadLabel = (page: number): string => {
     if (page === 0) return 'P.01 · Cover & CM / OEM / ODM Overview';
@@ -500,6 +513,12 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
     ]
   );
 
+  const renderMobileStaticPage = useCallback(
+    (page: number, leafSide?: SpreadLeafSide, isPreviewLayer?: boolean) =>
+      renderSpread(page, leafSide ?? 'full', Boolean(isPreviewLayer)),
+    [renderSpread]
+  );
+
   if (isMobile) {
     return (
       <MobileCatalogueView
@@ -507,20 +526,28 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
         navMap={effectiveNavMap}
         activeSection={activeSection}
         demoMode={demoMode}
-        onToggleDemoMode={isWorkbench ? onToggleDemoMode : undefined}
+        onToggleDemoMode={!isPaperback ? onToggleDemoMode : undefined}
         bookPage={bookPage}
         totalSpreads={totalSpreads}
         productOffset={productOffset}
         mode={mode}
         editMode={editMode && isWorkbench}
+        showSafeZones={isWorkbench ? showSafeZones : false}
+        onToggleSafeZones={isWorkbench ? onToggleSafeZones : undefined}
         customFramingCount={customFramingCount}
+        fabricColorImages={fabricColorImages}
         getSpreadLabel={getSpreadLabel}
-        renderStaticPage={(page, leafSide, isPreviewLayer) =>
-          renderSpread(page, leafSide ?? 'full', Boolean(isPreviewLayer))
-        }
+        renderStaticPage={renderMobileStaticPage}
         onChangeBookPage={onChangeBookPage}
         onToggleEditMode={onToggleEditMode}
         onOpenCropPresetModal={onOpenCropPresetModal}
+        onOpenPrintPdf={() =>
+          activeProduct ? onExportCurrentPdf(activeProduct.index) : onOpenFullPrintModal()
+        }
+        printPdfLabel={activeProduct ? `Print ${activeProduct.sku}` : 'Print PDF'}
+        initialSide={mobileSide}
+        onSideChange={onMobileSideChange}
+        onCopyShareLink={onCopyShareLink}
       />
     );
   }
@@ -859,7 +886,7 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
             navMap={effectiveNavMap}
             demoMode={demoMode}
             showSections={false}
-            onToggleDemoMode={isWorkbench ? onToggleDemoMode : undefined}
+            onToggleDemoMode={!isPaperback ? onToggleDemoMode : undefined}
             onSelectSpread={(page) => {
               setThumbnailView(false);
               onChangeBookPage(page);
@@ -870,18 +897,26 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
     </>
   );
 
+  const handleCopyLinkClick = () => {
+    onCopyShareLink?.();
+    setLinkCopied(true);
+    window.setTimeout(() => setLinkCopied(false), 1800);
+  };
+
   const stageViewportClasses = isToolbarDocked
     ? isPaperback
-      ? 'min-h-[calc(100vh-4rem)] bg-[#EFECE5] pb-5 pt-2'
+      ? 'min-h-[calc(100vh-3.25rem)] bg-[#EFECE5] pb-5 pt-2'
       : isBuyer
-        ? 'min-h-[calc(100vh-4rem)] bg-[#F7F6F2] pb-5 pt-2'
+        ? 'min-h-[calc(100vh-3.25rem)] bg-[#F7F6F2] pb-5 pt-2'
         : 'pb-5 pt-2'
     : isFullscreen
       ? `fixed inset-0 z-50 flex h-dvh w-screen flex-col overflow-hidden ${
-          isPaperback ? 'bg-[#EFECE5]' : isBuyer ? 'bg-[#F7F6F2]' : 'bg-[#F7F6F2]'
+          isPaperback ? 'bg-[#EFECE5]' : 'bg-[#F7F6F2]'
         }`
-      : `flex flex-col overflow-hidden ${
-          isWorkbench ? 'h-[calc(100dvh-6.75rem)]' : 'h-[calc(100dvh-4rem)]'
+      : `flex flex-col ${
+          fitToScreen && zoom === 1
+            ? `overflow-hidden ${isWorkbench ? 'h-[calc(100dvh-5.25rem)]' : 'h-[calc(100dvh-3.25rem)]'}`
+            : `min-h-[calc(100dvh-3.25rem)]`
         } ${
           isPaperback ? 'bg-[#EFECE5]' : isBuyer ? 'bg-[#F7F6F2]' : 'bg-white'
         }`;
@@ -896,8 +931,8 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
               ? 'Web Edition digital catalogue'
               : 'Studio page-curl catalogue'
         }
-        className={`relative mx-auto flex w-full max-w-[1460px] flex-1 min-h-0 flex-col justify-between px-4 sm:px-6 lg:px-10 ${
-          isToolbarDocked ? 'py-3 lg:py-4' : 'pt-1.5 pb-2.5'
+        className={`relative mx-auto flex w-full max-w-[1620px] flex-1 min-h-0 flex-col justify-between px-2 sm:px-3 lg:px-5 ${
+          isToolbarDocked ? 'py-3 lg:py-4' : 'pt-1 pb-1.5'
         }`}
       >
         {/* ====================================================================
@@ -907,19 +942,19 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
           <div className="mb-4 border-b border-[#E5E5E5] pb-1">{desktopTopControls}</div>
         ) : (
           <>
-            {/* Dedicated Center-Top Arrow-Down Trigger Zone + Top-Right Fit/Fullscreen Controls */}
+            {/* Dedicated Center-Top Arrow-Down Trigger Zone + Top-Right Quick Controls */}
             {!topControlsVisible && (
               <div
                 onMouseEnter={revealTopControls}
                 onMouseLeave={() => scheduleHideTopControls(220)}
-                className="pointer-events-auto absolute top-0 left-1/2 z-30 -translate-x-1/2 px-4 pt-1.5 pb-2"
+                className="pointer-events-auto absolute top-0 left-1/2 z-30 -translate-x-1/2 px-4 pt-1 pb-2"
               >
                 <button
                   type="button"
                   onClick={revealTopControls}
                   title="Hover or click to open menu"
                   aria-label="Open top catalogue menu"
-                  className={`flex h-7 w-7 items-center justify-center rounded-full border backdrop-blur-sm transition-all duration-200 shadow-sm cursor-pointer ${
+                  className={`flex h-6 w-6 items-center justify-center rounded-full border backdrop-blur-sm transition-all duration-200 shadow-sm cursor-pointer ${
                     isPaperback
                       ? 'border-[#D4CFC3] bg-[#FAF8F3]/90 text-[#4A4740] hover:border-[#22201C] hover:text-[#22201C]'
                       : 'border-[#DCDAD3] bg-white/90 text-[#55534E] hover:border-[#0A0A0A] hover:text-[#0A0A0A]'
@@ -931,7 +966,24 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
             )}
 
             {!topControlsVisible && (
-              <div className="pointer-events-none absolute inset-x-0 top-1.5 z-30 mx-auto flex max-w-[1460px] justify-end gap-1.5 px-4 sm:px-6 lg:px-10">
+              <div className="pointer-events-none absolute inset-x-0 top-1 z-30 mx-auto flex max-w-[1620px] justify-end gap-1.5 px-2 sm:px-3 lg:px-5">
+                {!isPaperback && onCopyShareLink && (
+                  <button
+                    type="button"
+                    onClick={handleCopyLinkClick}
+                    title="Copy direct share link to this exact style / spread"
+                    aria-label="Copy share link"
+                    className={`pointer-events-auto inline-flex items-center gap-1 border px-2 py-1 text-[10px] font-medium backdrop-blur-sm transition-all duration-200 cursor-pointer ${
+                      linkCopied
+                        ? 'border-[#0A0A0A] bg-[#0A0A0A] text-white'
+                        : 'border-[#DCDAD3] bg-white/85 text-[#55534E] opacity-80 hover:border-[#0A0A0A] hover:text-[#0A0A0A] hover:opacity-100'
+                    }`}
+                  >
+                    {linkCopied ? <Check className="h-3 w-3" /> : <Link2 className="h-3 w-3" />}
+                    <span className="hidden xl:inline">{linkCopied ? 'Copied' : 'Share'}</span>
+                  </button>
+                )}
+
                 <button
                   type="button"
                   onClick={toggleFitMode}
@@ -943,8 +995,8 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
                   className={`pointer-events-auto inline-flex items-center gap-1 border px-2 py-1 text-[10px] font-medium backdrop-blur-sm transition-all duration-200 cursor-pointer ${
                     fitToScreen && zoom === 1
                       ? isPaperback
-                        ? 'border-[#D4CFC3] bg-[#FAF8F3]/85 text-[#4A4740] opacity-75 hover:border-[#22201C] hover:opacity-100'
-                        : 'border-[#DCDAD3] bg-white/85 text-[#55534E] opacity-75 hover:border-[#0A0A0A] hover:opacity-100'
+                        ? 'border-[#D4CFC3] bg-[#FAF8F3]/85 text-[#4A4740] opacity-80 hover:border-[#22201C] hover:opacity-100'
+                        : 'border-[#DCDAD3] bg-white/85 text-[#55534E] opacity-80 hover:border-[#0A0A0A] hover:opacity-100'
                       : 'border-[#0A0A0A] bg-[#0A0A0A] text-white'
                   }`}
                 >
@@ -965,8 +1017,8 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
                     isFullscreen
                       ? 'border-[#0A0A0A] bg-[#0A0A0A] text-white'
                       : isPaperback
-                        ? 'border-[#D4CFC3] bg-[#FAF8F3]/85 text-[#4A4740] opacity-75 hover:border-[#22201C] hover:text-[#22201C] hover:opacity-100'
-                        : 'border-[#DCDAD3] bg-white/85 text-[#55534E] opacity-75 hover:border-[#0A0A0A] hover:text-[#0A0A0A] hover:opacity-100'
+                        ? 'border-[#D4CFC3] bg-[#FAF8F3]/85 text-[#4A4740] opacity-80 hover:border-[#22201C] hover:text-[#22201C] hover:opacity-100'
+                        : 'border-[#DCDAD3] bg-white/85 text-[#55534E] opacity-80 hover:border-[#0A0A0A] hover:text-[#0A0A0A] hover:opacity-100'
                   }`}
                 >
                   {isFullscreen ? <Minimize className="h-3 w-3" /> : <Maximize className="h-3 w-3" />}
@@ -1225,8 +1277,8 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
             ref={bookViewportRef}
             className={`relative flex min-h-0 flex-1 items-center ${
               fitToScreen && zoom === 1
-                ? 'justify-center overflow-hidden pt-2'
-                : 'items-start justify-center overflow-auto pt-8 pb-4'
+                ? 'justify-center overflow-hidden pt-0.5'
+                : 'items-start justify-center overflow-visible pt-6 pb-4'
             }`}
           >
             {/* Left Side Turn Trigger */}
@@ -1235,7 +1287,7 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
               aria-label="Previous spread"
               disabled={bookPage <= 0}
               onClick={() => onRequestTurn('prev')}
-              className={`mr-1.5 hidden h-10 w-8 shrink-0 items-center justify-center border transition-all lg:inline-flex ${
+              className={`mr-1 hidden h-10 w-7 shrink-0 items-center justify-center border transition-all lg:inline-flex ${
                 bookPage <= 0
                   ? 'border-transparent text-transparent pointer-events-none'
                   : isPaperback
@@ -1258,6 +1310,7 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
                   turnRequest={turnRequest}
                   onCommitPage={onChangeBookPage}
                   onBookSizeChange={setNaturalBookSize}
+                  onBookElementChange={setBookElement}
                   renderSpread={renderSpread}
                 />
               </div>
@@ -1279,7 +1332,7 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
               aria-label="Next spread"
               disabled={bookPage >= totalSpreads - 1}
               onClick={() => onRequestTurn('next')}
-              className={`ml-1.5 hidden h-10 w-8 shrink-0 items-center justify-center border transition-all lg:inline-flex ${
+              className={`ml-1 hidden h-10 w-7 shrink-0 items-center justify-center border transition-all lg:inline-flex ${
                 bookPage >= totalSpreads - 1
                   ? 'border-transparent text-transparent pointer-events-none'
                   : isPaperback
@@ -1304,6 +1357,8 @@ export const FlipbookStage: React.FC<FlipbookStageProps> = ({
               navMap={effectiveNavMap}
               spreadLabel={getSpreadLabel(bookPage)}
               paperback={isPaperback}
+              demoMode={demoMode}
+              onToggleDemoMode={!isPaperback ? onToggleDemoMode : undefined}
               onSelectSpread={(page) => {
                 setThumbnailView(false);
                 onChangeBookPage(page);

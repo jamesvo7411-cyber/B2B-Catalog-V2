@@ -116,9 +116,10 @@ export default defineConfig(({mode}) => {
       : '';
   const repositoryName = process.env.GITHUB_REPOSITORY?.split('/')[1];
   const base =
-    process.env.GITHUB_ACTIONS === 'true' && repositoryName
+    env.VITE_BASE_PATH ||
+    (process.env.GITHUB_ACTIONS === 'true' && repositoryName
       ? `/${repositoryName}/`
-      : '/';
+      : '/');
 
   return {
     base,

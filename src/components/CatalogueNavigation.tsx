@@ -233,7 +233,7 @@ export const BookThumbIndexRail: React.FC<BookThumbIndexRailProps> = ({
   return (
     <aside
       aria-label="Thumb index navigation"
-      className="hidden xl:flex flex-col justify-start gap-1.5 pt-8 select-none"
+      className="hidden xl:flex flex-col justify-start gap-1 pt-5 select-none"
     >
       {navMap.sections.map((section, idx) => {
         const isActive = activeSection === section.id;
@@ -244,7 +244,7 @@ export const BookThumbIndexRail: React.FC<BookThumbIndexRailProps> = ({
             onClick={() => onSelectSpread(section.startSpreadPage)}
             aria-current={isActive ? 'location' : undefined}
             title={`${section.label} · Starts on P.${String(section.startSpreadPage + 1).padStart(2, '0')}`}
-            className={`group relative flex w-[92px] flex-col items-start border-y border-r px-2.5 py-2.5 text-left transition-all cursor-pointer ${
+            className={`group relative flex w-[76px] flex-col items-start border-y border-r px-2 py-2 text-left transition-all cursor-pointer ${
               isActive
                 ? '-ml-px z-10 border-[#CFCBC2] bg-white text-[#0A0A0A] shadow-[4px_4px_14px_rgba(0,0,0,0.05)]'
                 : 'border-[#E6E4DE] bg-[#FAF9F5]/90 text-[#6B6860] hover:bg-white hover:text-[#0A0A0A]'
@@ -253,14 +253,14 @@ export const BookThumbIndexRail: React.FC<BookThumbIndexRailProps> = ({
             <span
               aria-hidden="true"
               className={`absolute inset-y-0 left-0 transition-all ${
-                isActive ? 'w-[3.5px]' : 'w-[2px] opacity-60 group-hover:opacity-100'
+                isActive ? 'w-[3px]' : 'w-[2px] opacity-60 group-hover:opacity-100'
               }`}
               style={{ backgroundColor: section.markerColor }}
             />
-            <span className="pl-1 font-mono text-[8.5px] tracking-[0.12em] text-[#8A877F] tabular-nums">
-              0{idx + 1} · P.{String(section.startSpreadPage + 1).padStart(2, '0')}
+            <span className="pl-1 font-mono text-[8px] tracking-[0.1em] text-[#8A877F] tabular-nums">
+              0{idx + 1}·P{String(section.startSpreadPage + 1).padStart(2, '0')}
             </span>
-            <span className="mt-0.5 pl-1 text-[10px] font-medium leading-tight">
+            <span className="mt-0.5 pl-1 text-[9.5px] font-medium leading-tight">
               {section.shortLabel === 'Tech Info' ? 'Technical' : section.label.replace(' Collection', '')}
             </span>
           </button>
@@ -277,6 +277,8 @@ interface CatalogueProgressSliderProps {
   navMap: CatalogueNavigationMap;
   spreadLabel: string;
   paperback?: boolean;
+  demoMode?: boolean;
+  onToggleDemoMode?: () => void;
   onSelectSpread: (pageIndex: number) => void;
   getSpreadLabel?: (pageIndex: number) => string;
 }
@@ -288,6 +290,8 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
   navMap,
   spreadLabel,
   paperback = false,
+  demoMode = false,
+  onToggleDemoMode,
   onSelectSpread,
   getSpreadLabel,
 }) => {
@@ -329,12 +333,12 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
   return (
     <div
       aria-label="Catalogue progress and chapter navigation"
-      className={`mt-3 select-none border-t pt-2.5 ${
+      className={`mt-1 select-none border-t pt-1.5 ${
         paperback ? 'border-[#DCD7CC]' : 'border-[#E6E4DD]'
       }`}
     >
       {/* Chapter (Section) Indicator Strip Directly Coupled to the Slider */}
-      <div className="mb-1.5 grid grid-cols-5 items-end gap-1.5 sm:gap-3">
+      <div className="mb-0.5 grid grid-cols-5 items-end gap-1.5 sm:gap-2.5">
         {navMap.sections.map((sec, idx) => {
           const isActive = activeSection === sec.id;
           const chapterLabel = getSectionDisplayName(sec.id, sec.label);
@@ -342,7 +346,7 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
             <>
               <span
                 aria-hidden="true"
-                className={`mb-1 block h-[2px] w-full transition-opacity duration-200 ${
+                className={`mb-0.5 block h-[2px] w-full transition-opacity duration-200 ${
                   isActive ? 'opacity-100' : 'opacity-30 group-hover/chap:opacity-75'
                 }`}
                 style={{ backgroundColor: sec.markerColor }}
@@ -390,7 +394,7 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
 
       {/* Continuous Progress Bar Slider + Proportional Section Ticks */}
       <div
-        className="relative flex h-7 items-center"
+        className="relative flex h-5 items-center"
         onMouseMove={handleTrackPointerMove}
         onMouseLeave={() => {
           setHoverPage(null);
@@ -422,8 +426,8 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
           </div>
         )}
 
-        {/* Track Rail */}
-        <div className={`relative h-[3px] w-full ${trackBg}`}>
+        {/* Sturdy 4px Track Rail */}
+        <div className={`relative h-[4px] w-full ${trackBg}`}>
           {/* Active Progress Fill */}
           <div
             className="absolute inset-y-0 left-0 transition-[width] duration-100 ease-out"
@@ -450,12 +454,12 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
             );
           })}
 
-          {/* Crisp Architectural Scrubber Thumb */}
+          {/* Crisp Tactile Scrubber Thumb */}
           <span
             aria-hidden="true"
             className={`pointer-events-none absolute top-1/2 -translate-x-1/2 -translate-y-1/2 transition-transform duration-150 ${
-              isDragging ? 'h-4 w-2 scale-110' : 'h-3.5 w-1.5'
-            } bg-[#0A0A0A] shadow-[0_1px_3px_rgba(0,0,0,0.25)]`}
+              isDragging ? 'h-4 w-2.5 scale-110' : 'h-3.5 w-2'
+            } bg-[#0A0A0A] shadow-[0_1px_3px_rgba(0,0,0,0.28)]`}
             style={{ left: `${progressPct}%` }}
           />
         </div>
@@ -478,9 +482,9 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
         />
       </div>
 
-      {/* Quiet Footer Readout */}
+      {/* Compact Single-Row Readout + Demo Order Toggle */}
       <div
-        className={`flex flex-wrap items-center justify-between gap-2 text-[10.5px] ${
+        className={`flex items-center justify-between gap-3 text-[10.5px] leading-none ${
           paperback ? 'text-[#6B675E]' : 'text-[#6F6C65]'
         }`}
       >
@@ -492,8 +496,25 @@ export const CatalogueProgressSlider: React.FC<CatalogueProgressSliderProps> = (
           />
           <span className="truncate font-mono text-[#171715]">{spreadLabel}</span>
         </div>
+
         <div className="flex shrink-0 items-center gap-3 font-mono text-[10px] tabular-nums">
-          <span className="hidden sm:inline">Scroll wheel or drag slider to turn pages</span>
+          {!paperback && onToggleDemoMode && (
+            <button
+              type="button"
+              onClick={onToggleDemoMode}
+              aria-pressed={demoMode}
+              title="Toggle Demo Order (image-complete pages first; pages missing images last)"
+              className={`inline-flex items-center gap-1 border px-2 py-0.5 font-sans text-[10px] font-medium transition-colors whitespace-nowrap cursor-pointer ${
+                demoMode
+                  ? 'border-[#0A0A0A] bg-[#0A0A0A] text-white'
+                  : 'border-[#DCDAD3] bg-white text-[#4A4843] hover:border-[#0A0A0A] hover:text-[#0A0A0A]'
+              }`}
+            >
+              <Sparkles className="h-2.5 w-2.5" />
+              <span>Demo: {demoMode ? 'On' : 'Off'}</span>
+            </button>
+          )}
+          <span className="hidden lg:inline">Scroll inside book to turn pages</span>
           <span className="font-semibold text-[#171715]">
             {String(bookPage + 1).padStart(2, '0')} / {String(totalSpreads).padStart(2, '0')}
           </span>

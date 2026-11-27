@@ -3,6 +3,7 @@ import { Crop, Maximize2, Move, Palette, Replace, RotateCcw, Upload } from 'luci
 import type { ImageCrop, MediaSlot, MediaSlotKey } from '../types/catalogue';
 import { STAGE_LABELS } from '../data/garments';
 import { imageCropStyle, normalizeImageCrop, readImageFileAsDataUrl } from '../utils/media';
+import { resolveMobileDisplayUrl, useMobileDisplayMode } from '../utils/mobileMedia';
 
 interface MediaPlateProps {
   slotKey: MediaSlotKey;
@@ -29,7 +30,7 @@ interface MediaPlateProps {
   onImageUnavailable?: (slotKey: MediaSlotKey) => void;
 }
 
-export const MediaPlate: React.FC<MediaPlateProps> = ({
+export const MediaPlate: React.FC<MediaPlateProps> = React.memo(({
   slotKey,
   slot,
   aspectClass,
@@ -70,12 +71,15 @@ export const MediaPlate: React.FC<MediaPlateProps> = ({
   const [isDragging, setIsDragging] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [useFallback, setUseFallback] = useState(false);
+  const [useOriginalUrl, setUseOriginalUrl] = useState(false);
   const [cropMode, setCropMode] = useState(false);
   const [cropDraft, setCropDraft] = useState(() => normalizeImageCrop(slot.crop, minScale));
+  const isMobileDisplay = useMobileDisplayMode();
 
   useEffect(() => {
     setImgError(false);
     setUseFallback(false);
+    setUseOriginalUrl(false);
   }, [slot.url, slot.fallbackUrl]);
 
   useEffect(() => {
@@ -88,7 +92,10 @@ export const MediaPlate: React.FC<MediaPlateProps> = ({
     if (!editMode && !allowReframe) setCropMode(false);
   }, [editMode, allowReframe]);
 
-  const activeUrl = useFallback && slot.fallbackUrl ? slot.fallbackUrl : slot.url;
+  const rawUrl = useFallback && slot.fallbackUrl ? slot.fallbackUrl : slot.url;
+  const activeUrl = useOriginalUrl
+    ? rawUrl
+    : resolveMobileDisplayUrl(rawUrl, isMobileDisplay);
   const hasImage = Boolean(activeUrl && !imgError);
   const isSessionLocal = slot.isSessionDrop || activeUrl.startsWith('data:');
   const canReframe = Boolean(interactive && (allowReframe || (editMode && editable)) && onUpdateCrop && hasImage);
@@ -350,7 +357,10 @@ export const MediaPlate: React.FC<MediaPlateProps> = ({
             decoding="async"
             referrerPolicy="no-referrer"
             onError={() => {
-              if (!useFallback && slot.fallbackUrl) {
+              if (!useOriginalUrl && activeUrl !== rawUrl) {
+                setUseOriginalUrl(true);
+              } else if (!useFallback && slot.fallbackUrl) {
+                setUseOriginalUrl(false);
                 setUseFallback(true);
               } else {
                 setImgError(true);
@@ -589,5 +599,5 @@ export const MediaPlate: React.FC<MediaPlateProps> = ({
       )}
     </figure>
   );
-};
+});
 

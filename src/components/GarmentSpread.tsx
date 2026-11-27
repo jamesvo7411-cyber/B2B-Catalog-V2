@@ -64,7 +64,7 @@ function getBalancedDetailGrid(count: number): { gridClass: string; aspectClass:
   return { gridClass: 'grid-cols-2', aspectClass: 'aspect-[16/9] w-full' };
 }
 
-export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
+export const GarmentSpread: React.FC<GarmentSpreadProps> = React.memo(({
   garment,
   allGarments,
   spreadNumber,
@@ -849,4 +849,4 @@ export const GarmentSpread: React.FC<GarmentSpreadProps> = ({
       </div>
     </div>
   );
-};
+});

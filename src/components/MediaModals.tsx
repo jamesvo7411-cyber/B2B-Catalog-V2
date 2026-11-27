@@ -237,10 +237,12 @@ export const ExportPdfModal: React.FC<{
   categoryCount: number;
   shortlistCount: number;
   currentGarmentSku: string;
+  isExporting?: boolean;
   onUpdateConfig: (next: Partial<PrintConfig>) => void;
   onClose: () => void;
   onPreviewSheets: () => void;
   onExecutePrint: () => void;
+  onSystemPrint?: () => void;
 }> = ({
   open,
   config,
@@ -249,10 +251,12 @@ export const ExportPdfModal: React.FC<{
   categoryCount,
   shortlistCount,
   currentGarmentSku,
+  isExporting = false,
   onUpdateConfig,
   onClose,
   onPreviewSheets,
   onExecutePrint,
+  onSystemPrint,
 }) => {
   if (!open) return null;
 
@@ -295,7 +299,7 @@ export const ExportPdfModal: React.FC<{
         <div className="flex items-center justify-between border-b border-[#E5E5E5] px-6 py-5">
           <div>
             <p className="font-mono text-[11px] text-[var(--metallic-strong)]">
-              Vector Print Engine
+              Vector &amp; Raster PDF Engine
             </p>
             <h3 className="mt-0.5 font-sans text-xl font-semibold tracking-tight text-[#0A0A0A]">
               Export High-Resolution PDF
@@ -418,25 +422,37 @@ export const ExportPdfModal: React.FC<{
           </div>
 
           <p className="border-t border-[#F0F0F0] pt-4 text-[11px] leading-relaxed text-[#737373]">
-            In the print dialog, choose <strong>Save as PDF</strong> and enable <strong>Background graphics</strong> to retain hairline metallic rules, vector typography, and clickable B2B product links at full print resolution.
+            Click <strong>Download PDF File</strong> to save an A4 PDF directly to your device, or use <strong>System Print</strong> when running in a standalone browser tab.
           </p>
         </div>
 
-        <div className="flex items-center justify-between border-t border-[#E5E5E5] px-6 py-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#E5E5E5] px-6 py-4">
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={onPreviewSheets}
+              className="text-xs font-medium text-[#525252] underline-offset-4 hover:text-[#0A0A0A] hover:underline cursor-pointer"
+            >
+              Preview Print Sheets
+            </button>
+            {onSystemPrint && (
+              <button
+                type="button"
+                onClick={onSystemPrint}
+                className="text-xs font-medium text-[#525252] underline-offset-4 hover:text-[#0A0A0A] hover:underline cursor-pointer"
+              >
+                System Print
+              </button>
+            )}
+          </div>
           <button
             type="button"
-            onClick={onPreviewSheets}
-            className="text-xs font-medium text-[#525252] underline-offset-4 hover:text-[#0A0A0A] hover:underline cursor-pointer"
-          >
-            Preview Print Sheets
-          </button>
-          <button
-            type="button"
+            disabled={isExporting}
             onClick={onExecutePrint}
-            className="inline-flex items-center gap-2 bg-[#0A0A0A] px-5 py-2 text-xs font-medium text-white transition-colors hover:bg-[#262626] cursor-pointer"
+            className="inline-flex items-center gap-2 bg-[#0A0A0A] px-5 py-2 text-xs font-medium text-white transition-colors hover:bg-[#262626] disabled:opacity-50 cursor-pointer"
           >
             <Printer className="h-3.5 w-3.5" />
-            <span>Save High-Res PDF</span>
+            <span>{isExporting ? 'Generating PDF…' : 'Download PDF File'}</span>
           </button>
         </div>
       </div>

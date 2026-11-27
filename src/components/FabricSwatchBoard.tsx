@@ -15,6 +15,7 @@ import {
   hasIncompleteFabricComposition,
 } from '../utils/productDisplay';
 import { readImageFileAsDataUrl } from '../utils/media';
+import { resolveMobileDisplayUrl, useMobileDisplayMode } from '../utils/mobileMedia';
 import { RunningHeader } from './CatalogueNavigation';
 import { ColorSwatchList } from './ColorSwatchList';
 
@@ -43,7 +44,7 @@ export const FabricColorImageTile: React.FC<{
   tightCrop?: boolean;
   onReplace?: (dataUrl: string) => void;
   onError?: (message: string) => void;
-}> = ({
+}> = React.memo(({
   color,
   imageUrl,
   interactive,
@@ -55,10 +56,18 @@ export const FabricColorImageTile: React.FC<{
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [dragging, setDragging] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [useOriginalUrl, setUseOriginalUrl] = useState(false);
+  const isMobileDisplay = useMobileDisplayMode();
   const canEdit = interactive && Boolean(onReplace);
-  const hasImage = Boolean(imageUrl && !imgError);
+  const resolvedUrl = useOriginalUrl
+    ? imageUrl
+    : resolveMobileDisplayUrl(imageUrl, isMobileDisplay);
+  const hasImage = Boolean(resolvedUrl && !imgError);
 
-  useEffect(() => setImgError(false), [imageUrl]);
+  useEffect(() => {
+    setImgError(false);
+    setUseOriginalUrl(false);
+  }, [imageUrl]);
 
   const handleFile = async (file?: File) => {
     if (!file) return;
@@ -113,12 +122,18 @@ export const FabricColorImageTile: React.FC<{
       )}
       {hasImage ? (
         <img
-          src={imageUrl}
+          src={resolvedUrl}
           alt={`${getDisplayColorName(color)} ${color.fabricCode} fabric texture`}
           loading="lazy"
           decoding="async"
           referrerPolicy="no-referrer"
-          onError={() => setImgError(true)}
+          onError={() => {
+            if (!useOriginalUrl && resolvedUrl !== imageUrl) {
+              setUseOriginalUrl(true);
+            } else {
+              setImgError(true);
+            }
+          }}
           className={`h-full w-full object-cover ${tightCrop ? 'scale-[1.65]' : ''}`}
         />
       ) : (
@@ -159,7 +174,7 @@ export const FabricColorImageTile: React.FC<{
       )}
     </div>
   );
-};
+});
 
 const FabricSwatchTile: React.FC<{
   program: FabricSwatchProgram;
